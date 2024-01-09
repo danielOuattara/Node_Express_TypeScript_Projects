@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./normalize.css" />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <title>Traditional</title>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-center">
+        <h5>HTTP Methods</h5>
+        <div>
+          <a href="index.html">regular </a>
+          <a href="javascript.html">javascript </a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <form action="/login" method="POST">
+        <h3>Traditional Form</h3>
+        <div class="form-row">
+          <label for="name"> Enter name : </label>
+          <input type="text" name="name" id="name" />
+        </div>
+        <button type="submit" class="block">submit</button>
+      </form>
+      <div class="result"></div>
+    </main>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script>
+      const result = document.querySelector(".result");
+
+      // requesting & displaying people list on page loading
+      const fetchPeople = async () => {
+        try {
+          const { data } = await axios.get("/api/people");
+          const people = data.people.map((person) => {
+            return `<h5>${person.name}</h5>`;
+          });
+          result.innerHTML = people.join("");
+        } catch (error) {
+          result.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+        }
+      };
+
+      fetchPeople();
+    </script> -->
+    <script src="./fetch-user.js"></script>
+  </body>
+</html>
