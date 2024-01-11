@@ -1,10 +1,11 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 
 
 //-----------------------------------------------------------
 const getAllTasks = (_req: Request, res: Response) => {
 	res.send("All tasks")
 }
+
 
 //-----------------------------------------------------------
 const createTask = (_req: Request, res: Response) => {

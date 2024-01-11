@@ -64,7 +64,7 @@ server.on("listening", () => {
   */
   const address = server.address();
   const bind = typeof address === "string" ? "pipe" + address : port;
-  console.log('Listening on ' + bind);
+  console.log('Listening on port ' + bind);
   console.log(`Server is running on http://localhost:${port}/`);
 });
 
