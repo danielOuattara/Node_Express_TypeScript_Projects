@@ -7,5 +7,11 @@ const express_1 = __importDefault(require("express"));
 const tasksControllers_1 = require("./../controllers/tasksControllers");
 const router = express_1.default.Router();
 router.route("/").get(tasksControllers_1.getAllTasks).post(tasksControllers_1.createTask);
-router.route("/:id").get(tasksControllers_1.getTask).get(tasksControllers_1.getOneTask).patch(tasksControllers_1.patchTask).delete(tasksControllers_1.deleteTask);
+router
+    .route("/:id")
+    .get(tasksControllers_1.getTask)
+    .get(tasksControllers_1.getOneTask)
+    .patch(tasksControllers_1.patchTask)
+    .delete(tasksControllers_1.deleteTask)
+    .delete(tasksControllers_1.deleteOneTask);
 exports.default = router;

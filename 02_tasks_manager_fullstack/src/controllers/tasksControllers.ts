@@ -54,8 +54,31 @@ const patchTask = (_req: Request, res: Response) => {
 };
 
 //-----------------------------------------------------------
-const deleteTask = (_req: Request, res: Response) => {
-  res.send("delete task");
+const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const task = await Task.findOneAndDelete({ _id: req.params.id });
+    if (!task) {
+      return res.status(404).json("Task Not Found !");
+    }
+    const tasks = await Task.find({}).sort({ createdAt: 1 });
+    res.status(200).send({ tasks });
+  } catch (error) {
+    return res.status(500).json({error});
+  }
 };
 
-export { getAllTasks, createTask, getTask, getOneTask, patchTask, deleteTask };
+// -----
+
+const deleteOneTask = async (req: Request, res: Response) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) {
+      return res.status(404).json("Task Not Found !");
+    }
+    return res.status(200).send(`task ${req.params.id} successfully deleted !`);
+  } catch (error) {
+    return res.status(500).json({error});
+  }
+};
+
+export { getAllTasks, createTask, getTask, getOneTask, patchTask, deleteTask, deleteOneTask };
