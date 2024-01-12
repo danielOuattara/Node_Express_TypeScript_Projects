@@ -1,6 +1,7 @@
 import "dotenv/config";
 import http from "http";
 import app from "./app";
+import { connectToDB } from "./database/connect";
 
 export interface ErrnoException extends Error {
   errno?: number;
@@ -66,4 +67,11 @@ server.on("listening", () => {
   console.log(`Server is running on http://localhost:${port}/`);
 });
 
-server.listen(port);
+connectToDB(process.env.MONGO_URI as string)
+  .then(() => {
+    console.log(
+      `Connection to MongoDB: Success! \nDatabase Name: ${process.env.DB_NAME}`,
+    );
+    server.listen(port);
+  })
+  .catch((err: Error) => console.log(err.message));

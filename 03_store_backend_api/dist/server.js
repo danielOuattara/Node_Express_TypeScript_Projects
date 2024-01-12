@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const http_1 = __importDefault(require("http"));
 const app_1 = __importDefault(require("./app"));
+const connect_1 = require("./database/connect");
 const normalizePort = (val) => {
     const port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -45,4 +46,9 @@ server.on("listening", () => {
     console.log("Listening on port " + bind);
     console.log(`Server is running on http://localhost:${port}/`);
 });
-server.listen(port);
+(0, connect_1.connectToDB)(process.env.MONGO_URI)
+    .then(() => {
+    console.log(`Connection to MongoDB: Success! \nDatabase Name: ${process.env.DB_NAME}`);
+    server.listen(port);
+})
+    .catch((err) => console.log(err.message));
