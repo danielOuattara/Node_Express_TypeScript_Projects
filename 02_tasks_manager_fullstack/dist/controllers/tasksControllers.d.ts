@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-declare const getAllTasks: (_req: Request, res: Response) => void;
+declare const getAllTasks: (_req: Request, res: Response) => Promise<void>;
 declare const createTask: (req: Request, res: Response) => Promise<void>;
 declare const getTask: (_req: Request, res: Response) => void;
 declare const getOneTask: (_req: Request, res: Response) => void;

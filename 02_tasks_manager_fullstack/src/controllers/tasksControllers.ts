@@ -2,9 +2,14 @@ import { Request, Response } from "express";
 import Task from "../models/tasksModel";
 
 //-----------------------------------------------------------
-const getAllTasks = (_req: Request, res: Response) => {
-  res.send("All tasks");
-};
+const getAllTasks = async (_req: Request, res: Response) => {
+  try {
+    const tasks = await Task.find({}).sort({ createdAt: 1 });
+    res.status(200).send({ tasks });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};      
 
 //-----------------------------------------------------------
 const createTask = async (req: Request, res: Response) => {
@@ -12,7 +17,7 @@ const createTask = async (req: Request, res: Response) => {
     const task = await Task.create(req.body);
     res.status(201).send({ task });
   } catch (error) {
-    res.status(500).json({ message: "Error, Something went wrong" });
+    res.status(500).json({ error });
   }
 };
 

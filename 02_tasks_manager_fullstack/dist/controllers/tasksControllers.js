@@ -14,9 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTask = exports.patchTask = exports.getOneTask = exports.getTask = exports.createTask = exports.getAllTasks = void 0;
 const tasksModel_1 = __importDefault(require("../models/tasksModel"));
-const getAllTasks = (_req, res) => {
-    res.send("All tasks");
-};
+const getAllTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const tasks = yield tasksModel_1.default.find({}).sort({ createdAt: 1 });
+        res.status(200).send({ tasks });
+    }
+    catch (error) {
+        res.status(500).json({ error });
+    }
+});
 exports.getAllTasks = getAllTasks;
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -24,7 +30,7 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(201).send({ task });
     }
     catch (error) {
-        res.status(500).json({ message: "Error, Something went wrong" });
+        res.status(500).json({ error });
     }
 });
 exports.createTask = createTask;
