@@ -14,18 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteOneTask = exports.deleteTask = exports.patchOneTask = exports.patchTask = exports.updateOneTask = exports.updateTask = exports.getOneTask = exports.getTask = exports.createTask = exports.getAllTasks = void 0;
 const tasksModel_1 = __importDefault(require("./../models/tasksModel"));
-const async_wrappper_1 = require("./../middlewares/async-wrappper");
-const getAllTasks = (0, async_wrappper_1.asyncWrapper)((_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const middlewares_1 = require("./../middlewares");
+const getAllTasks = (0, middlewares_1.asyncWrapper)((_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const tasks = yield tasksModel_1.default.find({}).sort({ createdAt: 1 });
     res.status(200).send({ tasks });
 }));
 exports.getAllTasks = getAllTasks;
-const createTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.create(req.body);
     res.status(201).send({ task });
 }));
 exports.createTask = createTask;
-const getTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findOne({ _id: req.params.id });
     if (!task) {
         return res.status(404).json("Task Not Found !");
@@ -33,7 +33,7 @@ const getTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 
     return res.status(200).json({ task });
 }));
 exports.getTask = getTask;
-const getOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getOneTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findById(req.params.id);
     if (!task) {
         return res.status(404).json("Task Not Found !");
@@ -41,7 +41,7 @@ const getOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(vo
     return res.status(200).json({ task });
 }));
 exports.getOneTask = getOneTask;
-const updateTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
         runValidators: true,
         new: true,
@@ -52,7 +52,7 @@ const updateTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(vo
     return res.status(200).json({ task });
 }));
 exports.updateTask = updateTask;
-const updateOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateOneTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findOneAndUpdate({ _id: req.params.id }, req.body, {
         runValidators: true,
         new: true,
@@ -63,7 +63,7 @@ const updateOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter
     return res.status(200).json({ task });
 }));
 exports.updateOneTask = updateOneTask;
-const patchTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const patchTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
         runValidators: true,
         new: true,
@@ -74,7 +74,7 @@ const patchTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(voi
     return res.status(200).json({ task });
 }));
 exports.patchTask = patchTask;
-const patchOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const patchOneTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findOneAndUpdate({ _id: req.params.id }, req.body, {
         runValidators: true,
         new: true,
@@ -85,7 +85,7 @@ const patchOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(
     return res.status(200).json({ task });
 }));
 exports.patchOneTask = patchOneTask;
-const deleteTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findOneAndDelete({ _id: req.params.id });
     if (!task) {
         return res.status(404).json("Task Not Found !");
@@ -94,7 +94,7 @@ const deleteTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(vo
     res.status(200).send({ tasks });
 }));
 exports.deleteTask = deleteTask;
-const deleteOneTask = (0, async_wrappper_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteOneTask = (0, middlewares_1.asyncWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield tasksModel_1.default.findByIdAndDelete(req.params.id);
     if (!task) {
         return res.status(404).json("Task Not Found !");

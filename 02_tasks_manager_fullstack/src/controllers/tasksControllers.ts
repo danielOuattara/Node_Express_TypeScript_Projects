@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Task from "./../models/tasksModel";
-import { asyncWrapper } from "./../middlewares/async-wrappper";
+import { asyncWrapper } from "./../middlewares";
 
 //-----------------------------------------------------------
 const getAllTasks = asyncWrapper(async (_req: Request, res: Response) => {
@@ -59,7 +59,6 @@ const updateOneTask = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 //------------------------------------------------------------
-
 const patchTask = asyncWrapper(async (req: Request, res: Response) => {
   const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
     runValidators: true,
@@ -103,7 +102,6 @@ const deleteOneTask = asyncWrapper(async (req: Request, res: Response) => {
   }
   return res.status(200).send(`task ${req.params.id} successfully deleted !`);
 });
-
 
 //------------------------------------------------------------
 
