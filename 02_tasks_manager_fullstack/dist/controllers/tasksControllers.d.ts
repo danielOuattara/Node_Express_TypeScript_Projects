@@ -1,12 +1,13 @@
+/// <reference types="qs" />
 import { Request, Response } from "express";
-declare const getAllTasks: (_req: Request, res: Response) => Promise<void>;
-declare const createTask: (req: Request, res: Response) => Promise<void>;
-declare const getTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-declare const getOneTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-declare const updateTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-declare const updateOneTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-declare const patchTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-declare const patchOneTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-declare const deleteTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
-declare const deleteOneTask: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+declare const getAllTasks: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const createTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const getTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const getOneTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const updateTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const updateOneTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const patchTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const patchOneTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const deleteTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
+declare const deleteOneTask: (req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: import("express").NextFunction) => Promise<void>;
 export { getAllTasks, createTask, getTask, getOneTask, updateTask, updateOneTask, patchTask, patchOneTask, deleteTask, deleteOneTask, };
