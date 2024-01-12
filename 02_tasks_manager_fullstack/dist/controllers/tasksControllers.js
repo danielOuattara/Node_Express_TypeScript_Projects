@@ -40,7 +40,7 @@ const getTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!task) {
             return res.status(404).json("Task Not Found !");
         }
-        return res.status(200).json(task);
+        return res.status(200).json({ task });
     }
     catch (error) {
         return res.status(500).json({ error });
@@ -94,7 +94,7 @@ const updateOneTask = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.updateOneTask = updateOneTask;
 const patchTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const task = yield tasksModel_1.default.findOneAndUpdate({ _id: req.params.id }, req.body, {
+        const task = yield tasksModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
             runValidators: true,
             new: true,
         });
@@ -110,7 +110,7 @@ const patchTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.patchTask = patchTask;
 const patchOneTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const task = yield tasksModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
+        const task = yield tasksModel_1.default.findOneAndUpdate({ _id: req.params.id }, req.body, {
             runValidators: true,
             new: true,
         });

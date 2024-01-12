@@ -28,7 +28,7 @@ const getTask = async (req: Request, res: Response) => {
     if (!task) {
       return res.status(404).json("Task Not Found !");
     }
-    return res.status(200).json(task);
+    return res.status(200).json({ task });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -50,7 +50,7 @@ const getOneTask = async (req: Request, res: Response) => {
 
 //-----------------------------------------------------------
 const updateTask = async (req: Request, res: Response) => {
-   try {
+  try {
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
       runValidators: true,
       new: true,
@@ -60,7 +60,7 @@ const updateTask = async (req: Request, res: Response) => {
     }
     return res.status(200).json({ task });
   } catch (error) {
-    return res.status(404).json({error});
+    return res.status(404).json({ error });
   }
 };
 
@@ -77,30 +77,13 @@ const updateOneTask = async (req: Request, res: Response) => {
     }
     return res.status(200).json({ task });
   } catch (error) {
-    return res.status(404).json({error});
+    return res.status(404).json({ error });
   }
 };
 
 //------------------------------------------------------------
 
 const patchTask = async (req: Request, res: Response) => {
-  try {
-    const task = await Task.findOneAndUpdate({ _id: req.params.id }, req.body, {
-      runValidators: true,
-      new: true,
-    });
-    if (!task) {
-      return res.status(404).json("Task Not Found !");
-    }
-    return res.status(200).json({ task });
-  } catch (error) {
-    return res.status(404).json({error});
-  }
-};
-
-//---
-
-const patchOneTask = async (req: Request, res: Response) => {
   try {
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
       runValidators: true,
@@ -111,7 +94,24 @@ const patchOneTask = async (req: Request, res: Response) => {
     }
     return res.status(200).json({ task });
   } catch (error) {
-    return res.status(404).json({error});
+    return res.status(404).json({ error });
+  }
+};
+
+//---
+
+const patchOneTask = async (req: Request, res: Response) => {
+  try {
+    const task = await Task.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      runValidators: true,
+      new: true,
+    });
+    if (!task) {
+      return res.status(404).json("Task Not Found !");
+    }
+    return res.status(200).json({ task });
+  } catch (error) {
+    return res.status(404).json({ error });
   }
 };
 

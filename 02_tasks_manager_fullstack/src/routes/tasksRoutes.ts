@@ -3,13 +3,13 @@ import {
   getAllTasks,
   createTask,
   getTask,
-  getOneTask,
+  // getOneTask,
   updateTask,
-  updateOneTask,
+  // updateOneTask,
   patchTask,
-  patchOneTask,
+  // patchOneTask,
   deleteTask,
-  deleteOneTask,
+  // deleteOneTask,
 } from "./../controllers/tasksControllers";
 
 const router = express.Router();
