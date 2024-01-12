@@ -10,8 +10,7 @@ router.route("/").get(tasksControllers_1.getAllTasks).post(tasksControllers_1.cr
 router
     .route("/:id")
     .get(tasksControllers_1.getTask)
-    .get(tasksControllers_1.getOneTask)
+    .put(tasksControllers_1.updateTask)
     .patch(tasksControllers_1.patchTask)
-    .delete(tasksControllers_1.deleteTask)
-    .delete(tasksControllers_1.deleteOneTask);
+    .delete(tasksControllers_1.deleteTask);
 exports.default = router;

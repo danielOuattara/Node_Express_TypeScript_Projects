@@ -4,7 +4,10 @@ import {
   createTask,
   getTask,
   getOneTask,
+  updateTask,
+  updateOneTask,
   patchTask,
+  patchOneTask,
   deleteTask,
   deleteOneTask,
 } from "./../controllers/tasksControllers";
@@ -15,9 +18,12 @@ router.route("/").get(getAllTasks).post(createTask);
 router
   .route("/:id")
   .get(getTask)
-  .get(getOneTask)
+  //   .get(getOneTask)
+  .put(updateTask)
+  //   .put(updateOneTask)
   .patch(patchTask)
-  .delete(deleteTask)
-  .delete(deleteOneTask);
+  //   .patch(patchOneTask)
+  .delete(deleteTask);
+//   .delete(deleteOneTask);
 
 export default router;
