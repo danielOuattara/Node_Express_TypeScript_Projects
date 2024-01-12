@@ -45,3 +45,4 @@ server.on("listening", () => {
     console.log("Listening on port " + bind);
     console.log(`Server is running on http://localhost:${port}/`);
 });
+server.listen(port);
