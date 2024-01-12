@@ -34,13 +34,31 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createTask = createTask;
-const getTask = (_req, res) => {
-    res.send("Single Task");
-};
+const getTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const task = yield tasksModel_1.default.findOne({ _id: req.params.id });
+        if (!task) {
+            return res.status(404).json("Task Not Found !");
+        }
+        return res.status(200).json(task);
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+});
 exports.getTask = getTask;
-const getOneTask = (_req, res) => {
-    res.send("getOneTask");
-};
+const getOneTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const task = yield tasksModel_1.default.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json("Task Not Found !");
+        }
+        return res.status(200).json({ task });
+    }
+    catch (error) {
+        return res.status(404).json({ error });
+    }
+});
 exports.getOneTask = getOneTask;
 const patchTask = (_req, res) => {
     res.send("patchTask");
