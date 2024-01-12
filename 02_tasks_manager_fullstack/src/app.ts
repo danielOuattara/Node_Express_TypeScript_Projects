@@ -1,5 +1,6 @@
 import express from "express";
 import taskRouter from "./routes/tasksRoutes";
+import { notFound} from "./middleware/not-found"
 const app = express();
 
 // app.get("/", (_req: Request, res: Response) => {
@@ -11,4 +12,5 @@ app.use(express.json());
 
 app.use("/api/v1/tasks", taskRouter);
 
+app.use(notFound)
 export default app;
