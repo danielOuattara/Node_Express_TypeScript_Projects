@@ -10,7 +10,8 @@ const customErrorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-  return res.status(500).json(err.message);
+  console.log("err = ", err);
+  return res.status(450).json({ message: err.message });
 };
 
 export default customErrorHandler;

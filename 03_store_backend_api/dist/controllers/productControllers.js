@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllProductsStatic = exports.getAllProducts = void 0;
 const getAllProductsStatic = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    throw new Error("testing error for express-async-errors");
     res.status(200).json("product testing route");
 });
 exports.getAllProductsStatic = getAllProductsStatic;
