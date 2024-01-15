@@ -12,7 +12,7 @@ const customErrorHandler = (
 ) => {
   console.log("err = ", err);
 
-  return res.status(450).json({ message: err.message });
+  return res.status(500).json({ message: err.message });
 };
 
 export default customErrorHandler;

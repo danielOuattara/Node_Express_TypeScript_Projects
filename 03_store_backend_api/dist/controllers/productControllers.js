@@ -8,14 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllProductsStatic = exports.getAllProducts = void 0;
+const productModel_1 = __importDefault(require("../models/productModel"));
 const getAllProductsStatic = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    throw new Error("testing error for express-async-errors");
-    res.status(200).json("product testing route");
+    const products = yield productModel_1.default.find({ featured: true, name: "vase table" });
+    res.status(200).json({ numberOfHits: products.length, products });
 });
 exports.getAllProductsStatic = getAllProductsStatic;
-const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json({ message: "products route" });
+const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("req.query = ", req.query);
+    const products = yield productModel_1.default.find(req.query);
+    res.status(200).json({ numberOfHits: products.length, products });
 });
 exports.getAllProducts = getAllProducts;
