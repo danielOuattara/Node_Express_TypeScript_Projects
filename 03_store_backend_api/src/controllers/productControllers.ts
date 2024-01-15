@@ -52,22 +52,67 @@ const getAllProductsStatic: RequestHandler = async (_req, res) => {
 // };
 
 //-------------------------------------------------------------------------
-const getAllProducts: RequestHandler = async (req, res) => {
-  // console.log("req.query = ", req.query);
-  // const products = await Product.find(req.query);
+// interface QueryParams {
+//   featured?: string;
+//   company?: string;
+//   // Add more properties as needed
+// }
 
-  /*------------------------------------------------*/
-/*--> http://localhost:5000/api/v1/products?featured=true */
-  const { featured } = req.query; 
-  const queryObject: { [k: string]: string | number | boolean } = {}; // test for query item first !  
+// interface IQueryObject { 
+//   [k: string]: string | number | boolean 
+// }
+
+// const getAllProducts: RequestHandler = async (req, res) => {
+//   // console.log("req.query = ", req.query);
+//   // const products = await Product.find(req.query);
+//   /*------------------------------------------------*/
+// /*--> http://localhost:5000/api/v1/products?featured=true */
+//   const { featured } = req.query  as QueryParams; 
+//   const queryObject: IQueryObject = {}; // test for query item first !  
   
+//   if (featured) {
+//     queryObject.featured = featured === "true" ? true : false;
+//   }
+//   console.log("queryObject = ", queryObject);
+
+//   const products = await Product.find(queryObject);
+//   res.status(200).json({ numberOfHits: products.length, products });
+// };
+
+//----------------------------------------------------------------------------------------------
+interface QueryParams {
+  featured?: string;
+  company?: string;
+  // Add more properties as needed
+}
+
+interface IQueryObject { 
+  [k: string]: string | number | boolean 
+}
+
+const getAllProducts: RequestHandler = async (req, res) => {
+  //http://localhost:5000/api/v1/products?featured=false&company=ikea
+  console.log("req.query = ", req.query);
+  const { featured, company } = req.query as QueryParams ;
+  const queryObject: IQueryObject = {}
+
   if (featured) {
     queryObject.featured = featured === "true" ? true : false;
   }
+  if (company) {
+    queryObject.company = company;
+  }
+
   console.log("queryObject = ", queryObject);
-  
   const products = await Product.find(queryObject);
-  res.status(200).json({ numberOfHits: products.length, products });
+  res.status(200).json({
+    numberOfHits: products.length,
+    products,
+  });
 };
+
+
+
+
 
 export { getAllProducts, getAllProductsStatic };

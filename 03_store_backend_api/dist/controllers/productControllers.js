@@ -20,13 +20,20 @@ const getAllProductsStatic = (_req, res) => __awaiter(void 0, void 0, void 0, fu
 });
 exports.getAllProductsStatic = getAllProductsStatic;
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { featured } = req.query;
+    console.log("req.query = ", req.query);
+    const { featured, company } = req.query;
     const queryObject = {};
     if (featured) {
         queryObject.featured = featured === "true" ? true : false;
     }
+    if (company) {
+        queryObject.company = company;
+    }
     console.log("queryObject = ", queryObject);
     const products = yield productModel_1.default.find(queryObject);
-    res.status(200).json({ numberOfHits: products.length, products });
+    res.status(200).json({
+        numberOfHits: products.length,
+        products,
+    });
 });
 exports.getAllProducts = getAllProducts;
