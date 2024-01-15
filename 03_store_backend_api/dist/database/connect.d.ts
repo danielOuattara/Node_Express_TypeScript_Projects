@@ -21,6 +21,5 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose/types/inferschematype" />
 import mongoose from "mongoose";
 export declare const connectToDB: (uri: string) => Promise<typeof mongoose>;

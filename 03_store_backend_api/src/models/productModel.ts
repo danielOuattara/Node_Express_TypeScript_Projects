@@ -99,4 +99,5 @@ const ProductSchema = new Schema(
 type T_Product = InferSchemaType<typeof ProductSchema>;
 
 const Product = model<T_Product>("Product", ProductSchema);
+
 export default Product;
