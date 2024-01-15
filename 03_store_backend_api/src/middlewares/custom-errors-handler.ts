@@ -11,6 +11,7 @@ const customErrorHandler = (
   _next: NextFunction,
 ) => {
   console.log("err = ", err);
+
   return res.status(450).json({ message: err.message });
 };
 
