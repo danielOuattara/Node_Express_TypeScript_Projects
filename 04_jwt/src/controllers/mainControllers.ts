@@ -21,24 +21,11 @@ const login: RequestHandler = async (req, res) => {
 // ---------------------------------------------------------------------------
 
 const dashboard: RequestHandler = async (req, res) => {
-  const authHeaders = req.headers.authorization;
-  if (!authHeaders || !authHeaders.startsWith("Bearer")) {
-    throw new CustomAPIError("Not token provied", 401);
-  }
-  const token = authHeaders.split(" ")[1];
-
-  try {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-  const { id, username } = decoded as { [key: string]: string };
-  req.user = { id, username };
-  console.log(req.user)
     return res.status(200).json({
-    msg: `Hello ${username}`,
+    msg: `Hello ${req.user?.username}`,
     secret: Math.floor(Math.random() * 101),
   });
-  } catch(err){
-    throw new CustomAPIError("Not auhtorized", 401)
-  }
+
 
 };
 
