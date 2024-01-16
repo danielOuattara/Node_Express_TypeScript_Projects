@@ -1,14 +1,14 @@
 import "express-async-errors";
 import express from "express";
-import { notFound, customErrorHandler } from "./middlewares";
+import { notFound, errorHandler } from "./middlewares";
 
 const app = express();
 
-// middleware
+// middlewares
 app.use(express.static("./public"));
 app.use(express.json());
 
 app.use(notFound);
-app.use(customErrorHandler);
+app.use(errorHandler);
 
 export default app;

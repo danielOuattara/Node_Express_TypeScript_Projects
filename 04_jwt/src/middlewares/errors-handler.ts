@@ -5,7 +5,7 @@ interface ICustomError extends Error {
   statusCode: number;
 }
 
-const errorHandlerMiddleware = (
+const errorHandler = (
   err: ICustomError,
   _req: Request,
   res: Response,
@@ -17,4 +17,7 @@ const errorHandlerMiddleware = (
   return res.status(500).send("Something went wrong try again later");
 };
 
-export default errorHandlerMiddleware;
+export default errorHandler;
+
+
+

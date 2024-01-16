@@ -10,5 +10,5 @@ const app = (0, express_1.default)();
 app.use(express_1.default.static("./public"));
 app.use(express_1.default.json());
 app.use(middlewares_1.notFound);
-app.use(middlewares_1.customErrorHandler);
+app.use(middlewares_1.errorHandler);
 exports.default = app;
