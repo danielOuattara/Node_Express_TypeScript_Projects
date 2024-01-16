@@ -28,12 +28,24 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(200).json({ msg: "User successfully logged in", token });
 });
 exports.login = login;
-const dashboard = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res
-        .status(200)
-        .json({
-        message: "Hello John Doe",
-        numberSecret: Math.floor(Math.random() * 101),
-    });
+const dashboard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const authHeaders = req.headers.authorization;
+    if (!authHeaders || !authHeaders.startsWith("Bearer")) {
+        throw new custom_error_1.default("Not token provied", 401);
+    }
+    const token = authHeaders.split(" ")[1];
+    try {
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        const { id, username } = decoded;
+        req.user = { id, username };
+        console.log(req.user);
+        return res.status(200).json({
+            msg: `Hello ${username}`,
+            secret: Math.floor(Math.random() * 101),
+        });
+    }
+    catch (err) {
+        throw new custom_error_1.default("Not auhtorized", 401);
+    }
 });
 exports.dashboard = dashboard;
