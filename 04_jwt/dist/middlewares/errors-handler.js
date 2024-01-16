@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const custom_error_1 = __importDefault(require("../errors/custom-error"));
 const errorHandler = (err, _req, res, _next) => {
+    console.log("err = ", err);
     if (err instanceof custom_error_1.default) {
         return res.status(err.statusCode).json({ msg: err.message });
     }
