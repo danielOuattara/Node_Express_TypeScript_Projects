@@ -19,42 +19,10 @@ const getAllProductsStatic = (_req, res) => __awaiter(void 0, void 0, void 0, fu
     res.status(200).json({ numberOfHits: products.length, products });
 });
 exports.getAllProductsStatic = getAllProductsStatic;
-const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("req.query = ", req.query);
-    const { featured, company, name, sort, select } = req.query;
-    const queryObject = {};
-    if (featured) {
-        queryObject.featured = featured === "true" ? true : false;
-    }
-    if (company) {
-        queryObject.company = company;
-    }
-    if (name) {
-        queryObject.name = new RegExp(name, "i");
-    }
-    let result = productModel_1.default.find(queryObject);
-    if (sort) {
-        const sortList = sort.replace(/,/gi, " ");
-        result = result.sort(sortList);
-    }
-    if (select) {
-        console.log(select);
-        const fieldsList = select.replace(/,/gi, " ");
-        console.log(fieldsList);
-        result = result.select(fieldsList);
-    }
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 7;
-    const skip = (page - 1) * limit;
-    const numberOfArticles = yield productModel_1.default.find(queryObject).countDocuments();
-    const products = yield productModel_1.default.find(queryObject)
-        .limit(limit)
-        .skip(skip);
-    res.status(200).json({
-        numberOfArticles,
-        availablePages: Math.ceil(numberOfArticles / limit),
-        page,
-        products,
-    });
+const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const products = yield productModel_1.default.find({ price: { $gt: 30 } })
+        .sort("-price")
+        .select("name price");
+    res.status(200).json({ numberOfHits: products.length, products });
 });
 exports.getAllProducts = getAllProducts;

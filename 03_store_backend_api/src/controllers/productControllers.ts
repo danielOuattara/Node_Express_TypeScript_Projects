@@ -494,73 +494,83 @@ interface IQueryObject {
 
 //-------- OR
 
-interface QueryParams {
-  featured?: string;
-  company?: string;
-  name?: string;
-  sort?: string | null;
-  select?: string;
-}
+// interface QueryParams {
+//   featured?: string;
+//   company?: string;
+//   name?: string;
+//   sort?: string | null;
+//   select?: string;
+// }
 
-interface IQueryObject {
-  [k: string]:
-    | string
-    | number
-    | boolean
-    | RegExp
-    | { $regex: string; $options: string };
-}
+// interface IQueryObject {
+//   [k: string]:
+//     | string
+//     | number
+//     | boolean
+//     | RegExp
+//     | { $regex: string; $options: string };
+// }
 
-const getAllProducts: RequestHandler = async (req, res) => {
-  //http://localhost:5000/api/v1/products?featured=false&company=ikea&name=albany
-  console.log("req.query = ", req.query);
-  const { featured, company, name, sort, select } = req.query as QueryParams;
-  const queryObject: IQueryObject = {};
+// const getAllProducts: RequestHandler = async (req, res) => {
+//   //http://localhost:5000/api/v1/products?featured=false&company=ikea&name=albany
+//   console.log("req.query = ", req.query);
+//   const { featured, company, name, sort, select } = req.query as QueryParams;
+//   const queryObject: IQueryObject = {};
 
-  if (featured) {
-    queryObject.featured = featured === "true" ? true : false;
-  }
+//   if (featured) {
+//     queryObject.featured = featured === "true" ? true : false;
+//   }
 
-  if (company) {
-    queryObject.company = company;
-  }
+//   if (company) {
+//     queryObject.company = company;
+//   }
 
-  if (name) {
-    queryObject.name = new RegExp(name, "i"); // contains name value
-    // queryObject.name = { $regex: name, $options: "i" }; // contains name value // impossible $regex type in Typescript ???
-  }
+//   if (name) {
+//     queryObject.name = new RegExp(name, "i"); // contains name value
+//     // queryObject.name = { $regex: name, $options: "i" }; // contains name value // impossible $regex type in Typescript ???
+//   }
 
-  let result = Product.find(queryObject);
+//   let result = Product.find(queryObject);
 
-  if (sort) {
-    const sortList = sort.replace(/,/gi, " ");
-    result = result.sort(sortList);
-  }
+//   if (sort) {
+//     const sortList = sort.replace(/,/gi, " ");
+//     result = result.sort(sortList);
+//   }
 
-  if (select) {
-    console.log(select);
-    const fieldsList: string = select.replace(/,/gi, " ");
-    console.log(fieldsList);
-    result = result.select(fieldsList);
-  }
+//   if (select) {
+//     console.log(select);
+//     const fieldsList: string = select.replace(/,/gi, " ");
+//     console.log(fieldsList);
+//     result = result.select(fieldsList);
+//   }
 
-    /*--- pagination setup ---*/
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 7;
-  const skip = (page - 1) * limit;
-  const numberOfArticles = await Product.find(queryObject).countDocuments();
+//     /*--- pagination setup ---*/
+//   const page = Number(req.query.page) || 1;
+//   const limit = Number(req.query.limit) || 7;
+//   const skip = (page - 1) * limit;
+//   const numberOfArticles = await Product.find(queryObject).countDocuments();
 
-  const products = await Product.find(queryObject)
-    .limit(limit)
-    .skip(skip);
-  res.status(200).json({
-    numberOfArticles,
-    availablePages: Math.ceil(numberOfArticles / limit),
-    page,
-    products,
-  });
+//   const products = await Product.find(queryObject)
+//     .limit(limit)
+//     .skip(skip);
+//   res.status(200).json({
+//     numberOfArticles,
+//     availablePages: Math.ceil(numberOfArticles / limit),
+//     page,
+//     products,
+//   });
+// };
+
+
+//----------------------------------------------------------------------------------------------
+/* --------------------------NUMERIC FILTER------------------------ */
+/* --- Simple case --- */
+const getAllProducts: RequestHandler = async (_req, res) => {
+  const products = await Product.find({ price: { $gt: 30 } })
+    .sort("-price")
+    .select("name price");
+  res.status(200).json({ numberOfHits: products.length, products });
 };
-
 
 
 
