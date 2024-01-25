@@ -13,18 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dashboard = exports.login = void 0;
-const custom_error_1 = __importDefault(require("../errors/custom-error"));
+const errors_1 = require("../errors");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    console.log(username, password);
-    if (!username || !password) {
-        throw new custom_error_1.default("Please, provide username AND password", 400);
+    if (!req.body.username || !req.body.password) {
+        throw new errors_1.BadRequestError("Please, provide username AND password");
     }
-    const id = new Date().getTime();
-    const token = jsonwebtoken_1.default.sign({ id, username }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-    });
+    const token = jsonwebtoken_1.default.sign({ id: new Date().getTime(), username: req.body.username }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return res.status(200).json({ msg: "User successfully logged in", token });
 });
 exports.login = login;

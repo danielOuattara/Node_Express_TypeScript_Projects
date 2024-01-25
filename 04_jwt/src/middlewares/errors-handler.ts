@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import CustomAPIError from "../errors/custom-error";
+import { CustomAPIError } from "../errors";
+import { StatusCodes } from "http-status-codes";
 
 interface ICustomError extends Error {
   statusCode: number;
@@ -11,15 +12,12 @@ const errorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-
-  console.log("err = ", err)
   if (err instanceof CustomAPIError) {
     return res.status(err.statusCode).json({ msg: err.message });
   }
-  return res.status(500).send("Something went wrong try again later");
+  return res
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .send("Something went wrong try again later");
 };
 
 export default errorHandler;
-
-
-
