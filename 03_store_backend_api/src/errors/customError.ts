@@ -10,7 +10,7 @@ class CustomAPIError extends Error {
 }
 
 //------------------------------------------------------------
-// function that handles CutomAPIError instanciation
+// function that handles CustomAPIError instantiation
 
 const createCustomError = (errorMessage: string, errorStatusCode: number) => {
   return new CustomAPIError(errorMessage, errorStatusCode);
