@@ -15,21 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
-const errors_1 = require("./../errors");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.body.name || !req.body.email || !req.body.password) {
-        throw new errors_1.BadRequestError("Please provide: name, email, password");
-    }
-    const salt = yield bcryptjs_1.default.genSalt(10);
-    const hashedPassword = yield bcryptjs_1.default.hash(req.body.password, salt);
-    const tempUSer = {
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
-    };
-    const user = yield UserModel_1.default.create(tempUSer);
-    res.status(http_status_codes_1.StatusCodes.CREATED).json(tempUSer);
+    const user = yield UserModel_1.default.create(req.body);
+    const token = yield jsonwebtoken_1.default.sign(req.body, process.env.JWT_SECRET, { expiresIn: "1h" });
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user, token });
 });
 exports.register = register;
 const login = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
