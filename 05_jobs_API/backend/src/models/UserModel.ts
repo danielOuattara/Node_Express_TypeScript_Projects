@@ -25,17 +25,16 @@ const UserSchema = new Schema<InterfaceUser>({
     ],
     unique: true,
   },
-    password: {
+  password: {
     type: String,
     required: [true, "Please provide password"],
     minLength: 6,
   },
 });
 
+export default model<InterfaceUser>("User", UserSchema);
 
-export default model<InterfaceUser>("User", UserSchema)
-
-//--------------------------------------------------------
+//-------------------------------------------------------- OR
 
 // // ---> Automatic type inference
 
