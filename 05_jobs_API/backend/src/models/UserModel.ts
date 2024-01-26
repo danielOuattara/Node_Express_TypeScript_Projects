@@ -1,5 +1,5 @@
 // ---> Separate document interface definition
-
+import brcypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 
 interface InterfaceUser {
@@ -23,13 +23,17 @@ const UserSchema = new Schema<InterfaceUser>({
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Please provide a valid email",
     ],
-    unique: true, 
+    unique: true,
   },
   password: {
     type: String,
     required: [true, "Please provide password"],
     minLength: 6,
   },
+});
+
+UserSchema.pre("save", async function () {
+  this.password = await brcypt.hash(this.password, 13);
 });
 
 export default model<InterfaceUser>("User", UserSchema);
@@ -39,6 +43,7 @@ export default model<InterfaceUser>("User", UserSchema);
 // // ---> Automatic type inference
 
 // import { Schema, model, InferSchemaType } from "mongoose";
+// import brcypt from "bcryptjs";
 
 // const UserSchema = new Schema({
 //   name: {
@@ -62,6 +67,10 @@ export default model<InterfaceUser>("User", UserSchema);
 //     required: [true, "Please provide password"],
 //     minLength: 6,
 //   },
+// });
+
+// UserSchema.pre("save", async function () {
+//   this.password = await brcypt.hash(this.password, 13);
 // });
 
 // type TypeUser = InferSchemaType<typeof UserSchema>
