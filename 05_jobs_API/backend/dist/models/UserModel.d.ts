@@ -21,14 +21,28 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-interface InterfaceUser {
+import { Schema, InferSchemaType, Model } from "mongoose";
+declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     name: string;
     email: string;
     password: string;
-}
-declare const _default: import("mongoose").Model<InterfaceUser, {}, {}, {}, import("mongoose").Document<unknown, {}, InterfaceUser> & InterfaceUser & {
+}, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
+    name: string;
+    email: string;
+    password: string;
+}>> & import("mongoose").FlatRecord<{
+    name: string;
+    email: string;
+    password: string;
+}> & {
     _id: import("mongoose").Types.ObjectId;
-}, any>;
+}>;
+type TUser = InferSchemaType<typeof schema>;
+interface IUserMethods {
+    getName(): string;
+    createJWT(): string;
+}
+type UserModel = Model<TUser, {}, IUserMethods>;
+declare const _default: UserModel;
 export default _default;

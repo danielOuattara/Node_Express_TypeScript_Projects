@@ -1,14 +1,76 @@
-// ---> Separate document interface definition
-import brcypt from "bcryptjs";
-import { Schema, model } from "mongoose";
+// // ---> Separate document interface definition
+// import { Schema, model, Model } from "mongoose";
+// import bcrypt from "bcryptjs";
+// import jwt from "jsonwebtoken";
 
-interface InterfaceUser {
-  name: string;
-  email: string;
-  password: string;
-}
+// interface IUser {
+//   name: string;
+//   email: string;
+//   password: string;
+// }
 
-const UserSchema = new Schema<InterfaceUser>({
+// interface IUserMethods {
+//   getName(): string;
+//   createJWT(): string;
+// }
+
+// // Create a new Model type that knows about IUserMethods...
+// type UserModel = Model<IUser, {}, IUserMethods>;
+
+// // And a schema that knows about IUserMethods
+// const schema = new Schema<IUser, UserModel, IUserMethods>({
+//   name: {
+//     type: String,
+//     required: [true, "Name is required. Please provide a name"],
+//     trim: true,
+//     minLength: 2,
+//     maxLength: 50,
+//   },
+//   email: {
+//     type: String,
+//     required: [true, "Email is required. Please provide a name"],
+//     match: [
+//       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+//       "Please provide a valid email",
+//     ],
+//     unique: true,
+//   },
+//   password: {
+//     type: String,
+//     required: [true, "Please provide password"],
+//     minLength: 6,
+//   },
+// });
+
+// schema.pre("save", async function () {
+//   this.password = await bcrypt.hash(this.password, 13);
+// });
+
+// schema.methods.getName = function () {
+//   return this.name;
+// };
+
+// schema.methods.createJWT = function () {
+//   return jwt.sign(
+//     { userId: this._id, name: this.name },
+//     process.env.JWT_SECRET as string,
+//     {
+//       expiresIn: process.env.JWT_LIFETIME as string,
+//     },
+//   );
+// };
+
+// export default model<IUser, UserModel>("User", schema);
+
+//-------------------------------------------------------- OR
+
+// ---> Automatic type inference
+
+import { Schema, model, InferSchemaType, Model } from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const schema = new Schema({
   name: {
     type: String,
     required: [true, "Name is required. Please provide a name"],
@@ -32,47 +94,34 @@ const UserSchema = new Schema<InterfaceUser>({
   },
 });
 
-UserSchema.pre("save", async function () {
-  this.password = await brcypt.hash(this.password, 13);
+schema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, 13);
 });
 
-export default model<InterfaceUser>("User", UserSchema);
+schema.methods.getName = function () {
+  return this.name;
+};
 
-//-------------------------------------------------------- OR
+schema.methods.createJWT = function () {
+  return jwt.sign(
+    { userId: this._id, name: this.name },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: process.env.JWT_LIFETIME as string,
+    },
+  );
+};
 
-// // ---> Automatic type inference
+type TUser = InferSchemaType<typeof schema>;
 
-// import { Schema, model, InferSchemaType } from "mongoose";
-// import brcypt from "bcryptjs";
+interface IUserMethods {
+  getName(): string;
+  createJWT(): string;
+}
 
-// const UserSchema = new Schema({
-//   name: {
-//     type: String,
-//     required: [true, "Name is required. Please provide a name"],
-//     trim: true,
-//     minLength: 2,
-//     maxLength: 50,
-//   },
-//   email: {
-//     type: String,
-//     required: [true, "Email is required. Please provide a name"],
-//     match: [
-//       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-//       "Please provide a valid email",
-//     ],
-//     unique: true,
-//   },
-//     password: {
-//     type: String,
-//     required: [true, "Please provide password"],
-//     minLength: 6,
-//   },
-// });
+// Create a new Model type that knows about IUserMethods...
+type UserModel = Model<TUser, {}, IUserMethods>;
 
-// UserSchema.pre("save", async function () {
-//   this.password = await brcypt.hash(this.password, 13);
-// });
+// And a schema that knows about IUserMethods
 
-// type TypeUser = InferSchemaType<typeof UserSchema>
-
-// export default model<TypeUser>("User", UserSchema)
+export default model<TUser, UserModel>("User", schema);

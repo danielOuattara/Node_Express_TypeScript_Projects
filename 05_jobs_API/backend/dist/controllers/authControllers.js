@@ -15,11 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserModel_1.default.create(req.body);
-    const token = yield jsonwebtoken_1.default.sign(req.body, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user, token });
+    res
+        .status(http_status_codes_1.StatusCodes.CREATED)
+        .json({ user: { name: user.getName() }, token: user.createJWT() });
 });
 exports.register = register;
 const login = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
