@@ -6,7 +6,7 @@ const getAllJobs: RequestHandler = async (_req, res) => {
 };
 
 //------------------------------------------------------------
-const getOneJob: RequestHandler = async (_req, res) => {
+const getJob: RequestHandler = async (_req, res) => {
   res.send(" One job");
 };
 
@@ -25,4 +25,4 @@ const deleteJob: RequestHandler = async (_req, res) => {
   res.send("delete job");
 };
 
-export { getAllJobs, getOneJob, createJob, patchJob, deleteJob };
+export { getAllJobs, getJob, createJob, patchJob, deleteJob };

@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteJob = exports.patchJob = exports.createJob = exports.getOneJob = exports.getAllJobs = void 0;
+exports.deleteJob = exports.patchJob = exports.createJob = exports.getJob = exports.getAllJobs = void 0;
 const getAllJobs = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("All jobs");
 });
 exports.getAllJobs = getAllJobs;
-const getOneJob = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getJob = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(" One job");
 });
-exports.getOneJob = getOneJob;
+exports.getJob = getJob;
 const createJob = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("create job");
 });

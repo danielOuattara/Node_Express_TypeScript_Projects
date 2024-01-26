@@ -1,3 +1,3 @@
-import { NextFunction, Request, Response } from "express";
-declare const notFound: (_req: Request, res: Response, _next: NextFunction) => Response<any, Record<string, any>>;
+import { RequestHandler } from "express";
+declare const notFound: RequestHandler;
 export default notFound;

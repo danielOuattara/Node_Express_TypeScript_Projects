@@ -1,15 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
-const notFound = (
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) => {
-  
-  return res
-    .status(StatusCodes.NOT_FOUND)
-    .send("Route does not exist");
+const notFound: RequestHandler = (_req, res) => {
+  return res.status(StatusCodes.NOT_FOUND).send("Route does not exist");
 };
 
 export default notFound;

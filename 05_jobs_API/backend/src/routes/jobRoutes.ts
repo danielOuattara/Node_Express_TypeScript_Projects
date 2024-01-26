@@ -3,13 +3,13 @@ import {
   createJob,
   deleteJob,
   getAllJobs,
-  getOneJob,
+  getJob,
   patchJob,
 } from "./../controllers/jobControllers";
 
 const router = express.Router();
 
 router.route("/").get(getAllJobs).post(createJob);
-router.route("/:jobId").get(getOneJob).delete(deleteJob).patch(patchJob);
+router.route("/:jobId").get(getJob).delete(deleteJob).patch(patchJob);
 
 export default router;
