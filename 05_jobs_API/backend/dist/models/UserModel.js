@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -26,10 +27,7 @@ const schema = new mongoose_1.Schema({
     email: {
         type: String,
         required: [true, "Email is required. Please provide a name"],
-        match: [
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            "Please provide a valid email",
-        ],
+        match: [emailRegex, "Please provide a valid email"],
         unique: true,
     },
     password: {
@@ -50,5 +48,8 @@ schema.methods.createJWT = function () {
     return jsonwebtoken_1.default.sign({ userId: this._id, name: this.name }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME,
     });
+};
+schema.methods.comparePassword = function (password) {
+    return bcryptjs_1.default.compare(password, this.password);
 };
 exports.default = (0, mongoose_1.model)("User", schema);

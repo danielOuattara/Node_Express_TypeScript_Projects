@@ -42,6 +42,7 @@ type TUser = InferSchemaType<typeof schema>;
 interface IUserMethods {
     getName(): string;
     createJWT(): string;
+    comparePassword(pwd: string): Promise<boolean>;
 }
 type UserModel = Model<TUser, {}, IUserMethods>;
 declare const _default: UserModel;

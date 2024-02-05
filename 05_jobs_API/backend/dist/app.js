@@ -14,7 +14,7 @@ app.get("/", function (_req, res) {
     res.send("Welcome to Jobs API !");
 });
 app.use("/api/v1/auth", authRoutes_1.default);
-app.use("/api/v1/jobs", jobRoutes_1.default);
+app.use("/api/v1/jobs", middlewares_1.auth, jobRoutes_1.default);
 app.use(middlewares_1.notFound);
 app.use(middlewares_1.errorHandler);
 exports.default = app;

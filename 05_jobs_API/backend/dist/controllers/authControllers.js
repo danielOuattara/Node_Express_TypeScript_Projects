@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
+const errors_1 = require("./../errors");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserModel_1.default.create(req.body);
     res
@@ -22,7 +23,20 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         .json({ user: { name: user.getName() }, token: user.createJWT() });
 });
 exports.register = register;
-const login = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("login user");
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.email || !req.body.password) {
+        throw new errors_1.BadRequestError("Please provide: email and password");
+    }
+    const user = yield UserModel_1.default.findOne({ email: req.body.email });
+    if (!user) {
+        throw new errors_1.UnauthenticatedError("User unknown!");
+    }
+    const validPassword = yield user.comparePassword(req.body.password);
+    if (!validPassword) {
+        throw new errors_1.UnauthenticatedError("User unknown!");
+    }
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ user: { name: user.getName() }, token: user.createJWT() });
 });
 exports.login = login;
