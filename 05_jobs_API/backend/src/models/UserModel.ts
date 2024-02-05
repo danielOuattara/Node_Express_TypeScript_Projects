@@ -12,6 +12,7 @@
 // interface IUserMethods {
 //   getName(): string;
 //   createJWT(): string;
+//   comparePassword(pwd: string): Promise<boolean>;
 // }
 
 // // Create a new Model type that knows about IUserMethods...
@@ -42,14 +43,17 @@
 //   },
 // });
 
+// //-------------------------------------------------------------------
 // schema.pre("save", async function () {
 //   this.password = await bcrypt.hash(this.password, 13);
 // });
 
+// //-------------------------------------------------------------------
 // schema.methods.getName = function () {
 //   return this.name;
 // };
 
+// //-------------------------------------------------------------------
 // schema.methods.createJWT = function () {
 //   return jwt.sign(
 //     { userId: this._id, name: this.name },
@@ -60,15 +64,23 @@
 //   );
 // };
 
+// //-------------------------------------------------------------------
+// schema.methods.comparePassword = function (password: string) {
+//   return bcrypt.compare(password, this.password);
+// };
+
 // export default model<IUser, UserModel>("User", schema);
 
-//-------------------------------------------------------- OR
+// ================================================================== OR
 
 // ---> Automatic type inference
 
 import { Schema, model, InferSchemaType, Model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const schema = new Schema({
   name: {
@@ -81,10 +93,7 @@ const schema = new Schema({
   email: {
     type: String,
     required: [true, "Email is required. Please provide a name"],
-    match: [
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      "Please provide a valid email",
-    ],
+    match: [emailRegex, "Please provide a valid email"],
     unique: true,
   },
   password: {
@@ -93,15 +102,17 @@ const schema = new Schema({
     minLength: 6,
   },
 });
-
+//--------------------------------------
 schema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, 13);
 });
 
+//--------------------------------------
 schema.methods.getName = function () {
   return this.name;
 };
 
+//--------------------------------------
 schema.methods.createJWT = function () {
   return jwt.sign(
     { userId: this._id, name: this.name },
@@ -112,11 +123,17 @@ schema.methods.createJWT = function () {
   );
 };
 
+//----------------------------------------
+schema.methods.comparePassword = function (password: string) {
+  return bcrypt.compare(password, this.password);
+};
+
 type TUser = InferSchemaType<typeof schema>;
 
 interface IUserMethods {
   getName(): string;
   createJWT(): string;
+  comparePassword(pwd: string): Promise<boolean>;
 }
 
 // Create a new Model type that knows about IUserMethods...
