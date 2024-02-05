@@ -1,6 +1,6 @@
 import express from "express";
 import "express-async-errors";
-import { notFound, errorHandler } from "./middlewares";
+import { notFound, errorHandler, auth } from "./middlewares";
 import authRouter from "./routes/authRoutes";
 import jobsRouter from "./routes/jobRoutes";
 
@@ -13,7 +13,7 @@ app.get("/", function (_req, res) {
 });
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/jobs", auth, jobsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
