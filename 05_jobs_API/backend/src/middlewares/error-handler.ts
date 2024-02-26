@@ -33,6 +33,11 @@ interface ICustomError extends Error {
   keyValue?: {
     [key: string]: string;
   };
+  errors?: {
+    [key: string]: {
+      message: string;
+    };
+  };
 }
 
 const errorHandler = (
@@ -41,13 +46,18 @@ const errorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-  console.log("ERROR ==> ", err.message);
-
   const customError: ICustomError = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     message: err.message || "Something wrong, try again later",
     name: err.name || "Custom Error",
   };
+
+  if (err.name === "ValidationError" && err.errors) {
+    customError.message = Object.values(err.errors)
+      .map((item) => item.message)
+      .join(" ");
+    customError.statusCode = StatusCodes.BAD_REQUEST;
+  }
 
   if (err.code && err.code === 11000) {
     // Check if err.keyValue is defined
@@ -64,6 +74,7 @@ const errorHandler = (
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
 
+  // return res.status(customError.statusCode).json({ err });
   return res.status(customError.statusCode).json({ msg: customError.message });
 };
 

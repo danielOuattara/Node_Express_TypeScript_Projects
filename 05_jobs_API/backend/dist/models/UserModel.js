@@ -19,20 +19,20 @@ const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: [true, "Name is required. Please provide a name"],
+        required: [true, "Name is required: please provide a name."],
         trim: true,
         minLength: 2,
         maxLength: 50,
     },
     email: {
         type: String,
-        required: [true, "Email is required. Please provide a name"],
+        required: [true, "Email is required: please provide an email."],
         match: [emailRegex, "Please provide a valid email"],
         unique: true,
     },
     password: {
         type: String,
-        required: [true, "Please provide password"],
+        required: [true, "Password is required: please provide password."],
         minLength: 6,
     },
 });

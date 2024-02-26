@@ -5,6 +5,11 @@ interface ICustomError extends Error {
     keyValue?: {
         [key: string]: string;
     };
+    errors?: {
+        [key: string]: {
+            message: string;
+        };
+    };
 }
 declare const errorHandler: (err: ICustomError, _req: Request, res: Response, _next: NextFunction) => Response<any, Record<string, any>>;
 export default errorHandler;
