@@ -25,7 +25,6 @@
 //--------------------------------------------------------------------
 
 import { NextFunction, Request, Response } from "express";
-import { CustomAPIError } from "../errors";
 import { StatusCodes } from "http-status-codes";
 
 interface ICustomError extends Error {
@@ -50,10 +49,6 @@ const errorHandler = (
     name: err.name || "Custom Error",
   };
 
-  if (err instanceof CustomAPIError) {
-    return res.status(err.statusCode).json({ msg: customError.message });
-  }
-
   if (err.code && err.code === 11000) {
     // Check if err.keyValue is defined
     if (err.keyValue) {
@@ -69,9 +64,7 @@ const errorHandler = (
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
 
-  return res
-    .status(customError.statusCode)
-    .json({ message: customError.message });
+  return res.status(customError.statusCode).json({ msg: customError.message });
 };
 
 export default errorHandler;

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const errors_1 = require("../errors");
 const http_status_codes_1 = require("http-status-codes");
 const errorHandler = (err, _req, res, _next) => {
     console.log("ERROR ==> ", err.message);
@@ -9,9 +8,6 @@ const errorHandler = (err, _req, res, _next) => {
         message: err.message || "Something wrong, try again later",
         name: err.name || "Custom Error",
     };
-    if (err instanceof errors_1.CustomAPIError) {
-        return res.status(err.statusCode).json({ msg: customError.message });
-    }
     if (err.code && err.code === 11000) {
         if (err.keyValue) {
             const keys = Object.keys(err.keyValue);
@@ -22,8 +18,6 @@ const errorHandler = (err, _req, res, _next) => {
         }
         customError.statusCode = http_status_codes_1.StatusCodes.BAD_REQUEST;
     }
-    return res
-        .status(customError.statusCode)
-        .json({ message: customError.message });
+    return res.status(customError.statusCode).json({ msg: customError.message });
 };
 exports.default = errorHandler;
