@@ -38,6 +38,9 @@ interface ICustomError extends Error {
       message: string;
     };
   };
+  value?: {
+    [x: string]: string;
+  };
 }
 
 const errorHandler = (
@@ -72,6 +75,11 @@ const errorHandler = (
     }
 
     customError.statusCode = StatusCodes.BAD_REQUEST;
+  }
+
+  if (err.name === "CastError") {
+    customError.message = `No item using Id: ${err.value}`;
+    customError.statusCode = StatusCodes.NOT_FOUND;
   }
 
   // return res.status(customError.statusCode).json({ err });

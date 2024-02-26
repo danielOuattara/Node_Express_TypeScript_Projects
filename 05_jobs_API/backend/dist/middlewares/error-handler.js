@@ -23,6 +23,10 @@ const errorHandler = (err, _req, res, _next) => {
         }
         customError.statusCode = http_status_codes_1.StatusCodes.BAD_REQUEST;
     }
+    if (err.name === "CastError") {
+        customError.message = `No item using Id: ${err.value}`;
+        customError.statusCode = http_status_codes_1.StatusCodes.NOT_FOUND;
+    }
     return res.status(customError.statusCode).json({ msg: customError.message });
 };
 exports.default = errorHandler;

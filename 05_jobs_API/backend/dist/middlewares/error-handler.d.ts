@@ -10,6 +10,9 @@ interface ICustomError extends Error {
             message: string;
         };
     };
+    value?: {
+        [x: string]: string;
+    };
 }
 declare const errorHandler: (err: ICustomError, _req: Request, res: Response, _next: NextFunction) => Response<any, Record<string, any>>;
 export default errorHandler;
