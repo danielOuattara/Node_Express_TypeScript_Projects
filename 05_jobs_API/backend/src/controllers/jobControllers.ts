@@ -16,7 +16,7 @@ const getJob: RequestHandler = async (req, res) => {
     createdBy: req.user!._id,
   });
   if (!job) {
-    throw new NotFoundError("Job Not Found");
+    throw new NotFoundError(`No Job Found with id ${req.params.jobId}`);
   }
 
   res.status(StatusCodes.OK).json(job);
@@ -24,7 +24,7 @@ const getJob: RequestHandler = async (req, res) => {
 
 //------------------------------------------------------------
 const createJob: RequestHandler = async (req, res) => {
-  req.body.createdBy = req.user?._id;
+  req.body.createdBy = req.user!._id;
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json(job);
 };
@@ -38,7 +38,7 @@ const patchJob: RequestHandler = async (req, res) => {
   }
 
   const job = await Job.findOneAndUpdate(
-    { _id: req.params.jobId, createdBy: req.user?._id },
+    { _id: req.params.jobId, createdBy: req.user!._id },
     req.body,
     { new: true, runValidators: true },
   );
