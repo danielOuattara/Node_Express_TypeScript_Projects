@@ -28,24 +28,22 @@ const getJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         createdBy: req.user._id,
     });
     if (!job) {
-        throw new errors_1.NotFoundError("Job Not Found");
+        throw new errors_1.NotFoundError(`No Job Found with id ${req.params.jobId}`);
     }
     res.status(http_status_codes_1.StatusCodes.OK).json(job);
 });
 exports.getJob = getJob;
 const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
-    req.body.createdBy = (_b = req.user) === null || _b === void 0 ? void 0 : _b._id;
+    req.body.createdBy = req.user._id;
     const job = yield JobModel_1.default.create(req.body);
     res.status(http_status_codes_1.StatusCodes.CREATED).json(job);
 });
 exports.createJob = createJob;
 const patchJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
     if (req.body.company === "" || req.body.position === "") {
         throw new errors_1.BadRequestError("Pease, provide Company and Position for update.");
     }
-    const job = yield JobModel_1.default.findOneAndUpdate({ _id: req.params.jobId, createdBy: (_c = req.user) === null || _c === void 0 ? void 0 : _c._id }, req.body, { new: true, runValidators: true });
+    const job = yield JobModel_1.default.findOneAndUpdate({ _id: req.params.jobId, createdBy: req.user._id }, req.body, { new: true, runValidators: true });
     if (!job) {
         throw new errors_1.NotFoundError(`No job found with for ${req.user.name} with id ${req.params.jobId}`);
     }
