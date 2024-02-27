@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: [true, "Name is required. Please provide a name"],
+        required: [true, "Name is required: please provide a name."],
         trim: true,
         minLength: 2,
         maxLength: 50,
@@ -26,21 +27,18 @@ const schema = new mongoose_1.Schema({
     lastName: {
         type: String,
         trim: true,
-        maxlength: 50,
+        maxlength: 20,
         default: "lastName",
     },
     email: {
         type: String,
-        required: [true, "Email is required. Please provide a name"],
-        match: [
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            "Please provide a valid email",
-        ],
+        required: [true, "Email is required: please provide an email."],
+        match: [emailRegex, "Please provide a valid email"],
         unique: true,
     },
     password: {
         type: String,
-        required: [true, "Please provide password"],
+        required: [true, "Password is required: please provide password."],
         minLength: 6,
     },
     location: {

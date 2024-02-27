@@ -22,19 +22,34 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from "mongoose";
-interface IUser {
+import { Schema, InferSchemaType, Model } from "mongoose";
+declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     name: string;
+    lastName: string;
     email: string;
     password: string;
-    lastName: string;
     location: string;
-}
+}, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
+    name: string;
+    lastName: string;
+    email: string;
+    password: string;
+    location: string;
+}>> & import("mongoose").FlatRecord<{
+    name: string;
+    lastName: string;
+    email: string;
+    password: string;
+    location: string;
+}> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;
+type TUser = InferSchemaType<typeof schema>;
 interface IUserMethods {
     getName(): string;
     createJWT(): string;
     comparePassword(pwd: string): Promise<boolean>;
 }
-type UserModel = Model<IUser, {}, IUserMethods>;
+type UserModel = Model<TUser, {}, IUserMethods>;
 declare const _default: UserModel;
 export default _default;

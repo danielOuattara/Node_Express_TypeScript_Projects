@@ -18,9 +18,15 @@ const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("./../errors");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserModel_1.default.create(req.body);
-    res
-        .status(http_status_codes_1.StatusCodes.CREATED)
-        .json({ user: { name: user.getName() }, token: user.createJWT() });
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({
+        user: {
+            email: user.email,
+            lastName: user.lastName,
+            location: user.location,
+            name: user.name,
+            token: user.createJWT(),
+        },
+    });
 });
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,8 +41,14 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!validPassword) {
         throw new errors_1.UnauthenticatedError("User unknown!");
     }
-    res
-        .status(http_status_codes_1.StatusCodes.OK)
-        .json({ user: { name: user.getName() }, token: user.createJWT() });
+    res.status(http_status_codes_1.StatusCodes.OK).json({
+        user: {
+            email: user.email,
+            lastName: user.lastName,
+            location: user.location,
+            name: user.name,
+            token: user.createJWT(),
+        },
+    });
 });
 exports.login = login;
