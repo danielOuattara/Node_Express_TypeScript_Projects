@@ -31,13 +31,14 @@ app.use(cors());
 app.use(express.json());
 // app.use(xss());
 
-app.get("/api/v1", function (_req, res) {
+app.get("/", function (_req, res) {
   res.send(
     "<h1>Welcome to Jobs API !</h1> <p>API documentation is available. <a href='/api/v1/docs'>see docs</a></p>",
   );
 });
 
-const swaggerDocument = YAML.load("./swagger.yaml");
+// const swaggerDocument = YAML.load("./swagger.yaml");
+const swaggerDocument = YAML.load("./swagger-render.yaml");
 app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use("/api/v1/auth", authRouter);

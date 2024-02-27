@@ -24,10 +24,10 @@ app.disable("x-powered-by");
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.get("/api/v1", function (_req, res) {
+app.get("/", function (_req, res) {
     res.send("<h1>Welcome to Jobs API !</h1> <p>API documentation is available. <a href='/api/v1/docs'>see docs</a></p>");
 });
-const swaggerDocument = yamljs_1.default.load("./swagger.yaml");
+const swaggerDocument = yamljs_1.default.load("./swagger-render.yaml");
 app.use("/api/v1/docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/jobs", middlewares_1.auth, jobRoutes_1.default);
