@@ -209,6 +209,6 @@ security:
   - httpBearer: []
 tags:
   - name: Auth
-    description: ''
+    description: '`Auth` groups all public routes. You are not required to be logged in, yet you can log or sign in; after which you automatically get a valid access token. Copy the token then click on ***Authorize*** green outlined box with a locker on the top. Paste the token in the empty field and click on the green box ***Authorize***'
   - name: Jobs
-    description: ''
+    description: '`Jobs` groups all protected routes which require to be authenticated to use theme. In this documentation, register OR login, and copy the token. Then click on ***Authorize*** green outlined box on the top. Paste the token in the empty field and click on the green box ***Authorize***'
