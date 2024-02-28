@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", auth, jobsRouter);
 
-// serve index.html
+// serve frontend index.html
 app.get("*", (_req, res) => {
   res.sendFile(
     path.resolve(__dirname, "../..", "./frontend/build", "index.html"),

@@ -20,10 +20,10 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserModel_1.default.create(req.body);
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         user: {
-            email: user.email,
-            lastName: user.lastName,
-            location: user.location,
             name: user.name,
+            lastName: user.lastName,
+            email: user.email,
+            location: user.location,
             token: user.createJWT(),
         },
     });
@@ -43,10 +43,10 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     res.status(http_status_codes_1.StatusCodes.OK).json({
         user: {
-            email: user.email,
-            lastName: user.lastName,
-            location: user.location,
             name: user.name,
+            lastName: user.lastName,
+            email: user.email,
+            location: user.location,
             token: user.createJWT(),
         },
     });

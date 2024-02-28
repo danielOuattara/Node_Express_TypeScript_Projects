@@ -7,10 +7,10 @@ const register: RequestHandler = async (req, res) => {
   const user = await User.create(req.body);
   res.status(StatusCodes.CREATED).json({
     user: {
-      email: user.email,
-      lastName: user.lastName,
-      location: user.location,
       name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      location: user.location,
       token: user.createJWT(),
     },
   });
@@ -34,13 +34,13 @@ const login: RequestHandler = async (req, res) => {
     throw new UnauthenticatedError("User unknown!");
   }
 
-  //All is OK: send token
+  //All is OK: user + token
   res.status(StatusCodes.OK).json({
     user: {
-      email: user.email,
-      lastName: user.lastName,
-      location: user.location,
       name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      location: user.location,
       token: user.createJWT(),
     },
   });

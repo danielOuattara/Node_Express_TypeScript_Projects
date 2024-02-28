@@ -27,9 +27,9 @@ declare const _default: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    status: "interview" | "declined" | "pending";
     company: string;
     position: string;
-    status: "interview" | "declined" | "pending";
     createdBy: {
         prototype?: import("mongoose").Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -43,9 +43,9 @@ declare const _default: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    status: "interview" | "declined" | "pending";
     company: string;
     position: string;
-    status: "interview" | "declined" | "pending";
     createdBy: {
         prototype?: import("mongoose").Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -59,9 +59,9 @@ declare const _default: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    status: "interview" | "declined" | "pending";
     company: string;
     position: string;
-    status: "interview" | "declined" | "pending";
     createdBy: {
         prototype?: import("mongoose").Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
