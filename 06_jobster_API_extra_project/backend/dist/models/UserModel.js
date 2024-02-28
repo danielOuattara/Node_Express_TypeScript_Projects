@@ -50,6 +50,8 @@ const schema = new mongoose_1.Schema({
 });
 schema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
+        if (!this.isModified("password"))
+            return;
         this.password = yield bcryptjs_1.default.hash(this.password, 13);
     });
 });

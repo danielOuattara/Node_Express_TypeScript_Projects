@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.register = void 0;
+exports.updateUser = exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("./../errors");
@@ -30,16 +30,17 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     if (!req.body.email || !req.body.password) {
         throw new errors_1.BadRequestError("Please provide: email and password");
     }
     const user = yield UserModel_1.default.findOne({ email: req.body.email });
     if (!user) {
-        throw new errors_1.UnauthenticatedError("User unknown!");
+        throw new errors_1.UnauthenticatedError("User unknown 2!");
     }
     const validPassword = yield user.comparePassword(req.body.password);
     if (!validPassword) {
-        throw new errors_1.UnauthenticatedError("User unknown!");
+        throw new errors_1.UnauthenticatedError("User unknown 3!");
     }
     res.status(http_status_codes_1.StatusCodes.OK).json({
         user: {
@@ -52,3 +53,33 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.login = login;
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.email ||
+        !req.body.name ||
+        !req.body.lastName ||
+        !req.body.location) {
+        throw new errors_1.BadRequestError("Email, Name, LastName and Location values are all required");
+    }
+    const user = yield UserModel_1.default.findById(req.user._id);
+    if (!user) {
+        throw new errors_1.NotFoundError(`No User found ${req.user.name}`);
+    }
+    if (user.email === "testUser@test.com") {
+        req.body.email = user.email;
+    }
+    user.email = req.body.email;
+    user.name = req.body.name;
+    user.lastName = req.body.lastName;
+    user.location = req.body.location;
+    yield user.save();
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({
+        user: {
+            email: user.email,
+            lastName: user.lastName,
+            location: user.location,
+            name: user.name,
+            token: user.createJWT(),
+        },
+    });
+});
+exports.updateUser = updateUser;
