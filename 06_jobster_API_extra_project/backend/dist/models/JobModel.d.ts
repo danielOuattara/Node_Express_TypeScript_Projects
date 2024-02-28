@@ -21,63 +21,28 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-declare const _default: import("mongoose").Model<{
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
+import { Types } from "mongoose";
+declare enum EnumStatus {
+    INTERVIEW = "interview",
+    DECLINED = "declined",
+    PENDING = "pending"
+}
+declare enum EnumJobType {
+    FULL_TIME = "full-time",
+    PART_TIME = "part-time",
+    REMOTE = "remote",
+    INTERNSHIP = "internship"
+}
+interface IJob {
     company: string;
     position: string;
-    status: "interview" | "declined" | "pending";
-    jobType: "full-time" | "part-time" | "remote" | "internship";
+    status: EnumStatus;
+    jobType: EnumJobType;
     jobLocation: string;
-    createdBy: {
-        prototype?: import("mongoose").Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
-}, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    company: string;
-    position: string;
-    status: "interview" | "declined" | "pending";
-    jobType: "full-time" | "part-time" | "remote" | "internship";
-    jobLocation: string;
-    createdBy: {
-        prototype?: import("mongoose").Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
-}> & {
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    company: string;
-    position: string;
-    status: "interview" | "declined" | "pending";
-    jobType: "full-time" | "part-time" | "remote" | "internship";
-    jobLocation: string;
-    createdBy: {
-        prototype?: import("mongoose").Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
-} & {
-    _id: import("mongoose").Types.ObjectId;
+    createdBy: Types.ObjectId;
+}
+declare const _default: import("mongoose").Model<IJob, {}, {}, {}, import("mongoose").Document<unknown, {}, IJob> & IJob & {
+    _id: Types.ObjectId;
 }, any>;
 export default _default;

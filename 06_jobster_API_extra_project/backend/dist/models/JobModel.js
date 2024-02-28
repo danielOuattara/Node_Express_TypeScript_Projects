@@ -1,7 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongodb_1 = require("mongodb");
 const mongoose_1 = require("mongoose");
+var EnumStatus;
+(function (EnumStatus) {
+    EnumStatus["INTERVIEW"] = "interview";
+    EnumStatus["DECLINED"] = "declined";
+    EnumStatus["PENDING"] = "pending";
+})(EnumStatus || (EnumStatus = {}));
+var EnumJobType;
+(function (EnumJobType) {
+    EnumJobType["FULL_TIME"] = "full-time";
+    EnumJobType["PART_TIME"] = "part-time";
+    EnumJobType["REMOTE"] = "remote";
+    EnumJobType["INTERNSHIP"] = "internship";
+})(EnumJobType || (EnumJobType = {}));
 const schema = new mongoose_1.Schema({
     company: {
         type: String,
@@ -17,13 +29,13 @@ const schema = new mongoose_1.Schema({
     },
     status: {
         type: String,
-        enum: ["interview", "declined", "pending"],
-        default: "pending",
+        enum: Object.values(EnumStatus),
+        default: EnumStatus.PENDING,
     },
     jobType: {
         type: String,
-        enum: ["full-time", "part-time", "remote", "internship"],
-        default: "full-time",
+        enum: Object.values(EnumJobType),
+        default: EnumJobType.FULL_TIME,
     },
     jobLocation: {
         type: String,
@@ -31,7 +43,7 @@ const schema = new mongoose_1.Schema({
         required: [true, "Job location  is required !"],
     },
     createdBy: {
-        type: mongodb_1.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",
         required: [true, "Job creator name is required !"],
     },
