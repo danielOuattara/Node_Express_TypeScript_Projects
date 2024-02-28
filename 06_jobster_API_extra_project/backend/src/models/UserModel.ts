@@ -102,8 +102,8 @@ const schema = new Schema({
     type: String,
     required: [true, "Name is required: please provide a name."],
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+    minlength: 2,
+    maxlength: 50,
   },
   lastName: {
     type: String,
@@ -120,7 +120,7 @@ const schema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required: please provide password."],
-    minLength: 6,
+    minlength: 6,
   },
   location: {
     type: String,
