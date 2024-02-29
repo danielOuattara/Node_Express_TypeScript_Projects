@@ -25,22 +25,22 @@
 import { Schema, InferSchemaType, Model } from "mongoose";
 declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     name: string;
-    lastName: string;
+    location: string;
     email: string;
     password: string;
-    location: string;
+    lastName: string;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
-    lastName: string;
+    location: string;
     email: string;
     password: string;
-    location: string;
+    lastName: string;
 }>> & import("mongoose").FlatRecord<{
     name: string;
-    lastName: string;
+    location: string;
     email: string;
     password: string;
-    location: string;
+    lastName: string;
 }> & {
     _id: import("mongoose").Types.ObjectId;
 }>;
