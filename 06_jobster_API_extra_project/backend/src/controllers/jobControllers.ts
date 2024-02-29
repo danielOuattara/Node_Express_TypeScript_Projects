@@ -5,16 +5,15 @@ import { BadRequestError, NotFoundError } from "../errors";
 
 //----------------------------------------------------------------
 
-interface QueryParams {
-  featured?: string;
-  company?: string;
-  name?: string;
+interface IQueryParams {
+  search?: string;
+  status?: string;
+  jobType?: string;
   sort?: string;
-  select?: string;
 }
 
 interface IQueryObject {
-  [k: string]:
+  [key: string]:
     | string
     | number
     | boolean
@@ -25,22 +24,43 @@ interface IQueryObject {
 const getAllJobs: RequestHandler = async (req, res) => {
   //
 
-  // default queryObejct
+  const { search, status, jobType, sort } = <IQueryParams>req.query;
+
+  // default queryObject
   const queryObject: IQueryObject = {
-    createdBy: req.user!.id,
+    createdBy: <string>req.user!.id,
   };
 
   // updated queryObject according to possible queries
-  if (req.query.search) {
-    queryObject.position = {
-      $regex: req.query.search as string,
-      $options: "i",
-    };
+  if (search) {
+    queryObject.position = { $regex: <string>search, $options: "i" };
+  }
+
+  if (status && status !== "all") {
+    queryObject.status = status;
+  }
+  if (jobType && jobType !== "all") {
+    queryObject.jobType = jobType;
+  }
+
+  // sort jobs
+  let sortItem = null;
+  if (sort === "latest") {
+    sortItem = "-createdAt";
+  }
+  if (sort === "oldest") {
+    sortItem = "createdAt";
+  }
+  if (sort === "a-z") {
+    sortItem = "position";
+  }
+  if (sort === "z-a") {
+    sortItem = "-position";
   }
 
   console.log("queryObject = ", queryObject);
 
-  const jobs = await Job.find(queryObject).sort("createdAt");
+  const jobs = await Job.find(queryObject).sort(sortItem);
   res.status(StatusCodes.OK).json({ count: jobs.length, jobs });
 
   // const jobs = await Job.find({ createdBy: req.user!._id }).sort("createdAt");
