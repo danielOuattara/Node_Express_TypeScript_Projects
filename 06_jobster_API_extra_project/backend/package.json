@@ -38,8 +38,5 @@
   },
   "keywords": [],
   "author": "Daniel.B OUATTARA <daniel.ouattara@gmx.com>",
-  "license": "MIT",
-  "engines": {
-    "node": "18.x"
-  }
+  "license": "MIT"
 }
