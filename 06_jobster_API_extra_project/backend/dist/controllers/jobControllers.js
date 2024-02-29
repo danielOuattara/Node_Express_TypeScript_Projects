@@ -98,9 +98,14 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "job deleted ! " });
 });
 exports.deleteJob = deleteJob;
-const showStats = (_req, res) => {
+const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let stats = yield JobModel_1.default.aggregate([
+        { $match: { createdBy: req.user._id } },
+        { $group: { _id: "$status", count: { $sum: +1 } } },
+    ]);
+    console.log("stats = ", stats);
     res
         .status(http_status_codes_1.StatusCodes.OK)
         .json({ defaultStats: {}, monthlyApplications: [] });
-};
+});
 exports.showStats = showStats;

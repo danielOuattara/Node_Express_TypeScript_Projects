@@ -2,6 +2,8 @@ import { RequestHandler } from "express";
 import Job from "../models/JobModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors";
+import { Types } from "mongoose";
+import moment from "moment";
 
 //----------------------------------------------------------------
 
@@ -134,7 +136,13 @@ const deleteJob: RequestHandler = async (req, res) => {
 };
 
 //-------------------------------------------------------------
-const showStats: RequestHandler = (_req, res) => {
+const showStats: RequestHandler = async (req, res) => {
+  let stats = await Job.aggregate([
+    { $match: { createdBy: req.user!._id } },
+    { $group: { _id: "$status", count: { $sum: +1 } } },
+  ]);
+
+  console.log("stats = ", stats);
   res
     .status(StatusCodes.OK)
     .json({ defaultStats: {}, monthlyApplications: [] });
