@@ -8,6 +8,7 @@ const jobControllers_1 = require("./../controllers/jobControllers");
 const middlewares_1 = require("../middlewares");
 const router = express_1.default.Router();
 router.route("/").get(jobControllers_1.getAllJobs).post(middlewares_1.testUser, jobControllers_1.createJob);
+router.route("/stats").get(jobControllers_1.showStats);
 router
     .route("/:jobId")
     .get(jobControllers_1.getJob)

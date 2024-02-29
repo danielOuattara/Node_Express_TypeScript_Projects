@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteJob = exports.patchJob = exports.createJob = exports.getJob = exports.getAllJobs = void 0;
+exports.showStats = exports.deleteJob = exports.patchJob = exports.createJob = exports.getJob = exports.getAllJobs = void 0;
 const JobModel_1 = __importDefault(require("../models/JobModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
@@ -98,3 +98,9 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "job deleted ! " });
 });
 exports.deleteJob = deleteJob;
+const showStats = (_req, res) => {
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ defaultStats: {}, monthlyApplications: [] });
+};
+exports.showStats = showStats;

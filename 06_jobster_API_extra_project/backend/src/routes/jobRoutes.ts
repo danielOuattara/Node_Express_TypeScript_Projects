@@ -5,12 +5,14 @@ import {
   getAllJobs,
   getJob,
   patchJob,
+  showStats,
 } from "./../controllers/jobControllers";
 import { testUser } from "../middlewares";
 
 const router = express.Router();
 
 router.route("/").get(getAllJobs).post(testUser, createJob);
+router.route("/stats").get(showStats);
 router
   .route("/:jobId")
   .get(getJob)

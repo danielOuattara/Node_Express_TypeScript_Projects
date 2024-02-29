@@ -133,4 +133,11 @@ const deleteJob: RequestHandler = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "job deleted ! " });
 };
 
-export { getAllJobs, getJob, createJob, patchJob, deleteJob };
+//-------------------------------------------------------------
+const showStats: RequestHandler = (_req, res) => {
+  res
+    .status(StatusCodes.OK)
+    .json({ defaultStats: {}, monthlyApplications: [] });
+};
+
+export { getAllJobs, getJob, createJob, patchJob, deleteJob, showStats };

@@ -4,4 +4,5 @@ declare const getJob: RequestHandler;
 declare const createJob: RequestHandler;
 declare const patchJob: RequestHandler;
 declare const deleteJob: RequestHandler;
-export { getAllJobs, getJob, createJob, patchJob, deleteJob };
+declare const showStats: RequestHandler;
+export { getAllJobs, getJob, createJob, patchJob, deleteJob, showStats };
