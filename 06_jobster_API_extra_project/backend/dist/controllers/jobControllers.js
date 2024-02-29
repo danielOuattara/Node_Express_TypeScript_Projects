@@ -17,8 +17,17 @@ const JobModel_1 = __importDefault(require("../models/JobModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const jobs = yield JobModel_1.default.find({ createdBy: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id }).sort("createdAt");
+    const queryObject = {
+        createdBy: req.user.id,
+    };
+    if (req.query.search) {
+        queryObject.position = {
+            $regex: req.query.search,
+            $options: "i",
+        };
+    }
+    console.log("queryObject = ", queryObject);
+    const jobs = yield JobModel_1.default.find(queryObject).sort("createdAt");
     res.status(http_status_codes_1.StatusCodes.OK).json({ count: jobs.length, jobs });
 });
 exports.getAllJobs = getAllJobs;

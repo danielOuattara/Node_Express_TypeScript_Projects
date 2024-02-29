@@ -3,10 +3,48 @@ import Job from "../models/JobModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors";
 
-//------------------------------------------------------------
+//----------------------------------------------------------------
+
+interface QueryParams {
+  featured?: string;
+  company?: string;
+  name?: string;
+  sort?: string;
+  select?: string;
+}
+
+interface IQueryObject {
+  [k: string]:
+    | string
+    | number
+    | boolean
+    | RegExp
+    | { $regex: string; $options: string };
+}
+
 const getAllJobs: RequestHandler = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user?._id }).sort("createdAt");
+  //
+
+  // default queryObejct
+  const queryObject: IQueryObject = {
+    createdBy: req.user!.id,
+  };
+
+  // updated queryObject according to possible queries
+  if (req.query.search) {
+    queryObject.position = {
+      $regex: req.query.search as string,
+      $options: "i",
+    };
+  }
+
+  console.log("queryObject = ", queryObject);
+
+  const jobs = await Job.find(queryObject).sort("createdAt");
   res.status(StatusCodes.OK).json({ count: jobs.length, jobs });
+
+  // const jobs = await Job.find({ createdBy: req.user!._id }).sort("createdAt");
+  // res.status(StatusCodes.OK).json({ count: jobs.length, jobs });
 };
 
 //------------------------------------------------------------
