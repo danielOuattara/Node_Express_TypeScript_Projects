@@ -43,9 +43,20 @@ const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (sort === "z-a") {
         sortItem = "-position";
     }
-    console.log("queryObject = ", queryObject);
-    const jobs = yield JobModel_1.default.find(queryObject).sort(sortItem);
-    res.status(http_status_codes_1.StatusCodes.OK).json({ count: jobs.length, jobs });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const totalJobs = yield JobModel_1.default.countDocuments(queryObject);
+    const numOfPages = Math.ceil(totalJobs / limit);
+    const jobs = yield JobModel_1.default.find(queryObject)
+        .sort(sortItem)
+        .limit(limit)
+        .skip(skip);
+    res.status(http_status_codes_1.StatusCodes.OK).json({
+        jobs,
+        totalJobs,
+        numOfPages,
+    });
 });
 exports.getAllJobs = getAllJobs;
 const getJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

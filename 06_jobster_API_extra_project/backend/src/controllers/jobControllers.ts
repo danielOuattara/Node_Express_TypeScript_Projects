@@ -58,13 +58,24 @@ const getAllJobs: RequestHandler = async (req, res) => {
     sortItem = "-position";
   }
 
-  console.log("queryObject = ", queryObject);
+  // setup pagination
+  const page = parseInt(<string>req.query.page) || 1;
+  const limit = parseInt(<string>req.query.limit) || 10;
+  const skip = (page - 1) * limit;
 
-  const jobs = await Job.find(queryObject).sort(sortItem);
-  res.status(StatusCodes.OK).json({ count: jobs.length, jobs });
+  const totalJobs = await Job.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalJobs / limit);
 
-  // const jobs = await Job.find({ createdBy: req.user!._id }).sort("createdAt");
-  // res.status(StatusCodes.OK).json({ count: jobs.length, jobs });
+  const jobs = await Job.find(queryObject)
+    .sort(sortItem)
+    .limit(limit)
+    .skip(skip);
+
+  res.status(StatusCodes.OK).json({
+    jobs,
+    totalJobs,
+    numOfPages,
+  });
 };
 
 //------------------------------------------------------------
