@@ -16,6 +16,7 @@ exports.showStats = exports.deleteJob = exports.patchJob = exports.createJob = e
 const JobModel_1 = __importDefault(require("../models/JobModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
+const moment_1 = __importDefault(require("moment"));
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { search, status, jobType, sort } = req.query;
     const queryObject = {
@@ -99,13 +100,39 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteJob = deleteJob;
 const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let stats = yield JobModel_1.default.aggregate([
+    const aggregateStats = yield JobModel_1.default.aggregate([
         { $match: { createdBy: req.user._id } },
         { $group: { _id: "$status", count: { $sum: +1 } } },
     ]);
-    console.log("stats = ", stats);
-    res
-        .status(http_status_codes_1.StatusCodes.OK)
-        .json({ defaultStats: {}, monthlyApplications: [] });
+    const stats = aggregateStats.reduce((total, current) => {
+        total[current._id] = current.count;
+        return total;
+    }, {});
+    const defaultStats = {
+        pending: stats.pending || 0,
+        interview: stats.interview || 0,
+        declined: stats.declined || 0,
+    };
+    const aggregateMonthlyApplications = yield JobModel_1.default.aggregate([
+        { $match: { createdBy: req.user._id } },
+        {
+            $group: {
+                _id: {
+                    year: { $year: "$createdAt" },
+                    month: { $month: "$createdAt" },
+                },
+                count: { $sum: +1 },
+            },
+        },
+        { $sort: { "_id.year": 1, "_id.month": 1 } },
+    ]);
+    const monthlyApplications = aggregateMonthlyApplications.map((item) => {
+        const date = (0, moment_1.default)()
+            .month(item._id.month - 1)
+            .year(item._id.year)
+            .format("MMM Y");
+        return { date, count: item.count };
+    });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ defaultStats, monthlyApplications });
 });
 exports.showStats = showStats;

@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import Job from "../models/JobModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors";
-import { Types } from "mongoose";
 import moment from "moment";
 
 //----------------------------------------------------------------
@@ -136,16 +135,75 @@ const deleteJob: RequestHandler = async (req, res) => {
 };
 
 //-------------------------------------------------------------
+
+type TAggregateStats = {
+  _id: string;
+  count: number;
+};
+
+type TStats = {
+  [key: string]: number; // Define an index signature for string keys with number values
+  declined: number;
+  pending: number;
+  interview: number;
+};
+
+type TAggregateMonthly = {
+  _id: { year: number; month: number };
+  count: number;
+};
+
+type TMonthlyApplications = {
+  date: string;
+  count: number;
+};
 const showStats: RequestHandler = async (req, res) => {
-  let stats = await Job.aggregate([
+  //-------
+  const aggregateStats: TAggregateStats[] = await Job.aggregate([
     { $match: { createdBy: req.user!._id } },
     { $group: { _id: "$status", count: { $sum: +1 } } },
   ]);
 
-  console.log("stats = ", stats);
-  res
-    .status(StatusCodes.OK)
-    .json({ defaultStats: {}, monthlyApplications: [] });
+  const stats: TStats = aggregateStats.reduce((total, current) => {
+    total[current._id] = current.count;
+    return total;
+  }, {} as TStats);
+
+  const defaultStats = {
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined || 0,
+  };
+
+  //---------
+
+  const aggregateMonthlyApplications: TAggregateMonthly[] = await Job.aggregate(
+    [
+      { $match: { createdBy: req.user!._id } },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: +1 },
+        },
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } },
+      // { $limit: 12 },
+    ],
+  );
+
+  const monthlyApplications: TMonthlyApplications[] =
+    aggregateMonthlyApplications.map((item) => {
+      const date = moment()
+        .month(item._id.month - 1)
+        .year(item._id.year)
+        .format("MMM Y");
+      return { date, count: item.count };
+    });
+
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
 
 export { getAllJobs, getJob, createJob, patchJob, deleteJob, showStats };
