@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { UnauthenticatedError } from "../errors";
 import User from "../models/UserModel";
+import { MongooseUser } from "../../custom";
 
 interface ITokenPayload {
   userId: string;
@@ -27,13 +28,17 @@ const auth: RequestHandler = async (req, _res, next) => {
     /*--> Less: created local user object: only userId & name*/
     // req.user = { userId: decoded.userId, username: decoded.username };
 
+    //
     /* --> Better: register in "req" a complete Mongoose user object*/
     //             with all possible associations.
+
     const user = await User.findById(decoded.userId).select("-password");
-    
+
     if (user) {
-      req.user = user;
+      const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
+      req.user = { ...user.toObject(), isTestUser } as MongooseUser;
     }
+
     next();
   } catch (error) {
     throw new UnauthenticatedError("No token provided");

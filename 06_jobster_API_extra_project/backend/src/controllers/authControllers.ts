@@ -6,6 +6,7 @@ import {
   NotFoundError,
   UnauthenticatedError,
 } from "./../errors";
+
 //------------------------------------------------------------
 const register: RequestHandler = async (req, res) => {
   const user = await User.create(req.body);
@@ -108,7 +109,7 @@ const updateUser: RequestHandler = async (req, res) => {
     throw new NotFoundError(`No User found ${req.user!.name}`);
   }
 
-  if (user.email === "testUser@test.com") {
+  if (user._id.equals(process.env.TEST_USER_ID)) {
     req.body.email = user.email;
   }
 
