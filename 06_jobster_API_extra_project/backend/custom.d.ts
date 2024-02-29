@@ -51,10 +51,9 @@
 //   }
 // }
 
-
-
 import { Types, Document } from "mongoose";
 import { Request } from "express";
+import { boolean } from "joi";
 
 interface IUserMethods {
   getName(): string;
@@ -62,8 +61,8 @@ interface IUserMethods {
   comparePassword(pwd: string): Promise<boolean>;
 }
 
-type MongooseUser =
-  | (Document<
+export type MongooseUser =
+  | ((Document<
       unknown,
       {},
       {
@@ -82,7 +81,7 @@ type MongooseUser =
         },
         keyof IUserMethods
       > &
-      IUserMethods)
+      IUserMethods) & { isTestUser: boolean })
   | null;
 
 declare module "express-serve-static-core" {

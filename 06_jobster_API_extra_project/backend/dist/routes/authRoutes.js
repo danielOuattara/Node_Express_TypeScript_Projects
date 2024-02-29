@@ -9,5 +9,5 @@ const middlewares_1 = require("../middlewares");
 const router = express_1.default.Router();
 router.post("/register", authControllers_1.register);
 router.post("/login", authControllers_1.login);
-router.patch("/updateUser", middlewares_1.auth, authControllers_1.updateUser);
+router.patch("/updateUser", middlewares_1.auth, middlewares_1.testUser, authControllers_1.updateUser);
 exports.default = router;

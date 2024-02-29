@@ -64,7 +64,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (!user) {
         throw new errors_1.NotFoundError(`No User found ${req.user.name}`);
     }
-    if (user.email === "testUser@test.com") {
+    if (user._id.equals(process.env.TEST_USER_ID)) {
         req.body.email = user.email;
     }
     user.email = req.body.email;

@@ -25,7 +25,8 @@ const auth = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         const user = yield UserModel_1.default.findById(decoded.userId).select("-password");
         if (user) {
-            req.user = user;
+            const isTestUser = user._id.equals(process.env.TEST_USER_ID);
+            req.user = Object.assign(Object.assign({}, user.toObject()), { isTestUser });
         }
         next();
     }
