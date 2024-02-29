@@ -26,7 +26,7 @@ const normalizePort = (val: string | number) => {
   return false;
 };
 
-const port = normalizePort(process.env.PORT || 5000);
+const port = normalizePort(process.env.PORT || 3500);
 app.set("port", port);
 
 const errorHandler = (error: ErrnoException) => {
