@@ -19,7 +19,7 @@ const errors_1 = require("../errors");
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { search, status, jobType, sort } = req.query;
     const queryObject = {
-        createdBy: req.user.id,
+        createdBy: req.user._id.toString(),
     };
     if (search) {
         queryObject.position = { $regex: search, $options: "i" };

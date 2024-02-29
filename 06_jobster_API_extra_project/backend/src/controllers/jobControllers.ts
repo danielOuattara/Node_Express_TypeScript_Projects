@@ -24,16 +24,16 @@ interface IQueryObject {
 const getAllJobs: RequestHandler = async (req, res) => {
   //
 
-  const { search, status, jobType, sort } = <IQueryParams>req.query;
+  const { search, status, jobType, sort } = req.query as IQueryParams;
 
   // default queryObject
   const queryObject: IQueryObject = {
-    createdBy: <string>req.user!.id,
+    createdBy: req.user!._id.toString(),
   };
 
   // updated queryObject according to possible queries
   if (search) {
-    queryObject.position = { $regex: <string>search, $options: "i" };
+    queryObject.position = { $regex: search as string, $options: "i" };
   }
 
   if (status && status !== "all") {
@@ -59,8 +59,8 @@ const getAllJobs: RequestHandler = async (req, res) => {
   }
 
   // setup pagination
-  const page = parseInt(<string>req.query.page) || 1;
-  const limit = parseInt(<string>req.query.limit) || 10;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
   const totalJobs = await Job.countDocuments(queryObject);
