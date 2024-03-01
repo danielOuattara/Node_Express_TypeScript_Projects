@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.static("./public")); // static assets
 app.use(express.json());
-app.use(fileUpload(/* { useTempFiles: true } */));
+app.use(fileUpload({ useTempFiles: true }));
 
 app.get("/", (_req, res) => {
   res.send("<h1>File Upload Starter</h1>");

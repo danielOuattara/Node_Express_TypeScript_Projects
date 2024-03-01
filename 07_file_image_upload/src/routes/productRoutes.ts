@@ -2,7 +2,7 @@ import express from "express";
 import {
   createProduct,
   getAllProducts,
-} from "../controllers/productControllers";
+} from "../controllers/productsControllers";
 import { uploadProductImage } from "../controllers/uploadsControllers";
 
 const router = express.Router();

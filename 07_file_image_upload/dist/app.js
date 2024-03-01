@@ -11,7 +11,7 @@ const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = (0, express_1.default)();
 app.use(express_1.default.static("./public"));
 app.use(express_1.default.json());
-app.use((0, express_fileupload_1.default)());
+app.use((0, express_fileupload_1.default)({ useTempFiles: true }));
 app.get("/", (_req, res) => {
     res.send("<h1>File Upload Starter</h1>");
 });
