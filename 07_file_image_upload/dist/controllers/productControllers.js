@@ -21,7 +21,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     res.status(http_status_codes_1.StatusCodes.CREATED).json(product);
 });
 exports.createProduct = createProduct;
-const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(http_status_codes_1.StatusCodes.OK).send("get all products");
 });
 exports.getAllProducts = getAllProducts;
