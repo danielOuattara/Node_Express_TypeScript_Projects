@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadProductImage = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const uploadProductImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req);
     res.status(http_status_codes_1.StatusCodes.OK).send("upload image");
 });
 exports.uploadProductImage = uploadProductImage;

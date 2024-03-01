@@ -4,7 +4,9 @@ import { StatusCodes } from "http-status-codes";
 
 //------------------------------------------------------------
 const createProduct: RequestHandler = async (req, res) => {
-  res.status(StatusCodes.OK).send("create product");
+  console.log(req.body);
+  const product = await Product.create(req.body);
+  res.status(StatusCodes.CREATED).json(product);
 };
 
 //------------------------------------------------------------
