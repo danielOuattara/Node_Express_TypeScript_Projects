@@ -1,3 +1,4 @@
 import { RequestHandler } from "express";
 declare const sendEmail: RequestHandler;
-export { sendEmail };
+declare const sendEmailRealAccount: RequestHandler;
+export { sendEmail, sendEmailRealAccount };
