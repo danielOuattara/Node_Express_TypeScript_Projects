@@ -11,7 +11,8 @@ const createProduct: RequestHandler = async (req, res) => {
 
 //------------------------------------------------------------
 const getAllProducts: RequestHandler = async (_req, res) => {
-  res.status(StatusCodes.OK).send("get all products");
+  const products = await Product.find({});
+  res.status(StatusCodes.OK).json({ products });
 };
 
 export { createProduct, getAllProducts };

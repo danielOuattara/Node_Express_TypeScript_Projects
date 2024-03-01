@@ -22,6 +22,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.createProduct = createProduct;
 const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(http_status_codes_1.StatusCodes.OK).send("get all products");
+    const products = yield Product_1.default.find({});
+    res.status(http_status_codes_1.StatusCodes.OK).json({ products });
 });
 exports.getAllProducts = getAllProducts;
