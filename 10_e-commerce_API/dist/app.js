@@ -13,7 +13,7 @@ const app = (0, express_1.default)();
 const accessLogStream = node_fs_1.default.createWriteStream(node_path_1.default.join(__dirname, "access.log"), { flags: "a" });
 app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 app.use(express_1.default.json());
-app.use("/", (req, res) => {
+app.use("/", (_req, res) => {
     res.send("E-commerce API");
 });
 app.use(middlewares_1.notFound);

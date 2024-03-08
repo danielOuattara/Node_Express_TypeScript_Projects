@@ -39,7 +39,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 //----------------------------------------------------
 app.use(express.json());
 
-app.use("/", (req, res) => {
+app.use("/", (_req, res) => {
   res.send("E-commerce API");
 });
 
