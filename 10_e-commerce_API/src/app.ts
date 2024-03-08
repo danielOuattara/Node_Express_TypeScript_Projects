@@ -2,17 +2,17 @@ import express from "express";
 import "express-async-errors";
 import { errorHandler, notFound } from "./middlewares";
 import morgan from "morgan";
-import fs from "node:fs";
-import path from "node:path";
+import { createWriteStream } from "node:fs";
+import { join } from "node:path";
+import authRouter from "./routes/authRoutes";
 
 const app = express();
 
 // --------------------------------------------- logger
 // create a write stream (in append mode)
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" },
-);
+const accessLogStream = createWriteStream(join(__dirname, "access.log"), {
+  flags: "a",
+});
 
 // app.use(morgan("tiny"));
 // app.use(morgan("combined"));
@@ -39,10 +39,11 @@ app.use(morgan("combined", { stream: accessLogStream }));
 //----------------------------------------------------
 app.use(express.json());
 
-app.use("/", (_req, res) => {
-  res.send("E-commerce API");
-});
+app.use("/api/v1/auth", authRouter);
 
+app.use("/", (_req, res) => {
+  res.send("Welcome to e-commerce API");
+});
 //errors
 app.use(notFound);
 app.use(errorHandler);
