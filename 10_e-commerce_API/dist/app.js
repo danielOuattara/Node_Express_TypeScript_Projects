@@ -4,6 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+require("express-async-errors");
+const middlewares_1 = require("./middlewares");
 const app = (0, express_1.default)();
-console.log("E-Commerce API");
+app.use(express_1.default.json());
+app.use("/", (req, res) => {
+    res.send("E-commerce API");
+});
+app.use(middlewares_1.notFound);
+app.use(middlewares_1.errorHandler);
 exports.default = app;
