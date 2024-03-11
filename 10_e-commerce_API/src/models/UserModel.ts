@@ -1,14 +1,15 @@
 /* Separate document interface definition 
------------------------------------------- */
+--------------------------------------------*/
 
-// import { Schema, model } from "mongoose";
+// import { Schema, model, Model } from "mongoose";
 // import validator from "validator";
+// import bcrypt from "bcryptjs";
 
-// // 1. Create an interface representing a document in MongoDB
+// /* Create an interface representing a document in MongoDB */
 
 // enum ROLE {
-//   admin = "ADMIN",
-//   user = "USER",
+//   admin = "admin",
+//   user = "user",
 // }
 
 // interface IUser {
@@ -18,8 +19,16 @@
 //   role: ROLE;
 // }
 
-// // 2. Create a Schema corresponding to the document interface.
-// const schema = new Schema<IUser>({
+// /* Put all user instance methods in this interface:*/
+// interface IUserMethods {
+//   comparePassword(pwd: string): Promise<boolean>;
+// }
+
+// /* Create a new Model type that knows about IUserMethods... */
+// type UserModel = Model<IUser, {}, IUserMethods>;
+
+// /* Create a Schema corresponding to the document interface. */
+// const schema = new Schema<IUser, UserModel, IUserMethods>({
 //   name: {
 //     type: String,
 //     required: [true, "Name is required. Please provide a name"],
@@ -50,8 +59,26 @@
 //   },
 // });
 
-// // 3. Create a Model.
-// const User = model<IUser>("User", schema);
+// //---
+// schema.pre("save", async function () {
+//   // console.log(this.modifiedPaths()); // --> an array of strings like: [ "name", email]
+//   // console.log(this.isModified("name")); //  --> boolean
+//   if (this.isModified("password")) {
+//     const salt = await bcrypt.genSalt(11);
+//     this.password = await bcrypt.hash(this.password, salt);
+//   } else {
+//     return;
+//   }
+// });
+
+// //---
+// schema.methods.comparePassword = async function (password: string) {
+//   const isValid = await bcrypt.compare(password, this.password);
+//   return isValid;
+// };
+
+// /* Create a Model. */
+// const User = model<IUser, UserModel>("User", schema);
 
 // export default User;
 
@@ -62,13 +89,14 @@
 
 import { Schema, InferSchemaType, model } from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 enum ROLE {
-  admin = "ADMIN",
-  user = "USER",
+  admin = "admin",
+  user = "user",
 }
 
-// 1. Create a Schema.
+/* Create a Schema. */
 const schema = new Schema({
   name: {
     type: String,
@@ -100,10 +128,29 @@ const schema = new Schema({
   },
 });
 
-// 2.  Create the User by inferring the schema
+//----------------------------------------------------------------
+schema.pre("save", async function () {
+  // console.log(this.modifiedPaths()); // --> an array of strings like: [ "name", email]
+  // console.log(this.isModified("name")); //  --> boolean
+  if (this.isModified("password")) {
+    const salt = await bcrypt.genSalt(11);
+    this.password = await bcrypt.hash(this.password, salt);
+  } else {
+    return;
+  }
+});
+
+//---
+schema.methods.comparePassword = async function (password: string) {
+  const isValid = await bcrypt.compare(password, this.password);
+  return isValid;
+};
+
+//----------------------------------------------------------------
+/* Create the User by inferring the schema */
 type TUser = InferSchemaType<typeof schema>;
 
-// 3 create a Model
+/* create a Model */
 const User = model<TUser>("User", schema);
 
 // export the User model
