@@ -11,13 +11,7 @@ import {
 
 const register: RequestHandler = async (req, res) => {
   const user = await User.create(req.body);
-  res.status(StatusCodes.CREATED).json({
-    user: {
-      name: user.name,
-      email: user.email,
-      password: user.password,
-    },
-  });
+  res.status(StatusCodes.CREATED).json({ user });
 };
 
 //-----------------------------------------------------
