@@ -16,7 +16,8 @@ exports.logout = exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield UserModel_1.default.create(req.body);
+    const role = (yield UserModel_1.default.countDocuments({})) === 0 ? "admin" : "user";
+    const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role }));
     res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
 });
 exports.register = register;

@@ -1,16 +1,19 @@
 import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
-import {
-  BadRequestError,
-  NotFoundError,
-  UnauthenticatedError,
-} from "./../errors";
+// import {
+//   BadRequestError,
+//   NotFoundError,
+//   UnauthenticatedError,
+// } from "./../errors";
 
 //-----------------------------------------------------
 
 const register: RequestHandler = async (req, res) => {
-  const user = await User.create(req.body);
+  // first registered user should be an admin
+  const role = (await User.countDocuments({})) === 0 ? "admin" : "user";
+
+  const user = await User.create({ ...req.body, role });
   res.status(StatusCodes.CREATED).json({ user });
 };
 
