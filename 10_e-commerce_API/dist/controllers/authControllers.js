@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var ROLE;
 (function (ROLE) {
     ROLE["admin"] = "admin";
@@ -23,7 +24,11 @@ var ROLE;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
     const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role }));
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
+    const userPayload = { name: user.name, userId: user._id, role: user.role };
+    const token = jsonwebtoken_1.default.sign(userPayload, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_LIFETIME,
+    });
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user: userPayload, token });
 });
 exports.register = register;
 const login = (_req, res) => {
