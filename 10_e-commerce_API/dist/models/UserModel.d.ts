@@ -27,17 +27,17 @@ declare const User: import("mongoose").Model<{
     name: string;
     email: string;
     password: string;
-    role: "admin" | "user";
+    role: string;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     name: string;
     email: string;
     password: string;
-    role: "admin" | "user";
+    role: string;
 }> & {
     name: string;
     email: string;
     password: string;
-    role: "admin" | "user";
+    role: string;
 } & {
     _id: import("mongoose").Types.ObjectId;
 }, any>;

@@ -5,6 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const validator_1 = __importDefault(require("validator"));
+var ROLE;
+(function (ROLE) {
+    ROLE["admin"] = "ADMIN";
+    ROLE["user"] = "USER";
+})(ROLE || (ROLE = {}));
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -29,8 +34,8 @@ const schema = new mongoose_1.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "user"],
-        default: "user",
+        enum: ROLE,
+        default: ROLE.user,
     },
 });
 const User = (0, mongoose_1.model)("User", schema);

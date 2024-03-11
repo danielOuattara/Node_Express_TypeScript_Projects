@@ -63,6 +63,11 @@
 import { Schema, InferSchemaType, model } from "mongoose";
 import validator from "validator";
 
+enum ROLE {
+  admin = "ADMIN",
+  user = "USER",
+}
+
 // 1. Create a Schema.
 const schema = new Schema({
   name: {
@@ -90,13 +95,16 @@ const schema = new Schema({
 
   role: {
     type: String,
-    enum: ["admin", "user"],
-    default: "user",
+    enum: ROLE,
+    default: ROLE.user,
   },
 });
 
+// 2.  Create the User by inferring the schema
 type TUser = InferSchemaType<typeof schema>;
 
+// 3 create a Model
 const User = model<TUser>("User", schema);
 
+// export the User model
 export default User;
