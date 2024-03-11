@@ -17,13 +17,7 @@ const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserModel_1.default.create(req.body);
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({
-        user: {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-        },
-    });
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
 });
 exports.register = register;
 const login = (_req, res) => {
