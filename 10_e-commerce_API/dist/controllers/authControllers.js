@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
+const errors_1 = require("../errors");
 var ROLE;
 (function (ROLE) {
     ROLE["admin"] = "admin";
@@ -27,9 +28,21 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
 });
 exports.register = register;
-const login = (_req, res) => {
-    res.send("login user");
-};
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.email || !req.body.password) {
+        throw new errors_1.BadRequestError("Email and Password are required !");
+    }
+    const user = yield UserModel_1.default.findOne({ email: req.body.email });
+    if (!user) {
+        throw new errors_1.UnauthenticatedError("User unknown");
+    }
+    const isValidPassword = yield user.verifyPassword(req.body.password);
+    if (!isValidPassword) {
+        throw new errors_1.UnauthenticatedError("User unknown");
+    }
+    user.attachCookiesToResponse(res);
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Login successful" });
+});
 exports.login = login;
 const logout = (_req, res) => {
     res.send("logout user");
