@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { createWriteStream } from "node:fs";
 import { join } from "node:path";
 import authRouter from "./routes/authRoutes";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -37,11 +38,13 @@ const accessLogStream = createWriteStream(join(__dirname, "access.log"), {
 app.use(morgan("combined", { stream: accessLogStream }));
 
 //----------------------------------------------------
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
 
-app.use("/", (_req, res) => {
+app.use("/", (req, res) => {
+  console.log(req.cookies);
   res.send("Welcome to e-commerce API");
 });
 //errors

@@ -10,14 +10,17 @@ const morgan_1 = __importDefault(require("morgan"));
 const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const accessLogStream = (0, node_fs_1.createWriteStream)((0, node_path_1.join)(__dirname, "access.log"), {
     flags: "a",
 });
 app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use("/api/v1/auth", authRoutes_1.default);
-app.use("/", (_req, res) => {
+app.use("/", (req, res) => {
+    console.log(req.cookies);
     res.send("Welcome to e-commerce API");
 });
 app.use(middlewares_1.notFound);
