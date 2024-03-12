@@ -7,6 +7,8 @@ const attachCookiesToResponse = (res, payload) => {
     return res.cookie("access_token", "Bearer " + token, {
         expires: new Date(Date.now() + 8 * 3600000),
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        signed: true,
     });
 };
 exports.attachCookiesToResponse = attachCookiesToResponse;

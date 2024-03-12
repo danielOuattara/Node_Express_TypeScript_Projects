@@ -38,13 +38,16 @@ const accessLogStream = createWriteStream(join(__dirname, "access.log"), {
 app.use(morgan("combined", { stream: accessLogStream }));
 
 //----------------------------------------------------
-app.use(cookieParser());
+//cookies parsing
+// app.use(cookieParser()); // <-- Unsigned cookie
+app.use(cookieParser(process.env.JWT_SECRET as string)); // <-- Signed cookie
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
 
 app.use("/", (req, res) => {
-  console.log(req.cookies);
+  // console.log("req.cookies = ", req.cookies); // <-- accessing unsigned cookies
+  console.log("req.signedCookies = ", req.signedCookies); // <-- accessing signed cookies
   res.send("Welcome to e-commerce API");
 });
 //errors

@@ -16,11 +16,11 @@ const accessLogStream = (0, node_fs_1.createWriteStream)((0, node_path_1.join)(_
     flags: "a",
 });
 app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
-app.use((0, cookie_parser_1.default)());
+app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.json());
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/", (req, res) => {
-    console.log(req.cookies);
+    console.log("req.signedCookies = ", req.signedCookies);
     res.send("Welcome to e-commerce API");
 });
 app.use(middlewares_1.notFound);
