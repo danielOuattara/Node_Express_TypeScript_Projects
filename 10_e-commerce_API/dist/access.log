@@ -56,3 +56,5 @@
 ::1 - - [11/Mar/2024:18:47:32 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 178 "-" "PostmanRuntime/7.36.3"
 ::1 - - [11/Mar/2024:18:58:27 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 178 "-" "PostmanRuntime/7.36.3"
 ::1 - - [11/Mar/2024:19:30:53 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 301 "-" "PostmanRuntime/7.36.3"
+::1 - - [12/Mar/2024:05:37:08 +0000] "POST /api/v1/auth/register HTTP/1.1" 400 69 "-" "PostmanRuntime/7.36.3"
+::1 - - [12/Mar/2024:05:37:18 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 301 "-" "PostmanRuntime/7.36.3"

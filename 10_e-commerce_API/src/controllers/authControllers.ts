@@ -1,12 +1,7 @@
 import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
-// import {
-//   BadRequestError,
-//   NotFoundError,
-//   UnauthenticatedError,
-// } from "./../errors";
-import jwt from "jsonwebtoken";
+import { createJWT } from "../utilities";
 
 //-----------------------------------------------------
 
@@ -17,11 +12,11 @@ enum ROLE {
 const register: RequestHandler = async (req, res) => {
   // first registered user should be an admin
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
+
   const user = await User.create({ ...req.body, role });
+
   const userPayload = { name: user.name, userId: user._id, role: user.role };
-  const token = jwt.sign(userPayload, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_LIFETIME,
-  });
+  const token = createJWT(userPayload);
   res.status(StatusCodes.CREATED).json({ user: userPayload, token });
 };
 
