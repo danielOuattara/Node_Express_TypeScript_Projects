@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
-import { createJWT } from "../utilities";
+import { attachCookiesToResponse } from "../utilities";
 
 //-----------------------------------------------------
 
@@ -14,14 +14,10 @@ const register: RequestHandler = async (req, res) => {
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
 
   const user = await User.create({ ...req.body, role });
-
   const userPayload = { name: user.name, userId: user._id, role: user.role };
-  const token = createJWT(userPayload);
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    expires: new Date(Date.now() + 8 * 3600000),
-  });
+  // this function attaches cookies to res
+  attachCookiesToResponse(res, userPayload);
 
   res.status(StatusCodes.CREATED).json({ user: userPayload });
 };

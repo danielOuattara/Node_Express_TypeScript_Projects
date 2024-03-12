@@ -1,2 +1,3 @@
 import { createJWT, isTokenValid } from "./jwt";
-export { createJWT, isTokenValid };
+import { attachCookiesToResponse } from "./cookies";
+export { createJWT, isTokenValid, attachCookiesToResponse };
