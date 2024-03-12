@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const validator_1 = __importDefault(require("validator"));
 const bcryptjs_1 = require("bcryptjs");
+const jsonwebtoken_1 = require("jsonwebtoken");
 var ROLE;
 (function (ROLE) {
     ROLE["admin"] = "admin";
@@ -63,6 +64,25 @@ schema.methods.comparePassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         const isValid = yield (0, bcryptjs_1.compare)(password, this.password);
         return isValid;
+    });
+};
+schema.methods.createJWT = function (payload) {
+    return (0, jsonwebtoken_1.sign)(payload, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_LIFETIME,
+    });
+};
+schema.methods.attachCookiesToResponse = function (res) {
+    const payload = {
+        name: this.name,
+        userId: this._id,
+        role: this.role,
+    };
+    const token = this.createJWT(payload);
+    return res.cookie("access_token", "Bearer " + token, {
+        expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        signed: true,
     });
 };
 const User = (0, mongoose_1.model)("User", schema);

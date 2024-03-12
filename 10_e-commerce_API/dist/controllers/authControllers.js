@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
-const utilities_1 = require("../utilities");
 var ROLE;
 (function (ROLE) {
     ROLE["admin"] = "admin";
@@ -24,9 +23,8 @@ var ROLE;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
     const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role }));
-    const userPayload = { name: user.name, userId: user._id, role: user.role };
-    (0, utilities_1.attachCookiesToResponse)(res, userPayload);
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user: userPayload });
+    user.attachCookiesToResponse(res);
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
 });
 exports.register = register;
 const login = (_req, res) => {

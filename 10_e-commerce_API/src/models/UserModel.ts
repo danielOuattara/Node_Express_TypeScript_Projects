@@ -1,9 +1,12 @@
 /* Separate document interface definition 
 --------------------------------------------*/
 
-import { Schema, model, Model } from "mongoose";
+import { Schema, model, Model, Types } from "mongoose";
 import validator from "validator";
 import { genSalt, hash, compare } from "bcryptjs";
+//-----------------TESTING
+import { Secret, sign } from "jsonwebtoken";
+import { Response } from "express";
 
 /* Create an interface representing a document in MongoDB */
 
@@ -19,9 +22,17 @@ interface IUser {
   role: ROLE;
 }
 
+interface IPayload {
+  name: string;
+  userId: Types.ObjectId;
+  role: string;
+}
+
 /* Put all user instance methods in this interface:*/
 interface IUserMethods {
   comparePassword(pwd: string): Promise<boolean>;
+  createJWT(payload: IPayload): string;
+  attachCookiesToResponse(res: Response): Response;
 }
 
 /* Create a new Model type that knows about IUserMethods... */
@@ -75,6 +86,29 @@ schema.pre("save", async function () {
 schema.methods.comparePassword = async function (password: string) {
   const isValid = await compare(password, this.password);
   return isValid;
+};
+
+schema.methods.createJWT = function (payload: IPayload) {
+  return sign(payload, process.env.JWT_SECRET as Secret, {
+    expiresIn: process.env.JWT_LIFETIME as string,
+  });
+};
+
+schema.methods.attachCookiesToResponse = function (res: Response) {
+  const payload: IPayload = {
+    name: this.name,
+    userId: this._id,
+    role: this.role,
+  };
+
+  const token = this.createJWT(payload);
+
+  return res.cookie("access_token", "Bearer " + token, {
+    expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    signed: true,
+  });
 };
 
 /* Create a Model. */

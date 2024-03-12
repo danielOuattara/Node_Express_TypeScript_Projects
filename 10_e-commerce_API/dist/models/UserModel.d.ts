@@ -22,7 +22,8 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
+import { Response } from "express";
 declare enum ROLE {
     admin = "admin",
     user = "user"
@@ -33,8 +34,15 @@ interface IUser {
     password: string;
     role: ROLE;
 }
+interface IPayload {
+    name: string;
+    userId: Types.ObjectId;
+    role: string;
+}
 interface IUserMethods {
     comparePassword(pwd: string): Promise<boolean>;
+    createJWT(payload: IPayload): string;
+    attachCookiesToResponse(res: Response): Response;
 }
 type UserModel = Model<IUser, {}, IUserMethods>;
 declare const User: UserModel;
