@@ -60,7 +60,7 @@ schema.pre("save", function () {
         }
     });
 });
-schema.methods.comparePassword = function (password) {
+schema.methods.verifyPassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         const isValid = yield (0, bcryptjs_1.compare)(password, this.password);
         return isValid;

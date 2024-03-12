@@ -22,28 +22,37 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model, Types } from "mongoose";
+import { Schema, InferSchemaType, Types, Model } from "mongoose";
 import { Response } from "express";
-declare enum ROLE {
-    admin = "admin",
-    user = "user"
-}
-interface IUser {
+declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     name: string;
     email: string;
     password: string;
-    role: ROLE;
-}
+    role: string;
+}, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+}>> & import("mongoose").FlatRecord<{
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+}> & {
+    _id: Types.ObjectId;
+}>;
 interface IPayload {
     name: string;
     userId: Types.ObjectId;
     role: string;
 }
+type TUser = InferSchemaType<typeof schema>;
 interface IUserMethods {
-    comparePassword(pwd: string): Promise<boolean>;
+    verifyPassword(pwd: string): Promise<boolean>;
     createJWT(payload: IPayload): string;
     attachCookiesToResponse(res: Response): Response;
 }
-type UserModel = Model<IUser, {}, IUserMethods>;
+type UserModel = Model<TUser, {}, IUserMethods>;
 declare const User: UserModel;
 export default User;
