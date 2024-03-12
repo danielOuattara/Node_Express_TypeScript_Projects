@@ -17,7 +17,13 @@ const register: RequestHandler = async (req, res) => {
 
   const userPayload = { name: user.name, userId: user._id, role: user.role };
   const token = createJWT(userPayload);
-  res.status(StatusCodes.CREATED).json({ user: userPayload, token });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 8 * 3600000),
+  });
+
+  res.status(StatusCodes.CREATED).json({ user: userPayload });
 };
 
 //-----------------------------------------------------

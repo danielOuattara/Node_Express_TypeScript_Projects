@@ -26,7 +26,11 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role }));
     const userPayload = { name: user.name, userId: user._id, role: user.role };
     const token = (0, utilities_1.createJWT)(userPayload);
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user: userPayload, token });
+    res.cookie("token", token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 8 * 3600000),
+    });
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user: userPayload });
 });
 exports.register = register;
 const login = (_req, res) => {
