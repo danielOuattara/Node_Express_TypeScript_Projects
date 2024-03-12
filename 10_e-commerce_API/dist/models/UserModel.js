@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const validator_1 = __importDefault(require("validator"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const bcryptjs_1 = require("bcryptjs");
 var ROLE;
 (function (ROLE) {
     ROLE["admin"] = "admin";
@@ -51,8 +51,8 @@ const schema = new mongoose_1.Schema({
 schema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
         if (this.isModified("password")) {
-            const salt = yield bcryptjs_1.default.genSalt(11);
-            this.password = yield bcryptjs_1.default.hash(this.password, salt);
+            const salt = yield (0, bcryptjs_1.genSalt)(11);
+            this.password = yield (0, bcryptjs_1.hash)(this.password, salt);
         }
         else {
             return;
@@ -61,7 +61,7 @@ schema.pre("save", function () {
 });
 schema.methods.comparePassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
-        const isValid = yield bcryptjs_1.default.compare(password, this.password);
+        const isValid = yield (0, bcryptjs_1.compare)(password, this.password);
         return isValid;
     });
 };

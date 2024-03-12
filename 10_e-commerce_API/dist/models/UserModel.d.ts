@@ -21,24 +21,21 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-declare const User: import("mongoose").Model<{
+import { Model } from "mongoose";
+declare enum ROLE {
+    admin = "admin",
+    user = "user"
+}
+interface IUser {
     name: string;
     email: string;
     password: string;
-    role: string;
-}, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-}> & {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-} & {
-    _id: import("mongoose").Types.ObjectId;
-}, any>;
+    role: ROLE;
+}
+interface IUserMethods {
+    comparePassword(pwd: string): Promise<boolean>;
+}
+type UserModel = Model<IUser, {}, IUserMethods>;
+declare const User: UserModel;
 export default User;
