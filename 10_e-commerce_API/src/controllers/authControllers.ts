@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors";
+// import { destroyCookiesInResponse } from "../utilities/cookies";
 // import { attachCookiesToResponse } from "../utilities"; // regist.solution 1
 
 //-----------------------------------------------------
@@ -28,8 +29,7 @@ enum ROLE {
 
 /* register solution 2
 ---------------------- */
-
-const register: RequestHandler = async (req, res) => {
+export const register: RequestHandler = async (req, res) => {
   // first registered user should be an admin
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
   const user = await User.create({ ...req.body, role });
@@ -39,7 +39,7 @@ const register: RequestHandler = async (req, res) => {
 
 //-----------------------------------------------------
 
-const login: RequestHandler = async (req, res) => {
+export const login: RequestHandler = async (req, res) => {
   // check email & password presents
   if (!req.body.email || !req.body.password) {
     throw new BadRequestError("Email and Password are required !");
@@ -65,8 +65,7 @@ const login: RequestHandler = async (req, res) => {
 
 //-----------------------------------------------------
 
-const logout: RequestHandler = (_req, res) => {
-  res.send("logout user");
+export const logout: RequestHandler = (_req, res) => {
+  User.destroyCookiesInResponse(res);
+  res.status(StatusCodes.OK).json({ message: "User is logged out" });
 };
-
-export { register, login, logout };

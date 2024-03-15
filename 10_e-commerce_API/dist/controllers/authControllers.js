@@ -45,6 +45,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.login = login;
 const logout = (_req, res) => {
-    res.send("logout user");
+    UserModel_1.default.destroyCookiesInResponse(res);
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User is logged out" });
 };
 exports.logout = logout;
