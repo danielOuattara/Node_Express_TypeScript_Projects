@@ -86,7 +86,7 @@ schema.methods.attachCookiesToResponse = function (res) {
     });
 };
 schema.static("destroyCookiesInResponse", function (res) {
-    return res.cookie("access_token", null, {
+    return res.cookie("access_token", "", {
         expires: new Date(Date.now()),
         httpOnly: true,
     });
