@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { createWriteStream } from "node:fs";
 import { join } from "node:path";
 import authRouter from "./routes/authRoutes";
+import userRouter from "./routes/userRoutes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -28,7 +29,7 @@ app.use(express.json());
 app.use(express.static("./testing-with-frontends/vanilla-frontend"));
 
 app.use("/api/v1/auth", authRouter);
-
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1", (req, res) => {
   // console.log("req.cookies = ", req.cookies); // <-- accessing unsigned cookies
   console.log("Welcome to e-commerce API");

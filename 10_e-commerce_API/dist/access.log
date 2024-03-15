@@ -211,3 +211,4 @@
 ::ffff:127.0.0.1 - - [15/Mar/2024:09:11:15 +0000] "GET /api/v1 HTTP/1.1" 200 25 "http://localhost:5000/" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
 ::ffff:127.0.0.1 - - [15/Mar/2024:09:11:16 +0000] "GET /api/v1 HTTP/1.1" 200 25 "http://localhost:5000/" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
 ::1 - - [15/Mar/2024:09:17:31 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 30 "-" "PostmanRuntime/7.36.3"
+::1 - - [15/Mar/2024:09:29:38 +0000] "GET /api/v1/users/ HTTP/1.1" 200 10 "-" "PostmanRuntime/7.36.3"
