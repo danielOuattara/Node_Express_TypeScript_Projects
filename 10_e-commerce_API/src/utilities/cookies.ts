@@ -20,3 +20,11 @@ export const attachCookiesToResponse = (res: Response, payload: IPayload) => {
     signed: true,
   });
 };
+
+export const destroyCookiesInResponse = (res: Response) => {
+  // change the cookie value + make it expire now !
+  return res.cookie("access_token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+};

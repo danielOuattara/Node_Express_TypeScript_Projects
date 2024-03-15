@@ -30,4 +30,5 @@ interface IPayload {
     role: string;
 }
 export declare const attachCookiesToResponse: (res: Response, payload: IPayload) => Response<any, Record<string, any>>;
+export declare const destroyCookiesInResponse: (res: Response) => Response<any, Record<string, any>>;
 export {};
