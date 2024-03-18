@@ -4,4 +4,8 @@ const express_1 = require("express");
 const userControllers_1 = require("../controllers/userControllers");
 const router = (0, express_1.Router)();
 router.route("/").get(userControllers_1.getAllUsers);
+router.route("/show-me").get(userControllers_1.showCurrentUser);
+router.route("/update-user").patch(userControllers_1.updateUser);
+router.route("/update-user-password").patch(userControllers_1.updateUserPassword);
+router.route("/:userId").get(userControllers_1.getSingleUser);
 exports.default = router;
