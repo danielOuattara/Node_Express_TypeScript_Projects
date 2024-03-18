@@ -1,4 +1,4 @@
-/* -----------------switch between to test solutions ------------------*/
+/* -----------------switch between two solutions ------------------*/
 
 // 1. from Separate document interface definition
 

@@ -52,13 +52,17 @@
 // }
 
 import { Types, Document } from "mongoose";
-import { Request } from "express";
-import { boolean } from "joi";
+import { Response } from "express";
+interface ITokenPayload {
+  name: string;
+  userId: Types.ObjectId;
+  role: string;
+}
 
 interface IUserMethods {
-  getName(): string;
-  createJWT(): string;
-  comparePassword(pwd: string): Promise<boolean>;
+  verifyPassword(pwd: string): Promise<boolean>;
+  createJWT(payload: ITokenPayload): string;
+  attachCookiesToResponse(res: Response): Response;
 }
 
 export type MongooseUser =

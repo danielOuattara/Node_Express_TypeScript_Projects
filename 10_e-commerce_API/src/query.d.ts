@@ -1,3 +1,0 @@
-interface IUserQueryParams {
-  userId?: string;
-}

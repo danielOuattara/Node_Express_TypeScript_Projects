@@ -14,7 +14,7 @@ import { NotFoundError /* , UnauthenticatedError */ } from "../errors";
 /* OR */
 
 // find({filter}, projection)
-export const getAllUsers: RequestHandler = async (_req, res) => {
+export const getAllUsers: RequestHandler = async (req, res) => {
   const users = await User.find({ role: "user" }, "-password");
   res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
 };

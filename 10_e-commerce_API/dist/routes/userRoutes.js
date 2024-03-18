@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const userControllers_1 = require("../controllers/userControllers");
+const auth_1 = require("../middlewares/auth");
 const router = (0, express_1.Router)();
-router.route("/").get(userControllers_1.getAllUsers);
+router.route("/").get(auth_1.authUser, userControllers_1.getAllUsers);
 router.route("/show-me").get(userControllers_1.showCurrentUser);
 router.route("/update-user").patch(userControllers_1.updateUser);
 router.route("/update-user-password").patch(userControllers_1.updateUserPassword);

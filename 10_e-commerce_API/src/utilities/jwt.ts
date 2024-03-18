@@ -1,15 +1,9 @@
 import { sign, verify, type Secret } from "jsonwebtoken";
-import { Types } from "mongoose";
+import { ITokenPayload } from "../custom";
 
 //--------------------------------------------------------------------------------------
 
-interface IPayload {
-  name: string;
-  userId: Types.ObjectId;
-  role: string;
-}
-
-export const createJWT = (payload: IPayload) =>
+export const createJWT = (payload: ITokenPayload) =>
   sign(payload, process.env.JWT_SECRET as Secret, {
     expiresIn: process.env.JWT_LIFETIME as string,
   });
@@ -17,4 +11,4 @@ export const createJWT = (payload: IPayload) =>
 //--------------------------------------------------------------------------------------
 
 export const isTokenValid = (token: string) =>
-  verify(token, process.env.JWT_SECRET as Secret);
+  verify(token, process.env.JWT_SECRET as Secret) as ITokenPayload;
