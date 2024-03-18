@@ -33,8 +33,17 @@ const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function
     return res.status(http_status_codes_1.StatusCodes.OK).json({ user: req.user });
 });
 exports.showCurrentUser = showCurrentUser;
-const updateUser = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.send("updateUser");
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.name || !req.body.email) {
+        throw new errors_1.BadRequestError("Name and Email are required !");
+    }
+    const user = yield UserModel_1.default.findById(req.user._id);
+    if (!user) {
+        throw new errors_1.NotFoundError("User Not Found");
+    }
+    yield user.updateOne(req.body, { new: true, runValidators: true });
+    user.attachCookiesToResponse(res);
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User updated successfully" });
 });
 exports.updateUser = updateUser;
 const updateUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

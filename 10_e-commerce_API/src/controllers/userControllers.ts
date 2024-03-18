@@ -55,8 +55,80 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
 
 //-----------------------------------------------------
 
-export const updateUser: RequestHandler = async (_req, res) => {
-  return res.send("updateUser");
+/*
+ * findOneAndUpdate() method
+ */
+
+// export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
+//   req,
+//   res,
+// ) => {
+//   if (!req.body.name || !req.body.email) {
+//     throw new BadRequestError("Name and Email are required !");
+//   }
+//   const user = await User.findOneAndUpdate(
+//     { _id: req.user!._id },
+//     { name: req.body.name, email: req.body.email },
+//     { new: true, runValidators: true },
+//   );
+
+//   // this function attaches cookies to res
+//   user!.attachCookiesToResponse(res);
+
+//   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
+// };
+
+//--- OR ------------------------------------------------------------
+
+/*
+ * user.save() method
+ */
+
+// export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
+//   req,
+//   res,
+// ) => {
+//   if (!req.body.name || !req.body.email) {
+//     throw new BadRequestError("Name and Email are required !");
+//   }
+//   const user = await User.findById(req.user!._id);
+//   if (user) {
+//     user.name = req.body.name;
+//     user.email = req.body.email;
+//   }
+
+//   await user!.save();
+//   // this function attaches cookies to res
+//   user!.attachCookiesToResponse(res);
+
+//   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
+// };
+
+//--- OR --------------------------------------------------------------
+
+/*
+ * user.updateOne() method
+ */
+
+export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
+  req,
+  res,
+) => {
+  if (!req.body.name || !req.body.email) {
+    throw new BadRequestError("Name and Email are required !");
+  }
+
+  const user = await User.findById(req.user!._id);
+  if (!user) {
+    throw new NotFoundError("User Not Found");
+  }
+
+  await user.updateOne(req.body, { new: true, runValidators: true });
+
+  // this function attaches cookies to res
+  user!.attachCookiesToResponse(res);
+
+  res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 };
 
 //-----------------------------------------------------
