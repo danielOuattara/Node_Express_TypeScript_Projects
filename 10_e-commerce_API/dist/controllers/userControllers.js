@@ -16,14 +16,12 @@ exports.updateUserPassword = exports.updateUser = exports.showCurrentUser = expo
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
-const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("HELLO : ", req.user);
+const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield UserModel_1.default.find({ role: "user" }, "-password");
     res.status(http_status_codes_1.StatusCodes.OK).json({ nb_Hits: users.length, users });
 });
 exports.getAllUsers = getAllUsers;
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("HELLO : ", req.user);
     const user = yield UserModel_1.default.findOne({ _id: req.params.userId }).select("-password");
     if (!user) {
         throw new errors_1.NotFoundError(`User Not Found with id ${req.params.userId}`);

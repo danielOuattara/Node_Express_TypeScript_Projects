@@ -73,6 +73,7 @@ export type MongooseUser =
         name: string;
         email: string;
         password: string;
+        role: string;
       }
     > &
       Omit<
@@ -80,12 +81,13 @@ export type MongooseUser =
           name: string;
           email: string;
           password: string;
+          role: string;
         } & {
           _id: Types.ObjectId;
         },
         keyof IUserMethods
       > &
-      IUserMethods) & { isTestUser: boolean })
+      IUserMethods) & { isTestUser: boolean; isAdmin: boolean })
   | null;
 
 declare module "express-serve-static-core" {
