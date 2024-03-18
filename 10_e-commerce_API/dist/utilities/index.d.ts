@@ -1,3 +1,4 @@
 import { createJWT, isTokenValid } from "./jwt";
 import { attachCookiesToResponse } from "./cookies";
-export { createJWT, isTokenValid, attachCookiesToResponse };
+import { checkAuthOrAdmin } from "./checkAuthOrAdmin";
+export { checkAuthOrAdmin, createJWT, isTokenValid, attachCookiesToResponse };
