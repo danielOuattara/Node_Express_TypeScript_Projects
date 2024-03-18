@@ -29,7 +29,12 @@ enum ROLE {
 
 /* register solution 2
 ---------------------- */
-export const register: RequestHandler = async (req, res) => {
+interface IReqBody {
+  name?: string;
+  email?: string;
+  password?: string;
+}
+export const register: RequestHandler<{}, {}, IReqBody> = async (req, res) => {
   // first registered user should be an admin
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
   const user = await User.create({ ...req.body, role });
@@ -39,7 +44,7 @@ export const register: RequestHandler = async (req, res) => {
 
 //-----------------------------------------------------
 
-export const login: RequestHandler = async (req, res) => {
+export const login: RequestHandler<{}, {}, IReqBody> = async (req, res) => {
   // check email & password presents
   if (!req.body.email || !req.body.password) {
     throw new BadRequestError("Email and Password are required !");

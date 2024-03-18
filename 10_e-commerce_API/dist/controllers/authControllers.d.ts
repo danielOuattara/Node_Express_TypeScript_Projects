@@ -1,4 +1,10 @@
 import { RequestHandler } from "express";
-export declare const register: RequestHandler;
-export declare const login: RequestHandler;
+interface IReqBody {
+    name?: string;
+    email?: string;
+    password?: string;
+}
+export declare const register: RequestHandler<{}, {}, IReqBody>;
+export declare const login: RequestHandler<{}, {}, IReqBody>;
 export declare const logout: RequestHandler;
+export {};
