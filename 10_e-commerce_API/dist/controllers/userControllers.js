@@ -22,11 +22,18 @@ const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.getAllUsers = getAllUsers;
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.user) {
+        throw new errors_1.UnauthenticatedError("Access denied 1");
+    }
+    if (req.user._id.toString() !== req.params.userId ||
+        req.user.role !== "admin") {
+        throw new errors_1.UnauthenticatedError("Access denied 2");
+    }
     const user = yield UserModel_1.default.findOne({ _id: req.params.userId }).select("-password");
     if (!user) {
-        throw new errors_1.NotFoundError(`User Not Found with id ${req.params.userId}`);
+        throw new errors_1.NotFoundError("User Not Found");
     }
-    return res.status(http_status_codes_1.StatusCodes.OK).json({ user });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user });
 });
 exports.getSingleUser = getSingleUser;
 const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -8,5 +8,5 @@ router.route("/").get(auth_1.authUser, (0, auth_1.authRoles)("admin"), auth_1.au
 router.route("/show-user").get(auth_1.authUser, userControllers_1.showCurrentUser);
 router.route("/update-user").patch(auth_1.authUser, userControllers_1.updateUser);
 router.route("/update-password").patch(auth_1.authUser, userControllers_1.updateUserPassword);
-router.route("/:userId").get(userControllers_1.getSingleUser);
+router.route("/:userId").get(auth_1.authUser, userControllers_1.getSingleUser);
 exports.default = router;

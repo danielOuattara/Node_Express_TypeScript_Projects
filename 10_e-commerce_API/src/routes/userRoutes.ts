@@ -14,6 +14,6 @@ router.route("/").get(authUser, authRoles("admin"), authAdmin, getAllUsers);
 router.route("/show-user").get(authUser, showCurrentUser);
 router.route("/update-user").patch(authUser, updateUser);
 router.route("/update-password").patch(authUser, updateUserPassword);
-router.route("/:userId").get(getSingleUser);
+router.route("/:userId").get(authUser, getSingleUser);
 
 export default router;

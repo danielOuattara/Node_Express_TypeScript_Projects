@@ -164,6 +164,8 @@
 
 #### Setup and Apply checkPermissions()
 
+- [x] done
+
 #### Product Model
 
 - [] create Product.js in models folder

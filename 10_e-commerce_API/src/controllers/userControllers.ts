@@ -6,6 +6,7 @@ import {
   NotFoundError,
   UnauthenticatedError,
 } from "../errors";
+// import { checkAuthOrAdmin } from "../utilities/checkAuthOrAdmin";
 
 //-----------------------------------------------------
 
@@ -24,27 +25,50 @@ export const getAllUsers: RequestHandler = async (_req, res) => {
 };
 
 //-----------------------------------------------------
+/*
+ * John's method + cleaned up
+ */
 
 // export const getSingleUser: RequestHandler = async (req, res) => {
-//   const user = await User.findById(req.params.userId, "-password");
-
-//   if (!user) {
-//     throw new NotFoundError(`User Not Found with id ${req.params.userId}`);
+//   if (!req.user) {
+//     throw new UnauthenticatedError("Access denied");
 //   }
-//   return res.status(StatusCodes.OK).json({ user });
+
+//   checkAuthOrAdmin(req.user, req.params.userId);
+
+//   const user = await User.findOne({ _id: req.params.userId }).select(
+//     "-password",
+//   );
+//   if (!user) {
+//     throw new NotFoundError("User Not Found");
+//   }
+
+//   res.status(StatusCodes.OK).json({ user });
 // };
 
-/* OR */
+/* ------------------------------------------------------
+ * my method: Working!
+ */
 
 export const getSingleUser: RequestHandler = async (req, res) => {
+  if (!req.user) {
+    throw new UnauthenticatedError("Access denied 1");
+  }
+
+  if (
+    req.user._id.toString() !== req.params.userId ||
+    req.user.role !== "admin"
+  ) {
+    throw new UnauthenticatedError("Access denied 2");
+  }
   const user = await User.findOne({ _id: req.params.userId }).select(
     "-password",
   );
-
   if (!user) {
-    throw new NotFoundError(`User Not Found with id ${req.params.userId}`);
+    throw new NotFoundError("User Not Found");
   }
-  return res.status(StatusCodes.OK).json({ user });
+
+  res.status(StatusCodes.OK).json({ user });
 };
 
 //-----------------------------------------------------
