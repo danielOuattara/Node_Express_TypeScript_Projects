@@ -8,7 +8,7 @@ import { NotFoundError /* , UnauthenticatedError */ } from "../errors";
 /*find({filter}).select(projection) */
 // export const getAllUsers: RequestHandler = async (_req, res) => {
 //   const users = await User.find({ role: "user" }).select("-password");
-//   res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
+//   return res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
 // };
 
 /* OR */
@@ -16,7 +16,7 @@ import { NotFoundError /* , UnauthenticatedError */ } from "../errors";
 // find({filter}, projection)
 export const getAllUsers: RequestHandler = async (_req, res) => {
   const users = await User.find({ role: "user" }, "-password");
-  res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
+  return res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
 };
 
 //-----------------------------------------------------
@@ -27,7 +27,7 @@ export const getAllUsers: RequestHandler = async (_req, res) => {
 //   if (!user) {
 //     throw new NotFoundError(`User Not Found with id ${req.params.userId}`);
 //   }
-//   res.status(StatusCodes.OK).json({ user });
+//   return res.status(StatusCodes.OK).json({ user });
 // };
 
 /* OR */
@@ -40,23 +40,23 @@ export const getSingleUser: RequestHandler = async (req, res) => {
   if (!user) {
     throw new NotFoundError(`User Not Found with id ${req.params.userId}`);
   }
-  res.status(StatusCodes.OK).json({ user });
+  return res.status(StatusCodes.OK).json({ user });
 };
 
 //-----------------------------------------------------
 
-export const showCurrentUser: RequestHandler = async (_req, res) => {
-  res.send("showCurrentUser");
+export const showCurrentUser: RequestHandler = async (req, res) => {
+  return res.status(StatusCodes.OK).json({ user: req.user });
 };
 
 //-----------------------------------------------------
 
 export const updateUser: RequestHandler = async (_req, res) => {
-  res.send("updateUser");
+  return res.send("updateUser");
 };
 
 //-----------------------------------------------------
 
 export const updateUserPassword: RequestHandler = async (_req, res) => {
-  res.send("updateUserPassword");
+  return res.send("updateUserPassword");
 };

@@ -18,7 +18,7 @@ const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield UserModel_1.default.find({ role: "user" }, "-password");
-    res.status(http_status_codes_1.StatusCodes.OK).json({ nb_Hits: users.length, users });
+    return res.status(http_status_codes_1.StatusCodes.OK).json({ nb_Hits: users.length, users });
 });
 exports.getAllUsers = getAllUsers;
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,18 +26,18 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     if (!user) {
         throw new errors_1.NotFoundError(`User Not Found with id ${req.params.userId}`);
     }
-    res.status(http_status_codes_1.StatusCodes.OK).json({ user });
+    return res.status(http_status_codes_1.StatusCodes.OK).json({ user });
 });
 exports.getSingleUser = getSingleUser;
-const showCurrentUser = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("showCurrentUser");
+const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(http_status_codes_1.StatusCodes.OK).json({ user: req.user });
 });
 exports.showCurrentUser = showCurrentUser;
 const updateUser = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("updateUser");
+    return res.send("updateUser");
 });
 exports.updateUser = updateUser;
 const updateUserPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("updateUserPassword");
+    return res.send("updateUserPassword");
 });
 exports.updateUserPassword = updateUserPassword;
