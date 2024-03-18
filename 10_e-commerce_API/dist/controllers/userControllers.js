@@ -37,7 +37,21 @@ const updateUser = (_req, res) => __awaiter(void 0, void 0, void 0, function* ()
     return res.send("updateUser");
 });
 exports.updateUser = updateUser;
-const updateUserPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.send("updateUserPassword");
+const updateUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    if (!req.body.oldPassword || !req.body.newPassword) {
+        throw new errors_1.BadRequestError("newPassword and oldPassword are required !");
+    }
+    const user = yield UserModel_1.default.findById((_a = req.user) === null || _a === void 0 ? void 0 : _a._id);
+    if (!user) {
+        throw new errors_1.NotFoundError("Email and Password are required !");
+    }
+    const isValidPassword = yield user.verifyPassword(req.body.oldPassword);
+    if (!isValidPassword) {
+        throw new errors_1.UnauthenticatedError("User unknown");
+    }
+    user.password = req.body.newPassword;
+    user.save();
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Password successfully updated" });
 });
 exports.updateUserPassword = updateUserPassword;

@@ -29,11 +29,7 @@ enum ROLE {
 
 /* register solution 2
 ---------------------- */
-interface IReqBody {
-  name?: string;
-  email?: string;
-  password?: string;
-}
+
 export const register: RequestHandler<{}, {}, IReqBody> = async (req, res) => {
   // first registered user should be an admin
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;

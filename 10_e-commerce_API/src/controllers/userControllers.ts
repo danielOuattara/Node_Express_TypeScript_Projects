@@ -1,7 +1,11 @@
 import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError /* , UnauthenticatedError */ } from "../errors";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthenticatedError,
+} from "../errors";
 
 //-----------------------------------------------------
 
@@ -57,6 +61,29 @@ export const updateUser: RequestHandler = async (_req, res) => {
 
 //-----------------------------------------------------
 
-export const updateUserPassword: RequestHandler = async (_req, res) => {
-  return res.send("updateUserPassword");
+export const updateUserPassword: RequestHandler<{}, {}, IReqBody> = async (
+  req,
+  res,
+) => {
+  if (!req.body.oldPassword || !req.body.newPassword) {
+    throw new BadRequestError("newPassword and oldPassword are required !");
+  }
+
+  const user = await User.findById(req.user?._id);
+  // check user exists !
+  if (!user) {
+    throw new NotFoundError("Email and Password are required !");
+  }
+
+  // check old password !
+  const isValidPassword = await user.verifyPassword(req.body.oldPassword);
+  if (!isValidPassword) {
+    throw new UnauthenticatedError("User unknown");
+  }
+
+  user.password = req.body.newPassword;
+  user.save();
+
+  // send back response to user
+  res.status(StatusCodes.OK).json({ message: "Password successfully updated" });
 };

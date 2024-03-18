@@ -2,12 +2,12 @@ import { Response } from "express";
 import { createJWT } from "./jwt";
 import { Types } from "mongoose";
 
+//------------------------------------------------------
 interface IPayload {
   name: string;
   userId: Types.ObjectId;
   role: string;
 }
-
 export const attachCookiesToResponse = (res: Response, payload: IPayload) => {
   // creating jwt token
   const token = createJWT(payload);
@@ -20,6 +20,8 @@ export const attachCookiesToResponse = (res: Response, payload: IPayload) => {
     signed: true,
   });
 };
+
+//------------------------------------------------------
 
 export const destroyCookiesInResponse = (res: Response) => {
   // change the cookie value + make it expire now !

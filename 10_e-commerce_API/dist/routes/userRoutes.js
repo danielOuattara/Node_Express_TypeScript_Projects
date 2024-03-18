@@ -7,6 +7,6 @@ const router = (0, express_1.Router)();
 router.route("/").get(auth_1.authUser, (0, auth_1.authRoles)("admin"), auth_1.authAdmin, userControllers_1.getAllUsers);
 router.route("/show-user").get(auth_1.authUser, userControllers_1.showCurrentUser);
 router.route("/update-user").patch(userControllers_1.updateUser);
-router.route("/update-user-password").patch(userControllers_1.updateUserPassword);
+router.route("/update-password").patch(auth_1.authUser, userControllers_1.updateUserPassword);
 router.route("/:userId").get(userControllers_1.getSingleUser);
 exports.default = router;
