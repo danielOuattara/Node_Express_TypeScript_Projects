@@ -1,5 +1,5 @@
 import { sign, verify, type Secret } from "jsonwebtoken";
-import { ITokenPayload } from "../custom";
+import { ITokenPayload } from "../@types/custom";
 
 //--------------------------------------------------------------------------------------
 

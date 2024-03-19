@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { UnauthenticatedError } from "../errors";
 import { isTokenValid } from "./../utilities/jwt";
 import User from "../models/UserModel";
-import { MongooseUser } from "../custom";
+import { MongooseUser } from "../@types/custom";
 import UnauthorizedError from "../errors/unauthorized-error ";
 
 //----------------------------------------------------------

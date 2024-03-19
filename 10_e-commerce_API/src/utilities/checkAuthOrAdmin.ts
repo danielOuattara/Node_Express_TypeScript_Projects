@@ -1,4 +1,4 @@
-import { MongooseUser } from "../custom";
+import { MongooseUser } from "../@types/custom";
 import { UnauthenticatedError } from "../errors";
 
 export const checkAuthOrAdmin = (
