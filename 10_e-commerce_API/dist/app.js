@@ -11,6 +11,7 @@ const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
@@ -24,6 +25,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.static("./testing-with-frontends/vanilla-frontend"));
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/users", userRoutes_1.default);
+app.use("/api/v1/products", productRoutes_1.default);
 app.use("/api/v1", (req, res) => {
     console.log("Welcome to e-commerce API");
     console.log("req.signedCookies = ", req.signedCookies);

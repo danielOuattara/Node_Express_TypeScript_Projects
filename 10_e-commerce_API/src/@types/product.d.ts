@@ -17,8 +17,8 @@ interface IProduct {
   price: Number;
   description: String;
   image: String;
-  category: String;
-  company: String;
+  category: EnumCategory;
+  company: EnumCompany;
   colors: string[];
   featured: Boolean;
   freeShipping: Boolean;
