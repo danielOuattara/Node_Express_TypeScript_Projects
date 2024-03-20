@@ -14,6 +14,7 @@ const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const accessLogStream = (0, node_fs_1.createWriteStream)((0, node_path_1.join)(__dirname, "access.log"), {
@@ -23,6 +24,8 @@ app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.json());
 app.use(express_1.default.static("./testing-with-frontends/vanilla-frontend"));
+app.use(express_1.default.static("./dist/public"));
+app.use((0, express_fileupload_1.default)());
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/users", userRoutes_1.default);
 app.use("/api/v1/products", productRoutes_1.default);

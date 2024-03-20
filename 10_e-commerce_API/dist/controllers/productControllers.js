@@ -16,6 +16,7 @@ exports.uploadImage = exports.deleteProduct = exports.updateProduct = exports.ge
 const ProductModel_1 = __importDefault(require("./../models/ProductModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
+const node_path_1 = __importDefault(require("node:path"));
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.body.user = req.user._id;
     const product = yield ProductModel_1.default.create(req.body);
@@ -54,7 +55,35 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Product deleted successfully" });
 });
 exports.deleteProduct = deleteProduct;
-const uploadImage = (_req, res) => {
-    res.send("uploadImage route");
-};
+const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.files);
+    console.log("1");
+    if (!req.files) {
+        throw new errors_1.BadRequestError("No File Uploaded");
+    }
+    console.log("2");
+    const productImage = req.files.image;
+    if (Array.isArray(productImage)) {
+        res
+            .status(http_status_codes_1.StatusCodes.BAD_REQUEST)
+            .send("Please send one image per request");
+    }
+    else {
+        console.log("3");
+        if (!productImage.mimetype.startsWith("image")) {
+            throw new errors_1.BadRequestError("Only image can be uploaded");
+        }
+        console.log("4");
+        if (productImage.size > parseInt(process.env.IMAGE_MAX_SIZE)) {
+            throw new errors_1.BadRequestError("Image max size is 1Mb");
+        }
+        console.log("5");
+        const imagePath = node_path_1.default.join(__dirname, "./../public/uploads/" + `${productImage.name}`);
+        console.log("6");
+        yield productImage.mv(imagePath);
+        res
+            .status(http_status_codes_1.StatusCodes.OK)
+            .json({ image: { src: `/uploads/${productImage.name}` } });
+    }
+});
 exports.uploadImage = uploadImage;

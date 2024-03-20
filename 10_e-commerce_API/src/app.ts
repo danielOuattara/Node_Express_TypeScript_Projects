@@ -9,6 +9,7 @@ import userRouter from "./routes/userRoutes";
 import productRouter from "./routes/productRoutes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use(cookieParser(process.env.JWT_SECRET as string)); // <-- Signed cookie
 
 app.use(express.json());
 app.use(express.static("./testing-with-frontends/vanilla-frontend"));
+app.use(express.static("./dist/public"));
+app.use(fileUpload());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);

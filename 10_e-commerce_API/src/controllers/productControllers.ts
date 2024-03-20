@@ -2,7 +2,8 @@ import { RequestHandler } from "express";
 import Product from "./../models/ProductModel";
 import { StatusCodes } from "http-status-codes";
 import { ICreateProductReqBody } from "../@types/product";
-import { NotFoundError } from "../errors";
+import { BadRequestError, NotFoundError } from "../errors";
+import path from "node:path";
 //--------------------------------------------------------------
 
 export const createProduct: RequestHandler<
@@ -65,8 +66,41 @@ export const deleteProduct: RequestHandler = async (req, res) => {
 
 //--------------------------------------------------------------
 
-export const uploadImage: RequestHandler = (_req, res) => {
-  res.send("uploadImage route");
+export const uploadImage: RequestHandler = async (req, res) => {
+  console.log(req.files);
+  console.log("1");
+  if (!req.files) {
+    throw new BadRequestError("No File Uploaded");
+  }
+  console.log("2");
+  const productImage = req.files.image;
+  if (Array.isArray(productImage)) {
+    /** Handle multiple files here */
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send("Please send one image per request");
+  } else {
+    /** Handle single file */
+    console.log("3");
+    if (!productImage.mimetype.startsWith("image")) {
+      throw new BadRequestError("Only image can be uploaded");
+    }
+    console.log("4");
+    if (productImage.size > parseInt(process.env.IMAGE_MAX_SIZE! as string)) {
+      throw new BadRequestError("Image max size is 1Mb");
+    }
+
+    console.log("5");
+    const imagePath = path.join(
+      __dirname,
+      "./../public/uploads/" + `${productImage.name}`,
+    );
+    console.log("6");
+    await productImage.mv(imagePath);
+    res
+      .status(StatusCodes.OK)
+      .json({ image: { src: `/uploads/${productImage.name}` } });
+  }
 };
 
 //--------------------------------------------------------------
