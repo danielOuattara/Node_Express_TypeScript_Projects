@@ -12,3 +12,9 @@ interface ICreateReviewReqBody {
   product: Types.ObjectId;
   user: Types.ObjectId;
 }
+
+interface IUpdateReviewReqBody {
+  title: string;
+  rating: string;
+  comment: string;
+}

@@ -17,6 +17,7 @@ const ReviewsModel_1 = __importDefault(require("./../models/ReviewsModel"));
 const ProductModel_1 = __importDefault(require("./../models/ProductModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
+const utilities_1 = require("../utilities");
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield ProductModel_1.default.findById(req.body.product);
     if (!product) {
@@ -44,16 +45,25 @@ exports.getAllReviews = getAllReviews;
 const getSingleReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const review = yield ReviewsModel_1.default.findById(req.params.reviewId);
     if (!review) {
-        throw new errors_1.BadRequestError(`No product found with ID: ${req.params.reviewId}`);
+        throw new errors_1.BadRequestError(`No review with ID: ${req.params.reviewId}`);
     }
     res.status(http_status_codes_1.StatusCodes.OK).json({ review });
 });
 exports.getSingleReview = getSingleReview;
-const updateReview = (_req, res) => {
+const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.title || !req.body.rating || !req.body.comment) {
+        throw new errors_1.BadRequestError(`title, rating & comment fields are required`);
+    }
     res.send("updateReview");
-};
+});
 exports.updateReview = updateReview;
-const deleteReview = (_req, res) => {
-    res.send("deleteReview");
-};
+const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const review = yield ReviewsModel_1.default.findById(req.params.reviewId);
+    if (!review) {
+        throw new errors_1.BadRequestError(`No review with ID: ${req.params.reviewId}`);
+    }
+    (0, utilities_1.checkAuthOrAdmin)(req.user, review.user._id);
+    yield review.deleteOne();
+    res.json({ message: "delete review" });
+});
 exports.deleteReview = deleteReview;

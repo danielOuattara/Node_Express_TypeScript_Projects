@@ -3,7 +3,8 @@ import Review from "./../models/ReviewsModel";
 import Product from "./../models/ProductModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors";
-import { ICreateReviewReqBody } from "../@types/reviews";
+import { ICreateReviewReqBody, IUpdateReviewReqBody } from "../@types/reviews";
+import { checkAuthOrAdmin } from "../utilities";
 //----------------------------------------------------------------
 
 export const createReview: RequestHandler<
@@ -46,9 +47,7 @@ export const getAllReviews: RequestHandler = async (_req, res) => {
 export const getSingleReview: RequestHandler = async (req, res) => {
   const review = await Review.findById(req.params.reviewId);
   if (!review) {
-    throw new BadRequestError(
-      `No product found with ID: ${req.params.reviewId}`,
-    );
+    throw new BadRequestError(`No review with ID: ${req.params.reviewId}`);
   }
 
   res.status(StatusCodes.OK).json({ review });
@@ -56,14 +55,20 @@ export const getSingleReview: RequestHandler = async (req, res) => {
 
 //----------------------------------------------------------------
 
-export const updateReview: RequestHandler = (_req, res) => {
+export const updateReview: RequestHandler = (_res, res) => {
   res.send("updateReview");
 };
 
 //----------------------------------------------------------------
 
-export const deleteReview: RequestHandler = (_req, res) => {
-  res.send("deleteReview");
+export const deleteReview: RequestHandler = async (req, res) => {
+  const review = await Review.findById(req.params.reviewId);
+  if (!review) {
+    throw new BadRequestError(`No review with ID: ${req.params.reviewId}`);
+  }
+  checkAuthOrAdmin(req.user!, review.user._id);
+  await review.deleteOne();
+  res.json({ message: "delete review" });
 };
 
 //----------------------------------------------------------------
