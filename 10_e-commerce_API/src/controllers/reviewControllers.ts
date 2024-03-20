@@ -36,14 +36,22 @@ export const createReview: RequestHandler<
 
 //----------------------------------------------------------------
 
-export const getAllReviews: RequestHandler = (_req, res) => {
-  res.send("getAllReviews");
+export const getAllReviews: RequestHandler = async (_req, res) => {
+  const reviews = await Review.find({});
+  res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
 };
 
 //----------------------------------------------------------------
 
-export const getSingleReview: RequestHandler = (_req, res) => {
-  res.send("getSingleReview");
+export const getSingleReview: RequestHandler = async (req, res) => {
+  const review = await Review.findById(req.params.reviewId);
+  if (!review) {
+    throw new BadRequestError(
+      `No product found with ID: ${req.params.reviewId}`,
+    );
+  }
+
+  res.status(StatusCodes.OK).json({ review });
 };
 
 //----------------------------------------------------------------

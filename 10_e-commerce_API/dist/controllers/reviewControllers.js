@@ -36,13 +36,18 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         .json({ message: "review successfully created", review });
 });
 exports.createReview = createReview;
-const getAllReviews = (_req, res) => {
-    res.send("getAllReviews");
-};
+const getAllReviews = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reviews = yield ReviewsModel_1.default.find({});
+    res.status(http_status_codes_1.StatusCodes.OK).json({ count: reviews.length, reviews });
+});
 exports.getAllReviews = getAllReviews;
-const getSingleReview = (_req, res) => {
-    res.send("getSingleReview");
-};
+const getSingleReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const review = yield ReviewsModel_1.default.findById(req.params.reviewId);
+    if (!review) {
+        throw new errors_1.BadRequestError(`No product found with ID: ${req.params.reviewId}`);
+    }
+    res.status(http_status_codes_1.StatusCodes.OK).json({ review });
+});
 exports.getSingleReview = getSingleReview;
 const updateReview = (_req, res) => {
     res.send("updateReview");
