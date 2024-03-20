@@ -54,7 +54,16 @@ const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     if (!req.body.title || !req.body.rating || !req.body.comment) {
         throw new errors_1.BadRequestError(`title, rating & comment fields are required`);
     }
-    res.send("updateReview");
+    const review = yield ReviewsModel_1.default.findById(req.params.reviewId);
+    if (!review) {
+        throw new errors_1.NotFoundError(`review unknown`);
+    }
+    (0, utilities_1.checkAuthOrAdmin)(req.user, review.user);
+    review.title = req.body.title;
+    review.rating = req.body.rating;
+    review.comment = req.body.comment;
+    yield review.save();
+    res.json({ message: "update review successfully", review });
 });
 exports.updateReview = updateReview;
 const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

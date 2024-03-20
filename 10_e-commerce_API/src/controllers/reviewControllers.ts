@@ -3,7 +3,11 @@ import Review from "./../models/ReviewsModel";
 import Product from "./../models/ProductModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors";
-import { ICreateReviewReqBody, IUpdateReviewReqBody } from "../@types/reviews";
+import {
+  ICreateReviewReqBody,
+  IParamsDictionary,
+  IUpdateReviewReqBody,
+} from "../@types/reviews";
 import { checkAuthOrAdmin } from "../utilities";
 //----------------------------------------------------------------
 
@@ -55,8 +59,26 @@ export const getSingleReview: RequestHandler = async (req, res) => {
 
 //----------------------------------------------------------------
 
-export const updateReview: RequestHandler = (_res, res) => {
-  res.send("updateReview");
+export const updateReview: RequestHandler<
+  IParamsDictionary,
+  {},
+  IUpdateReviewReqBody
+> = async (req, res) => {
+  if (!req.body.title || !req.body.rating || !req.body.comment) {
+    throw new BadRequestError(`title, rating & comment fields are required`);
+  }
+
+  const review = await Review.findById(req.params.reviewId);
+  if (!review) {
+    throw new NotFoundError(`review unknown`);
+  }
+
+  checkAuthOrAdmin(req.user!, review.user);
+  review.title = req.body.title;
+  review.rating = req.body.rating;
+  review.comment = req.body.comment;
+  await review.save();
+  res.json({ message: "update review successfully", review });
 };
 
 //----------------------------------------------------------------

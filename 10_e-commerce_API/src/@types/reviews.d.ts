@@ -18,3 +18,7 @@ interface IUpdateReviewReqBody {
   rating: string;
   comment: string;
 }
+
+interface IParamsDictionary {
+  reviewId: string;
+}
