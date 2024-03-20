@@ -1,9 +1,37 @@
 import { RequestHandler } from "express";
-
+import Review from "./../models/ReviewsModel";
+import Product from "./../models/ProductModel";
+import { StatusCodes } from "http-status-codes";
+import { BadRequestError, NotFoundError } from "../errors";
+import { ICreateReviewReqBody } from "../@types/reviews";
 //----------------------------------------------------------------
 
-export const createReview: RequestHandler = (_req, res) => {
-  res.send("createReview");
+export const createReview: RequestHandler<
+  {},
+  {},
+  ICreateReviewReqBody
+> = async (req, res) => {
+  const product = await Product.findById(req.body.product);
+  if (!product) {
+    throw new NotFoundError("Product unknown");
+  }
+
+  const alreadySubmittedReview = await Review.findOne({
+    product: req.body.product,
+    user: req.user!._id,
+  });
+  if (alreadySubmittedReview) {
+    throw new BadRequestError(
+      `Cannot create a new review on this product. But you can update your old review `,
+    );
+  }
+
+  req.body.user = req.user!._id;
+
+  const review = await Review.create(req.body);
+  res
+    .status(StatusCodes.CREATED)
+    .json({ message: "review successfully created", review });
 };
 
 //----------------------------------------------------------------

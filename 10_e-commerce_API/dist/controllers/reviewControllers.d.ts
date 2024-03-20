@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
-export declare const createReview: RequestHandler;
+import { ICreateReviewReqBody } from "../@types/reviews";
+export declare const createReview: RequestHandler<{}, {}, ICreateReviewReqBody>;
 export declare const getAllReviews: RequestHandler;
 export declare const getSingleReview: RequestHandler;
 export declare const updateReview: RequestHandler;

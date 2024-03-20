@@ -27,9 +27,6 @@ declare const Model_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    rating: number;
-    title: string;
-    comment: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -39,6 +36,7 @@ declare const Model_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    comment: string;
     product: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -48,13 +46,12 @@ declare const Model_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    rating: number;
+    title: string;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    rating: number;
-    title: string;
-    comment: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -64,6 +61,7 @@ declare const Model_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    comment: string;
     product: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -73,13 +71,12 @@ declare const Model_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    rating: number;
+    title: string;
 }> & {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    rating: number;
-    title: string;
-    comment: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -89,6 +86,7 @@ declare const Model_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    comment: string;
     product: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -98,6 +96,8 @@ declare const Model_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    rating: number;
+    title: string;
 } & {
     _id: Types.ObjectId;
 }, any>;

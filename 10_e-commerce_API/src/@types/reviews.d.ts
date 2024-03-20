@@ -7,3 +7,8 @@ interface IReview {
   user: Types.ObjectId;
   product: Types.ObjectId;
 }
+
+interface ICreateReviewReqBody {
+  product: Types.ObjectId;
+  user: Types.ObjectId;
+}
