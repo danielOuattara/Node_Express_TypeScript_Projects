@@ -7,6 +7,7 @@ import { join } from "node:path";
 import authRouter from "./routes/authRoutes";
 import userRouter from "./routes/userRoutes";
 import productRouter from "./routes/productRoutes";
+import reviewRouter from "./routes/reviewRoutes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
@@ -35,6 +36,7 @@ app.use(fileUpload());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/reviews", reviewRouter);
 
 app.use("/api/v1", (req, res) => {
   // console.log("req.cookies = ", req.cookies); // <-- accessing unsigned cookies
