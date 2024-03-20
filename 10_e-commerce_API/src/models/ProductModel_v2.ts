@@ -95,6 +95,8 @@ const schema = new Schema(
   },
 );
 
+schema.pre("deleteOne", { document: true, query: false }, async function () {});
+
 /**
  *  Create the User by inferring the schema
  */

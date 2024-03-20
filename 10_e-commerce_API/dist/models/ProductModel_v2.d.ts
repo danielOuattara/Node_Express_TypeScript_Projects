@@ -38,15 +38,6 @@ declare const Product_v2: import("mongoose").Model<{
     updatedAt: NativeDate;
 } & {
     name: string;
-    user: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
     price: number;
     description: string;
     image: string;
@@ -58,20 +49,20 @@ declare const Product_v2: import("mongoose").Model<{
     inventory: number;
     averageRating: number;
     numberOfReviews: number;
+    user: {
+        prototype?: Types.ObjectId | null | undefined;
+        cacheHexString?: unknown;
+        generate?: {} | null | undefined;
+        createFromTime?: {} | null | undefined;
+        createFromHexString?: {} | null | undefined;
+        createFromBase64?: {} | null | undefined;
+        isValid?: {} | null | undefined;
+    };
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
     name: string;
-    user: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
     price: number;
     description: string;
     image: string;
@@ -83,20 +74,20 @@ declare const Product_v2: import("mongoose").Model<{
     inventory: number;
     averageRating: number;
     numberOfReviews: number;
+    user: {
+        prototype?: Types.ObjectId | null | undefined;
+        cacheHexString?: unknown;
+        generate?: {} | null | undefined;
+        createFromTime?: {} | null | undefined;
+        createFromHexString?: {} | null | undefined;
+        createFromBase64?: {} | null | undefined;
+        isValid?: {} | null | undefined;
+    };
 }> & {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
     name: string;
-    user: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
     price: number;
     description: string;
     image: string;
@@ -108,6 +99,15 @@ declare const Product_v2: import("mongoose").Model<{
     inventory: number;
     averageRating: number;
     numberOfReviews: number;
+    user: {
+        prototype?: Types.ObjectId | null | undefined;
+        cacheHexString?: unknown;
+        generate?: {} | null | undefined;
+        createFromTime?: {} | null | undefined;
+        createFromHexString?: {} | null | undefined;
+        createFromBase64?: {} | null | undefined;
+        isValid?: {} | null | undefined;
+    };
 } & {
     _id: Types.ObjectId;
 }, any>;

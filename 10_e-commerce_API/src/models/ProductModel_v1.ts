@@ -2,6 +2,7 @@
 --------------------------------------------*/
 
 import { Schema, model, Types } from "mongoose";
+import { IProduct } from "../@types/product";
 
 enum EnumCategory {
   OFFICE = "office",
@@ -94,6 +95,8 @@ const schema = new Schema(
     timestamps: true,
   },
 );
+
+schema.pre("deleteOne", { document: true, query: false }, async function () {});
 
 /**
  * Create a model

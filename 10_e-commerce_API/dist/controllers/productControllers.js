@@ -15,27 +15,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadImage = exports.deleteProduct = exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.createProduct = void 0;
 const ProductModel_1 = __importDefault(require("./../models/ProductModel"));
 const http_status_codes_1 = require("http-status-codes");
+const errors_1 = require("../errors");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.body.user = req.user._id;
     const product = yield ProductModel_1.default.create(req.body);
     res.status(http_status_codes_1.StatusCodes.CREATED).json({ product });
 });
 exports.createProduct = createProduct;
-const getAllProducts = (_req, res) => {
-    res.send("getAllProducts route");
-};
+const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const products = yield ProductModel_1.default.find({});
+    res.status(http_status_codes_1.StatusCodes.OK).json({ count: products.length, products });
+});
 exports.getAllProducts = getAllProducts;
-const getSingleProduct = (_req, res) => {
-    res.send("getSingleProduct route");
-};
+const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = yield ProductModel_1.default.findById(req.params.productId);
+    if (!product) {
+        throw new errors_1.NotFoundError(`No product found with ID: ${req.params.productId}`);
+    }
+    res.status(http_status_codes_1.StatusCodes.OK).json({ product });
+});
 exports.getSingleProduct = getSingleProduct;
-const updateProduct = (_req, res) => {
-    res.send("updateProduct route");
-};
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = yield ProductModel_1.default.findOneAndUpdate({ _id: req.params.productId }, req.body, { new: true, runValidators: true });
+    if (!product) {
+        throw new errors_1.NotFoundError("Product not found");
+    }
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ message: "Product updated successfully", product });
+});
 exports.updateProduct = updateProduct;
-const deleteProduct = (_req, res) => {
-    res.send("deleteProduct route");
-};
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = yield ProductModel_1.default.findById(req.params.productId);
+    if (!product) {
+        throw new errors_1.NotFoundError("Product not found");
+    }
+    yield product.deleteOne();
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Product deleted successfully" });
+});
 exports.deleteProduct = deleteProduct;
 const uploadImage = (_req, res) => {
     res.send("uploadImage route");
