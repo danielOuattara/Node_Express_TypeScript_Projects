@@ -67,12 +67,9 @@ export const deleteProduct: RequestHandler = async (req, res) => {
 //--------------------------------------------------------------
 
 export const uploadImage: RequestHandler = async (req, res) => {
-  console.log(req.files);
-  console.log("1");
   if (!req.files) {
     throw new BadRequestError("No File Uploaded");
   }
-  console.log("2");
   const productImage = req.files.image;
   if (Array.isArray(productImage)) {
     /** Handle multiple files here */
@@ -81,21 +78,17 @@ export const uploadImage: RequestHandler = async (req, res) => {
       .send("Please send one image per request");
   } else {
     /** Handle single file */
-    console.log("3");
     if (!productImage.mimetype.startsWith("image")) {
       throw new BadRequestError("Only image can be uploaded");
     }
-    console.log("4");
     if (productImage.size > parseInt(process.env.IMAGE_MAX_SIZE! as string)) {
       throw new BadRequestError("Image max size is 1Mb");
     }
 
-    console.log("5");
     const imagePath = path.join(
       __dirname,
       "./../public/uploads/" + `${productImage.name}`,
     );
-    console.log("6");
     await productImage.mv(imagePath);
     res
       .status(StatusCodes.OK)
