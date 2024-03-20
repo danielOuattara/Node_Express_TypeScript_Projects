@@ -1,4 +1,4 @@
-/* Automatic type inference
+/** Automatic type inference
 ---------------------------- */
 
 import { InferSchemaType, Schema, model, Types } from "mongoose";
@@ -15,9 +15,7 @@ enum EnumCompany {
   MARCOS = "marcos",
 }
 
-/**
- * Create a Schema corresponding to the document interface.
- */
+/** Create a Schema corresponding to the document interface. */
 const schema = new Schema(
   {
     name: {
@@ -97,14 +95,10 @@ const schema = new Schema(
 
 schema.pre("deleteOne", { document: true, query: false }, async function () {});
 
-/**
- *  Create the User by inferring the schema
- */
+/** Create the User by inferring the schema */
 type TProduct = InferSchemaType<typeof schema>;
 
-/**
- * Create a model
- */
+/** Create a model */
 const Product_v2 = model<TProduct>("Product", schema);
 
 export default Product_v2;

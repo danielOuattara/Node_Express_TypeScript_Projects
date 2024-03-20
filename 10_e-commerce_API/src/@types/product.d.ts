@@ -15,6 +15,7 @@ interface IProduct {
   freeShipping: Boolean;
   inventory: Number;
   averageRating: Number;
+  user: Types.ObjectId;
 }
 
 interface ICreateProductReqBody {

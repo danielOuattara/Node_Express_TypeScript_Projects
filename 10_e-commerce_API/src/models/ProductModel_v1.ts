@@ -1,4 +1,4 @@
-/* Separate document interface definition 
+/** Separate document interface definition 
 --------------------------------------------*/
 
 import { Schema, model, Types } from "mongoose";
@@ -16,9 +16,7 @@ enum EnumCompany {
   MARCOS = "marcos",
 }
 
-/**
- * Create a Schema corresponding to the document interface.
- */
+/** Create a Schema corresponding to the document interface. */
 const schema = new Schema(
   {
     name: {
@@ -98,9 +96,7 @@ const schema = new Schema(
 
 schema.pre("deleteOne", { document: true, query: false }, async function () {});
 
-/**
- * Create a model
- */
+/** Create a model */
 const Product_v1 = model<IProduct>("Product", schema);
 
 export default Product_v1;

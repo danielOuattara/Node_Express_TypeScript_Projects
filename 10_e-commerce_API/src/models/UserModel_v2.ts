@@ -12,7 +12,7 @@ enum ROLE {
   user = "user",
 }
 
-/* Create a Schema. */
+/** Create a Schema. */
 const schema = new Schema({
   name: {
     type: String,
@@ -100,10 +100,10 @@ interface IPayload {
   role: string;
 }
 
-/* Create the User by inferring the schema */
+/** Create the User by inferring the schema */
 type TUser = InferSchemaType<typeof schema>;
 
-/* Put all user instance methods in this interface:*/
+/** Put all user instance methods in this interface:*/
 interface IUserMethods {
   verifyPassword(pwd: string): Promise<boolean>;
   createJWT(payload: IPayload): string;
@@ -117,7 +117,7 @@ interface UserModel extends Model<TUser, {}, IUserMethods> {
   destroyCookiesInResponse(res: Response): Response;
 }
 
-/* create a Model */
+/** create a Model */
 const User_v2 = model<TUser, UserModel>("User", schema);
 
 // export the User model

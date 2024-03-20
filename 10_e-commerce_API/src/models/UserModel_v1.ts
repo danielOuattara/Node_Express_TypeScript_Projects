@@ -7,7 +7,7 @@ import { genSalt, hash, compare } from "bcryptjs";
 import { Secret, sign } from "jsonwebtoken";
 import { Response } from "express";
 
-/* Create an interface representing a document in MongoDB */
+/** Create an interface representing a document in MongoDB */
 
 enum ROLE {
   admin = "admin",
@@ -27,21 +27,21 @@ interface IPayload {
   role: string;
 }
 
-/* Put all user instance methods in this interface:*/
+/** Put all user instance methods in this interface:*/
 interface IUserMethods {
   verifyPassword(pwd: string): Promise<boolean>;
   createJWT(payload: IPayload): string;
   attachCookiesToResponse(res: Response): Response;
 }
 
-/* Create a new Model type that knows about IUserMethods... */
+/** Create a new Model type that knows about IUserMethods... */
 // type UserModel = Model<IUser, {}, IUserMethods>;
 
 interface UserModel extends Model<IUser, {}, IUserMethods> {
   destroyCookiesInResponse(res: Response): Response;
 }
 
-/* Create a Schema corresponding to the document interface. */
+/** Create a Schema corresponding to the document interface. */
 const schema = new Schema<IUser, UserModel, IUserMethods>(
   {
     name: {
@@ -133,7 +133,7 @@ schema.static("destroyCookiesInResponse", function (res: Response) {
   });
 });
 
-/* Create a Model. */
+/** Create a Model. */
 const User_v1 = model<IUser, UserModel>("User", schema);
 
 export default User_v1;
