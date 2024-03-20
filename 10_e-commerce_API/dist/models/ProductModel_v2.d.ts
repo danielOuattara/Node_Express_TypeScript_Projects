@@ -23,11 +23,20 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Types } from "mongoose";
+declare enum EnumCategory {
+    OFFICE = "office",
+    KITCHEN = "kitchen",
+    BEDROOM = "bedroom"
+}
+declare enum EnumCompany {
+    IKEA = "ikea",
+    LIDDY = "liddy",
+    MARCOS = "marcos"
+}
 declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    image: string;
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
@@ -40,8 +49,9 @@ declare const Product_v2: import("mongoose").Model<{
     };
     price: number;
     description: string;
-    category: string;
-    company: string;
+    image: string;
+    category: EnumCategory;
+    company: EnumCompany;
     colors: string[];
     featured: boolean;
     freeShipping: boolean;
@@ -52,7 +62,6 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    image: string;
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
@@ -65,8 +74,9 @@ declare const Product_v2: import("mongoose").Model<{
     };
     price: number;
     description: string;
-    category: string;
-    company: string;
+    image: string;
+    category: EnumCategory;
+    company: EnumCompany;
     colors: string[];
     featured: boolean;
     freeShipping: boolean;
@@ -77,7 +87,6 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    image: string;
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
@@ -90,8 +99,9 @@ declare const Product_v2: import("mongoose").Model<{
     };
     price: number;
     description: string;
-    category: string;
-    company: string;
+    image: string;
+    category: EnumCategory;
+    company: EnumCompany;
     colors: string[];
     featured: boolean;
     freeShipping: boolean;

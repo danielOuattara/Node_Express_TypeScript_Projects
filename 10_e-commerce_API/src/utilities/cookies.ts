@@ -1,14 +1,13 @@
 import { Response } from "express";
 import { createJWT } from "./jwt";
-import { Types } from "mongoose";
+import { IUserTokenPayload } from "../@types/user";
 
 //------------------------------------------------------
-interface IPayload {
-  name: string;
-  userId: Types.ObjectId;
-  role: string;
-}
-export const attachCookiesToResponse = (res: Response, payload: IPayload) => {
+
+export const attachCookiesToResponse = (
+  res: Response,
+  payload: IUserTokenPayload,
+) => {
   // creating jwt token
   const token = createJWT(payload);
 

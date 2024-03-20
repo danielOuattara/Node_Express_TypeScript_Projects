@@ -3,13 +3,6 @@ import http from "http";
 import app from "./app";
 import { connectToDB } from "./database/connect";
 
-export interface ErrnoException extends Error {
-  errno?: number;
-  code?: string;
-  path?: string;
-  syscall?: string;
-  stack?: string;
-}
 const normalizePort = (val: string | number) => {
   /*
    * Renvoie un port valide, qu'il soit fourni

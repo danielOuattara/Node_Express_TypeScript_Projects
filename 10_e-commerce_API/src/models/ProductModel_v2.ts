@@ -3,6 +3,18 @@
 
 import { InferSchemaType, Schema, model, Types } from "mongoose";
 
+enum EnumCategory {
+  OFFICE = "office",
+  KITCHEN = "kitchen",
+  BEDROOM = "bedroom",
+}
+
+enum EnumCompany {
+  IKEA = "ikea",
+  LIDDY = "liddy",
+  MARCOS = "marcos",
+}
+
 /**
  * Create a Schema corresponding to the document interface.
  */
@@ -33,13 +45,16 @@ const schema = new Schema(
     category: {
       type: String,
       required: [true, "Product category is required !"],
-      enum: EnumCategory,
+      enum: {
+        values: Object.values(EnumCategory),
+        message: "{VALUE} is not supported as category name",
+      },
     },
     company: {
       type: String,
       required: [true, "Company is required !"],
       enum: {
-        values: EnumCompany,
+        values: Object.values(EnumCompany),
         message: "{VALUE} is not supported as company name",
       },
     },

@@ -6,6 +6,7 @@ import {
   NotFoundError,
   UnauthenticatedError,
 } from "../errors";
+import { IUserReqBody } from "../@types/user";
 // import { checkAuthOrAdmin } from "../utilities/checkAuthOrAdmin";
 
 //-----------------------------------------------------
@@ -134,7 +135,7 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * user.updateOne() method
  */
 
-export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
+export const updateUser: RequestHandler<{}, {}, IUserReqBody> = async (
   req,
   res,
 ) => {
@@ -157,7 +158,7 @@ export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
 
 //-----------------------------------------------------
 
-export const updateUserPassword: RequestHandler<{}, {}, IReqBody> = async (
+export const updateUserPassword: RequestHandler<{}, {}, IUserReqBody> = async (
   req,
   res,
 ) => {

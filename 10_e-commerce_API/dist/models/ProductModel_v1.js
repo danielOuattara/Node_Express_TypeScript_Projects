@@ -1,6 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+var EnumCategory;
+(function (EnumCategory) {
+    EnumCategory["OFFICE"] = "office";
+    EnumCategory["KITCHEN"] = "kitchen";
+    EnumCategory["BEDROOM"] = "bedroom";
+})(EnumCategory || (EnumCategory = {}));
+var EnumCompany;
+(function (EnumCompany) {
+    EnumCompany["IKEA"] = "ikea";
+    EnumCompany["LIDDY"] = "liddy";
+    EnumCompany["MARCOS"] = "marcos";
+})(EnumCompany || (EnumCompany = {}));
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -27,13 +39,16 @@ const schema = new mongoose_1.Schema({
     category: {
         type: String,
         required: [true, "Product category is required !"],
-        enum: EnumCategory,
+        enum: {
+            values: Object.values(EnumCategory),
+            message: "{VALUE} is not supported as category name",
+        },
     },
     company: {
         type: String,
         required: [true, "Company is required !"],
         enum: {
-            values: EnumCompany,
+            values: Object.values(EnumCompany),
             message: "{VALUE} is not supported as company name",
         },
     },

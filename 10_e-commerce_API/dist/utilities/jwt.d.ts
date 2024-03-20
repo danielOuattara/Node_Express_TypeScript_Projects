@@ -1,3 +1,3 @@
-import { ITokenPayload } from "../@types/custom";
-export declare const createJWT: (payload: ITokenPayload) => string;
-export declare const isTokenValid: (token: string) => ITokenPayload;
+import { IUserTokenPayload } from "../@types/user";
+export declare const createJWT: (payload: IUserTokenPayload) => string;
+export declare const isTokenValid: (token: string) => IUserTokenPayload;

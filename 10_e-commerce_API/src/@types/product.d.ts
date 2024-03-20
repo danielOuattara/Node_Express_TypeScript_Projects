@@ -1,17 +1,8 @@
-declare enum EnumCategory {
-  OFFICE = "office",
-  KITCHEN = "kitchen",
-  BEDROOM = "bedroom",
-}
+import { Types } from "mongoose";
 
-declare enum EnumCompany {
-  IKEA = "ikea",
-  LIDDY = "liddy",
-  MARCOS = "marcos",
-}
-/**
- * Create an interface representing a document in MongoDB
- */
+declare enum EnumCategory {}
+declare enum EnumCompany {}
+
 interface IProduct {
   name: String;
   price: Number;
@@ -24,4 +15,8 @@ interface IProduct {
   freeShipping: Boolean;
   inventory: Number;
   averageRating: Number;
+}
+
+interface ICreateProductReqBody {
+  user: Types.ObjectId;
 }
