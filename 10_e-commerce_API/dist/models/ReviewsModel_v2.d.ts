@@ -23,33 +23,23 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Types } from "mongoose";
-declare enum EnumCategory {
-    OFFICE = "office",
-    KITCHEN = "kitchen",
-    BEDROOM = "bedroom"
-}
-declare enum EnumCompany {
-    IKEA = "ikea",
-    LIDDY = "liddy",
-    MARCOS = "marcos"
-}
-declare const Product_v2: import("mongoose").Model<{
+declare const Model_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
-    price: number;
-    description: string;
-    image: string;
-    category: EnumCategory;
-    company: EnumCompany;
-    colors: string[];
-    featured: boolean;
-    freeShipping: boolean;
-    inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
+    rating: number;
+    title: string;
+    comment: string;
     user: {
+        prototype?: Types.ObjectId | null | undefined;
+        cacheHexString?: unknown;
+        generate?: {} | null | undefined;
+        createFromTime?: {} | null | undefined;
+        createFromHexString?: {} | null | undefined;
+        createFromBase64?: {} | null | undefined;
+        isValid?: {} | null | undefined;
+    };
+    product: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
         generate?: {} | null | undefined;
@@ -62,19 +52,19 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
-    price: number;
-    description: string;
-    image: string;
-    category: EnumCategory;
-    company: EnumCompany;
-    colors: string[];
-    featured: boolean;
-    freeShipping: boolean;
-    inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
+    rating: number;
+    title: string;
+    comment: string;
     user: {
+        prototype?: Types.ObjectId | null | undefined;
+        cacheHexString?: unknown;
+        generate?: {} | null | undefined;
+        createFromTime?: {} | null | undefined;
+        createFromHexString?: {} | null | undefined;
+        createFromBase64?: {} | null | undefined;
+        isValid?: {} | null | undefined;
+    };
+    product: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
         generate?: {} | null | undefined;
@@ -87,19 +77,19 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
-    price: number;
-    description: string;
-    image: string;
-    category: EnumCategory;
-    company: EnumCompany;
-    colors: string[];
-    featured: boolean;
-    freeShipping: boolean;
-    inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
+    rating: number;
+    title: string;
+    comment: string;
     user: {
+        prototype?: Types.ObjectId | null | undefined;
+        cacheHexString?: unknown;
+        generate?: {} | null | undefined;
+        createFromTime?: {} | null | undefined;
+        createFromHexString?: {} | null | undefined;
+        createFromBase64?: {} | null | undefined;
+        isValid?: {} | null | undefined;
+    };
+    product: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
         generate?: {} | null | undefined;
@@ -111,4 +101,4 @@ declare const Product_v2: import("mongoose").Model<{
 } & {
     _id: Types.ObjectId;
 }, any>;
-export default Product_v2;
+export default Model_v2;
