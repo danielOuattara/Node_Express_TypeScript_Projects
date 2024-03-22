@@ -88,12 +88,20 @@ const schema = new mongoose_1.Schema({
         default: 0,
     },
     user: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+});
+schema.virtual("reviews", {
+    ref: "Review",
+    localField: "_id",
+    foreignField: "product",
+    justOne: false,
 });
 schema.pre("deleteOne", { document: true, query: false }, function () {
     return __awaiter(this, void 0, void 0, function* () { });

@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { ICreateProductReqBody } from "../@types/product";
 import { BadRequestError, NotFoundError } from "../errors";
 import path from "node:path";
+import { IReview } from "../@types/reviews";
 //--------------------------------------------------------------
 
 export const createProduct: RequestHandler<
@@ -19,13 +20,21 @@ export const createProduct: RequestHandler<
 //--------------------------------------------------------------
 
 export const getAllProducts: RequestHandler = async (_req, res) => {
-  const products = await Product.find({});
+  const products = await Product.find({}).populate<{ product: IReview }>({
+    path: "reviews",
+    select: "_id rating title comment user -product",
+  });
   res.status(StatusCodes.OK).json({ count: products.length, products });
 };
 
 //--------------------------------------------------------------
 export const getSingleProduct: RequestHandler = async (req, res) => {
-  const product = await Product.findById(req.params.productId);
+  const product = await Product.findById(req.params.productId).populate<{
+    product: IReview;
+  }>({
+    path: "reviews",
+    select: "_id rating title comment user -product",
+  });
 
   if (!product) {
     throw new NotFoundError(

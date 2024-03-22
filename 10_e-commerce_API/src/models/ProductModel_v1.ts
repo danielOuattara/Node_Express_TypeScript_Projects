@@ -1,7 +1,7 @@
 /** Separate document interface definition 
 --------------------------------------------*/
 
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { IProduct } from "../@types/product";
 
 enum EnumCategory {
@@ -84,15 +84,29 @@ const schema = new Schema(
       default: 0,
     },
     user: {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
   },
   {
     timestamps: true,
+    // 1 : set properties to accept virtuals,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+
+//--------------------------------------------------------
+// 2 : define links parameters
+schema.virtual("reviews", {
+  ref: "Review", // ref to the Model name
+  localField: "_id", // a connection btw. the two models
+  foreignField: "product", // the field in the ref above
+  justOne: false, // to get a list
+  // match: { rating: 2 }, // match docs where rating = 5
+  // match: { rating: 5 }, // match docs where rating = 5
+});
 
 schema.pre("deleteOne", { document: true, query: false }, async function () {});
 

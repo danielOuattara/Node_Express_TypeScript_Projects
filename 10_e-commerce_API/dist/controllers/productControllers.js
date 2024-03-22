@@ -24,12 +24,18 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.createProduct = createProduct;
 const getAllProducts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const products = yield ProductModel_1.default.find({});
+    const products = yield ProductModel_1.default.find({}).populate({
+        path: "reviews",
+        select: "_id rating title comment user -product",
+    });
     res.status(http_status_codes_1.StatusCodes.OK).json({ count: products.length, products });
 });
 exports.getAllProducts = getAllProducts;
 const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const product = yield ProductModel_1.default.findById(req.params.productId);
+    const product = yield ProductModel_1.default.findById(req.params.productId).populate({
+        path: "reviews",
+        select: "_id rating title comment user -product",
+    });
     if (!product) {
         throw new errors_1.NotFoundError(`No product found with ID: ${req.params.productId}`);
     }
