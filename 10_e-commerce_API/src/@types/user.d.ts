@@ -1,6 +1,20 @@
 import { Types, Document } from "mongoose";
 import { Response } from "express";
 
+declare enum ROLE {}
+interface IUser {
+  name: string;
+  email: string;
+  password: string;
+  role: ROLE;
+}
+
+interface IPayload {
+  name: string;
+  userId: Types.ObjectId;
+  role: string;
+}
+
 interface IUserReqBody {
   name?: string;
   email?: string;

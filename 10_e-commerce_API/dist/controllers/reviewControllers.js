@@ -38,7 +38,15 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.createReview = createReview;
 const getAllReviews = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reviews = yield ReviewsModel_1.default.find({});
+    const reviews = yield ReviewsModel_1.default.find({})
+        .populate({
+        path: "product",
+        select: "name company category image price description",
+    })
+        .populate({
+        path: "user",
+        select: "_id name",
+    });
     res.status(http_status_codes_1.StatusCodes.OK).json({ count: reviews.length, reviews });
 });
 exports.getAllReviews = getAllReviews;

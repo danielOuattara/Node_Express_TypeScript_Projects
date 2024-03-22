@@ -1,7 +1,7 @@
 /* Automatic type inference
 ---------------------------- */
 
-import { InferSchemaType, model, Schema, Types } from "mongoose";
+import { InferSchemaType, model, Schema } from "mongoose";
 
 /** Create a Schema corresponding to the document interface. */
 const schema = new Schema(
@@ -25,12 +25,12 @@ const schema = new Schema(
       maxLength: [500, "Comment is max 500 characters"],
     },
     user: {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     product: {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Product",
       required: true,
     },

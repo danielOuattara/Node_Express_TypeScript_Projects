@@ -9,6 +9,8 @@ import {
   IUpdateReviewReqBody,
 } from "../@types/reviews";
 import { checkAuthOrAdmin } from "../utilities";
+import { IProduct } from "../@types/product";
+import { IUser } from "../@types/user";
 //----------------------------------------------------------------
 
 export const createReview: RequestHandler<
@@ -41,8 +43,31 @@ export const createReview: RequestHandler<
 
 //----------------------------------------------------------------
 
+/* OK */
+
+// export const getAllReviews: RequestHandler = async (_req, res) => {
+//   const reviews = await Review.find({})
+//     .populate({
+//       path: "product",
+//       select: "name company category image price description",
+//     })
+//     .populate({
+//       path: "user",
+//       select: "_id name",
+//     });
+//   res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
+// };
+
 export const getAllReviews: RequestHandler = async (_req, res) => {
-  const reviews = await Review.find({});
+  const reviews = await Review.find({})
+    .populate<{ product: IProduct }>({
+      path: "product",
+      select: "name company category image price description",
+    })
+    .populate<{ user: IUser }>({
+      path: "user",
+      select: "_id name",
+    });
   res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
 };
 
@@ -74,6 +99,7 @@ export const updateReview: RequestHandler<
   }
 
   checkAuthOrAdmin(req.user!, review.user);
+
   review.title = req.body.title;
   review.rating = req.body.rating;
   review.comment = req.body.comment;

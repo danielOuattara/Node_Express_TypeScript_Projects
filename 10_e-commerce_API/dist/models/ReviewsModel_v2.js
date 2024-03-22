@@ -21,12 +21,12 @@ const schema = new mongoose_1.Schema({
         maxLength: [500, "Comment is max 500 characters"],
     },
     user: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
     product: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "Product",
         required: true,
     },

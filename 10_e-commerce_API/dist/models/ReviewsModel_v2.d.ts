@@ -21,84 +21,36 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Types } from "mongoose";
 declare const Model_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    user: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
+    user: import("mongoose").Types.ObjectId;
     comment: string;
-    product: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
     rating: number;
     title: string;
+    product: import("mongoose").Types.ObjectId;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    user: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
+    user: import("mongoose").Types.ObjectId;
     comment: string;
-    product: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
     rating: number;
     title: string;
+    product: import("mongoose").Types.ObjectId;
 }> & {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    user: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
+    user: import("mongoose").Types.ObjectId;
     comment: string;
-    product: {
-        prototype?: Types.ObjectId | null | undefined;
-        cacheHexString?: unknown;
-        generate?: {} | null | undefined;
-        createFromTime?: {} | null | undefined;
-        createFromHexString?: {} | null | undefined;
-        createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
-    };
     rating: number;
     title: string;
+    product: import("mongoose").Types.ObjectId;
 } & {
-    _id: Types.ObjectId;
+    _id: import("mongoose").Types.ObjectId;
 }, any>;
 export default Model_v2;

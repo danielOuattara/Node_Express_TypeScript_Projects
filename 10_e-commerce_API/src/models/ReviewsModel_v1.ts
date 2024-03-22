@@ -2,7 +2,7 @@
  *  Separate document interface definition
  * -------------------------------------------*/
 
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IReview } from "../@types/reviews";
 
 /** Create a Schema corresponding to the document interface. */
@@ -27,12 +27,12 @@ const schema = new Schema(
       maxLength: [500, "Comment is max 500 characters"],
     },
     user: {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     product: {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Product",
       required: true,
     },
