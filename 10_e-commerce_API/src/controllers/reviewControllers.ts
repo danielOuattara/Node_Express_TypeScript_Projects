@@ -120,3 +120,17 @@ export const deleteReview: RequestHandler = async (req, res) => {
 };
 
 //----------------------------------------------------------------
+
+export const getSingleProductReviews: RequestHandler = async (req, res) => {
+  const reviews = await Review.find({ product: req.params.productId })
+    .populate({
+      path: "product",
+      select: "name company category image price description",
+    })
+    .populate({
+      path: "user",
+      select: "_id name",
+    });
+
+  res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
+};

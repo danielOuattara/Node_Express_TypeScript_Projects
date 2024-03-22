@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReview = exports.updateReview = exports.getSingleReview = exports.getAllReviews = exports.createReview = void 0;
+exports.getSingleProductReviews = exports.deleteReview = exports.updateReview = exports.getSingleReview = exports.getAllReviews = exports.createReview = void 0;
 const ReviewsModel_1 = __importDefault(require("./../models/ReviewsModel"));
 const ProductModel_1 = __importDefault(require("./../models/ProductModel"));
 const http_status_codes_1 = require("http-status-codes");
@@ -84,3 +84,16 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     res.json({ message: "delete review" });
 });
 exports.deleteReview = deleteReview;
+const getSingleProductReviews = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reviews = yield ReviewsModel_1.default.find({ product: req.params.productId })
+        .populate({
+        path: "product",
+        select: "name company category image price description",
+    })
+        .populate({
+        path: "user",
+        select: "_id name",
+    });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ count: reviews.length, reviews });
+});
+exports.getSingleProductReviews = getSingleProductReviews;

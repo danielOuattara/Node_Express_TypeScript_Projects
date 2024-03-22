@@ -5,3 +5,4 @@ export declare const getAllReviews: RequestHandler;
 export declare const getSingleReview: RequestHandler;
 export declare const updateReview: RequestHandler<IParamsDictionary, {}, IUpdateReviewReqBody>;
 export declare const deleteReview: RequestHandler;
+export declare const getSingleProductReviews: RequestHandler;
