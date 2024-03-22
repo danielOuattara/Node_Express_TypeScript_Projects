@@ -104,7 +104,9 @@ schema.virtual("reviews", {
     justOne: false,
 });
 schema.pre("deleteOne", { document: true, query: false }, function () {
-    return __awaiter(this, void 0, void 0, function* () { });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield this.model("Review").deleteMany({ product: this._id });
+    });
 });
 const Product_v1 = (0, mongoose_1.model)("Product", schema);
 exports.default = Product_v1;

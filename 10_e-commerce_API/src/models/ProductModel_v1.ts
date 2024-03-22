@@ -108,7 +108,10 @@ schema.virtual("reviews", {
   // match: { rating: 5 }, // match docs where rating = 5
 });
 
-schema.pre("deleteOne", { document: true, query: false }, async function () {});
+//--------------------------------------------------------
+schema.pre("deleteOne", { document: true, query: false }, async function () {
+  await this.model("Review").deleteMany({ product: this._id });
+});
 
 /** Create a model */
 const Product_v1 = model<IProduct>("Product", schema);
