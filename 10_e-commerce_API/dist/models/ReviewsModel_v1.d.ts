@@ -21,10 +21,11 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
+import { Model } from "mongoose";
 import { IReview } from "../@types/reviews";
-declare const Model_v1: import("mongoose").Model<IReview, {}, {}, {}, import("mongoose").Document<unknown, {}, IReview> & IReview & {
-    _id: import("mongoose").Types.ObjectId;
-}, any>;
+interface IReviewModel extends Model<IReview> {
+    calculateAverageRating(): Promise<number | undefined>;
+}
+declare const Model_v1: IReviewModel;
 export default Model_v1;

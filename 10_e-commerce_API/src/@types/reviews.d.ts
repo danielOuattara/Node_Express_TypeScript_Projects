@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 interface IReview {
-  rating: string;
+  rating: number;
   title: string;
   comment: string;
   user: Types.ObjectId;

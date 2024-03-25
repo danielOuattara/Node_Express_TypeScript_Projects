@@ -21,36 +21,11 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-declare const Model_v2: import("mongoose").Model<{
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    user: import("mongoose").Types.ObjectId;
-    comment: string;
-    rating: number;
-    title: string;
-    product: import("mongoose").Types.ObjectId;
-}, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    user: import("mongoose").Types.ObjectId;
-    comment: string;
-    rating: number;
-    title: string;
-    product: import("mongoose").Types.ObjectId;
-}> & {
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    user: import("mongoose").Types.ObjectId;
-    comment: string;
-    rating: number;
-    title: string;
-    product: import("mongoose").Types.ObjectId;
-} & {
-    _id: import("mongoose").Types.ObjectId;
-}, any>;
+import { Model } from "mongoose";
+import { IReview } from "../@types/reviews";
+interface IReviewModel extends Model<IReview> {
+    calculateAverageRating(): Promise<number | undefined>;
+}
+declare const Model_v2: IReviewModel;
 export default Model_v2;

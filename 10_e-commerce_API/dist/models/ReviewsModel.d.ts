@@ -1,2 +1,2 @@
-import Review_v1 from "./ReviewsModel_v1";
-export default Review_v1;
+import Review_v2 from "./ReviewsModel_v2";
+export default Review_v2;
