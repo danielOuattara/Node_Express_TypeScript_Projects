@@ -2,18 +2,7 @@
 ---------------------------- */
 
 import { InferSchemaType, Schema, model, Types } from "mongoose";
-
-enum EnumCategory {
-  OFFICE = "office",
-  KITCHEN = "kitchen",
-  BEDROOM = "bedroom",
-}
-
-enum EnumCompany {
-  IKEA = "ikea",
-  LIDDY = "liddy",
-  MARCOS = "marcos",
-}
+import { EnumCategory, EnumCompany } from "../@types/product";
 
 /** Create a Schema corresponding to the document interface. */
 const schema = new Schema(

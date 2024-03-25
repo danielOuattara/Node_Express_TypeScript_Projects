@@ -10,18 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-var EnumCategory;
-(function (EnumCategory) {
-    EnumCategory["OFFICE"] = "office";
-    EnumCategory["KITCHEN"] = "kitchen";
-    EnumCategory["BEDROOM"] = "bedroom";
-})(EnumCategory || (EnumCategory = {}));
-var EnumCompany;
-(function (EnumCompany) {
-    EnumCompany["IKEA"] = "ikea";
-    EnumCompany["LIDDY"] = "liddy";
-    EnumCompany["MARCOS"] = "marcos";
-})(EnumCompany || (EnumCompany = {}));
+const product_1 = require("../@types/product");
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -49,7 +38,7 @@ const schema = new mongoose_1.Schema({
         type: String,
         required: [true, "Product category is required !"],
         enum: {
-            values: Object.values(EnumCategory),
+            values: Object.values(product_1.EnumCategory),
             message: "{VALUE} is not supported as category name",
         },
     },
@@ -57,7 +46,7 @@ const schema = new mongoose_1.Schema({
         type: String,
         required: [true, "Company is required !"],
         enum: {
-            values: Object.values(EnumCompany),
+            values: Object.values(product_1.EnumCompany),
             message: "{VALUE} is not supported as company name",
         },
     },

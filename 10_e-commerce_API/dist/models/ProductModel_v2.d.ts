@@ -23,16 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Types } from "mongoose";
-declare enum EnumCategory {
-    OFFICE = "office",
-    KITCHEN = "kitchen",
-    BEDROOM = "bedroom"
-}
-declare enum EnumCompany {
-    IKEA = "ikea",
-    LIDDY = "liddy",
-    MARCOS = "marcos"
-}
+import { EnumCategory, EnumCompany } from "../@types/product";
 declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
