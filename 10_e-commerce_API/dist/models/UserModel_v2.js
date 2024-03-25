@@ -16,11 +16,7 @@ const mongoose_1 = require("mongoose");
 const validator_1 = __importDefault(require("validator"));
 const bcryptjs_1 = require("bcryptjs");
 const jsonwebtoken_1 = require("jsonwebtoken");
-var ROLE;
-(function (ROLE) {
-    ROLE["admin"] = "admin";
-    ROLE["user"] = "user";
-})(ROLE || (ROLE = {}));
+const user_1 = require("../@types/user");
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -45,8 +41,8 @@ const schema = new mongoose_1.Schema({
     },
     role: {
         type: String,
-        enum: ROLE,
-        default: ROLE.user,
+        enum: user_1.ROLE,
+        default: user_1.ROLE.user,
     },
 });
 schema.pre("save", function () {

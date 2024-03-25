@@ -1,7 +1,10 @@
 import { Types, Document } from "mongoose";
 import { Response } from "express";
 
-declare enum ROLE {}
+declare enum ROLE {
+  admin = "admin",
+  user = "user",
+}
 interface IUser {
   name: string;
   email: string;

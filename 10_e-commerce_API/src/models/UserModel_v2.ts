@@ -1,16 +1,12 @@
 /* Automatic type inference
 ---------------------------- */
 
-import { Schema, InferSchemaType, model, Types, Model } from "mongoose";
+import { Schema, InferSchemaType, model, Model } from "mongoose";
 import validator from "validator";
 import { genSalt, hash, compare } from "bcryptjs";
 import { Secret, sign } from "jsonwebtoken";
 import { Response } from "express";
-
-enum ROLE {
-  admin = "admin",
-  user = "user",
-}
+import { IPayload, ROLE } from "../@types/user";
 
 /** Create a Schema. */
 const schema = new Schema({
@@ -94,12 +90,6 @@ schema.static("destroyCookiesInResponse", function (res: Response) {
 
 //---
 
-interface IPayload {
-  name: string;
-  userId: Types.ObjectId;
-  role: string;
-}
-
 /** Create the User by inferring the schema */
 type TUser = InferSchemaType<typeof schema>;
 
@@ -110,7 +100,8 @@ interface IUserMethods {
   attachCookiesToResponse(res: Response): Response;
 }
 
-// Create a new Model type that knows about IUserMethods...
+/** Create a new Model type that knows about IUserMethods...
+ */
 // type UserModel = Model<TUser, {}, IUserMethods>;
 
 interface UserModel extends Model<TUser, {}, IUserMethods> {

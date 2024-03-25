@@ -22,23 +22,9 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model, Types } from "mongoose";
+import { Model } from "mongoose";
 import { Response } from "express";
-declare enum ROLE {
-    admin = "admin",
-    user = "user"
-}
-interface IUser {
-    name: string;
-    email: string;
-    password: string;
-    role: ROLE;
-}
-interface IPayload {
-    name: string;
-    userId: Types.ObjectId;
-    role: string;
-}
+import { IPayload, IUser } from "../@types/user";
 interface IUserMethods {
     verifyPassword(pwd: string): Promise<boolean>;
     createJWT(payload: IPayload): string;

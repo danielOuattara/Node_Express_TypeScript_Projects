@@ -22,8 +22,9 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Schema, InferSchemaType, Types, Model } from "mongoose";
+import { Schema, InferSchemaType, Model } from "mongoose";
 import { Response } from "express";
+import { IPayload } from "../@types/user";
 declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     name: string;
     email: string;
@@ -40,13 +41,8 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     password: string;
     role: string;
 }> & {
-    _id: Types.ObjectId;
+    _id: import("mongoose").Types.ObjectId;
 }>;
-interface IPayload {
-    name: string;
-    userId: Types.ObjectId;
-    role: string;
-}
 type TUser = InferSchemaType<typeof schema>;
 interface IUserMethods {
     verifyPassword(pwd: string): Promise<boolean>;

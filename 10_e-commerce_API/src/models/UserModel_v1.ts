@@ -1,31 +1,14 @@
 /* Separate document interface definition 
 --------------------------------------------*/
 
-import { Schema, model, Model, Types } from "mongoose";
+import { Schema, model, Model } from "mongoose";
 import validator from "validator";
 import { genSalt, hash, compare } from "bcryptjs";
 import { Secret, sign } from "jsonwebtoken";
 import { Response } from "express";
+import { IPayload, IUser, ROLE } from "../@types/user";
 
 /** Create an interface representing a document in MongoDB */
-
-enum ROLE {
-  admin = "admin",
-  user = "user",
-}
-
-interface IUser {
-  name: string;
-  email: string;
-  password: string;
-  role: ROLE;
-}
-
-interface IPayload {
-  name: string;
-  userId: Types.ObjectId;
-  role: string;
-}
 
 /** Put all user instance methods in this interface:*/
 interface IUserMethods {
@@ -37,6 +20,10 @@ interface IUserMethods {
 /** Create a new Model type that knows about IUserMethods... */
 // type UserModel = Model<IUser, {}, IUserMethods>;
 
+/**
+ * Above is commented because of below.
+ * Create UserModel this way to further add static method
+ * */
 interface UserModel extends Model<IUser, {}, IUserMethods> {
   destroyCookiesInResponse(res: Response): Response;
 }
