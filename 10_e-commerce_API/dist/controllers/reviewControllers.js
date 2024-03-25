@@ -68,7 +68,7 @@ const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     (0, utilities_1.checkAuthOrAdmin)(req.user, review.user);
     review.title = req.body.title;
-    review.rating = req.body.rating;
+    review.rating = parseInt(req.body.rating, 10);
     review.comment = req.body.comment;
     yield review.save();
     res.json({ message: "update review successfully", review });

@@ -27,6 +27,7 @@ export const createReview: RequestHandler<
     product: req.body.product,
     user: req.user!._id,
   });
+
   if (alreadySubmittedReview) {
     throw new BadRequestError(
       `Cannot create a new review on this product. But you can update your old review `,
@@ -101,7 +102,7 @@ export const updateReview: RequestHandler<
   checkAuthOrAdmin(req.user!, review.user);
 
   review.title = req.body.title;
-  review.rating = req.body.rating;
+  review.rating = parseInt(req.body.rating, 10);
   review.comment = req.body.comment;
   await review.save();
   res.json({ message: "update review successfully", review });
