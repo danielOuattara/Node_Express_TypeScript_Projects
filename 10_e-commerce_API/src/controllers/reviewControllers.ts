@@ -10,8 +10,18 @@ import {
 } from "../@types/reviews";
 import { checkAuthOrAdmin } from "../utilities";
 import { IProduct } from "../@types/product";
-import { IUser } from "../@types/user";
 //----------------------------------------------------------------
+
+declare enum ROLE {
+  admin = "admin",
+  user = "user",
+}
+interface IUser {
+  name: string;
+  email: string;
+  password: string;
+  role: ROLE;
+}
 
 export const createReview: RequestHandler<
   {},

@@ -41,8 +41,23 @@ const schema = new mongoose_1.Schema({
     },
 }, { timestamps: true });
 schema.index({ product: 1, user: 1 }, { unique: true });
-schema.static("calculateAverageRating", function () {
+schema.static("calculateAverageRating", function (productId) {
     return __awaiter(this, void 0, void 0, function* () {
+        const result = yield this.aggregate([
+            { $match: { product: productId } },
+            {
+                $group: {
+                    _id: productId,
+                    aveRageRating: {
+                        $avg: "$rating",
+                    },
+                    numberOfReviews: {
+                        $sum: +1,
+                    },
+                },
+            },
+        ]);
+        console.log("result = ", result);
         return 43;
     });
 });

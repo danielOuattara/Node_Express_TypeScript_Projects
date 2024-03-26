@@ -28,18 +28,8 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
-    price: number;
-    description: string;
     image: string;
-    category: EnumCategory;
-    company: EnumCompany;
-    colors: string[];
-    featured: boolean;
-    freeShipping: boolean;
-    inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
+    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -49,22 +39,22 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    price: number;
+    description: string;
+    category: EnumCategory;
+    company: EnumCompany;
+    colors: string[];
+    featured: boolean;
+    freeShipping: boolean;
+    inventory: number;
+    averageRating: number;
+    numberOfReviews: number;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
-    price: number;
-    description: string;
     image: string;
-    category: EnumCategory;
-    company: EnumCompany;
-    colors: string[];
-    featured: boolean;
-    freeShipping: boolean;
-    inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
+    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -74,22 +64,22 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    price: number;
+    description: string;
+    category: EnumCategory;
+    company: EnumCompany;
+    colors: string[];
+    featured: boolean;
+    freeShipping: boolean;
+    inventory: number;
+    averageRating: number;
+    numberOfReviews: number;
 }> & {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
-    price: number;
-    description: string;
     image: string;
-    category: EnumCategory;
-    company: EnumCompany;
-    colors: string[];
-    featured: boolean;
-    freeShipping: boolean;
-    inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
+    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -99,6 +89,16 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    price: number;
+    description: string;
+    category: EnumCategory;
+    company: EnumCompany;
+    colors: string[];
+    featured: boolean;
+    freeShipping: boolean;
+    inventory: number;
+    averageRating: number;
+    numberOfReviews: number;
 } & {
     _id: Types.ObjectId;
 }, any>;
