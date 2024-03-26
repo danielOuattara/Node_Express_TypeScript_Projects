@@ -24,11 +24,3 @@ const agg = [
     },
   },
 ];
-
-const client = await MongoClient.connect(
-  "mongodb+srv://ricatti-ricci:**MongoDB77!**@cluster-testing-ricatti.xryll.mongodb.net/",
-);
-const coll = client.db("John_Smilga_E-Commerce_API").collection("reviews");
-const cursor = coll.aggregate(agg);
-const result = await cursor.toArray();
-await client.close();
