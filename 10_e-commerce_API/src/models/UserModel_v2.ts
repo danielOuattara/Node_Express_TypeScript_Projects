@@ -6,7 +6,7 @@ import validator from "validator";
 import { genSalt, hash, compare } from "bcryptjs";
 import { Secret, sign } from "jsonwebtoken";
 import { Response } from "express";
-import { IPayload, ROLE } from "../@types/user";
+import { ROLE, IPayload } from "../@types/user";
 
 /** Create a Schema. */
 const schema = new Schema({
@@ -38,6 +38,13 @@ const schema = new Schema({
     enum: ROLE,
     default: ROLE.user,
   },
+  // role: {
+  //   type: String,
+  //   enum: {
+  //     values: Object.values(ROLE),
+  //     default: ROLE.user,
+  //   },
+  // },
 });
 
 //---

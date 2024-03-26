@@ -2,9 +2,10 @@
 --------------------------------------------*/
 
 import { Schema, model } from "mongoose";
-import { EnumCategory, EnumCompany, IProduct } from "../@types/product";
+import { IProduct, EnumCategory, EnumCompany } from "../@types/product";
 
-/** Create a Schema corresponding to the document interface. */
+/** Create a Schema corresponding to the document interface 'IProduct'. */
+
 const schema = new Schema<IProduct>(
   {
     name: {

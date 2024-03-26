@@ -8,9 +8,9 @@ import { Secret, sign } from "jsonwebtoken";
 import { Response } from "express";
 import { IPayload, IUser, ROLE } from "../@types/user";
 
-/** Create an interface representing a document in MongoDB */
+/** Create an interface 'IUser' representing a document in MongoDB */
 
-/** Put all user instance methods in this interface:*/
+/** Put all user instance methods in this 'IUserMethods':*/
 interface IUserMethods {
   verifyPassword(pwd: string): Promise<boolean>;
   createJWT(payload: IPayload): string;
@@ -53,6 +53,15 @@ const schema = new Schema<IUser, UserModel, IUserMethods>(
       required: [true, "Please provide password"],
       minLength: 6,
     },
+
+    // role: {
+    //   type: String,
+    //   enum: {
+    //     values: Object.values(ROLE),
+    //     default: ROLE.user,
+    //     message: "{VALUE} is not a valid value for ROLE position",
+    //   },
+    // },
 
     role: {
       type: String,
