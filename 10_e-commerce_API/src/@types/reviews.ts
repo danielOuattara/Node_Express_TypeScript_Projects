@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-interface IReview {
+export interface IReview {
   rating: number;
   title: string;
   comment: string;
@@ -8,17 +8,17 @@ interface IReview {
   product: Types.ObjectId;
 }
 
-interface ICreateReviewReqBody {
+export interface ICreateReviewReqBody {
   product: Types.ObjectId;
   user: Types.ObjectId;
 }
 
-interface IUpdateReviewReqBody {
+export interface IUpdateReviewReqBody {
   title: string;
   rating: string;
   comment: string;
 }
 
-interface IParamsDictionary {
+export interface IParamsDictionary {
   reviewId: string;
 }

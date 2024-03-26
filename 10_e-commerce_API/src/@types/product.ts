@@ -1,21 +1,18 @@
-import { Types } from "mongoose";
+import { type Types } from "mongoose";
 
-// declare enum EnumCategory {}
-// declare enum EnumCompany {}
-
-declare enum EnumCategory {
+export enum EnumCategory {
   OFFICE = "office",
   KITCHEN = "kitchen",
   BEDROOM = "bedroom",
 }
 
-declare enum EnumCompany {
+export enum EnumCompany {
   IKEA = "ikea",
   LIDDY = "liddy",
   MARCOS = "marcos",
 }
 
-interface IProduct {
+export interface IProduct {
   name: String;
   price: Number;
   description: String;
@@ -31,6 +28,6 @@ interface IProduct {
   user: Types.ObjectId;
 }
 
-interface ICreateProductReqBody {
+export interface ICreateProductReqBody {
   user: Types.ObjectId;
 }

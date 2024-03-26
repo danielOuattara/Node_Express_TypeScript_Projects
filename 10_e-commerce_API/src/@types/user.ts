@@ -1,24 +1,25 @@
 import { Types, Document } from "mongoose";
 import { Response } from "express";
 
-declare enum ROLE {
+export enum ROLE {
   admin = "admin",
   user = "user",
 }
-interface IUser {
+
+export interface IUser {
   name: string;
   email: string;
   password: string;
   role: ROLE;
 }
 
-interface IPayload {
+export interface IPayload {
   name: string;
   userId: Types.ObjectId;
   role: string;
 }
 
-interface IUserReqBody {
+export interface IUserReqBody {
   name?: string;
   email?: string;
   password?: string;
@@ -26,19 +27,19 @@ interface IUserReqBody {
   newPassword?: string;
 }
 
-interface IUserTokenPayload {
+export interface IUserTokenPayload {
   name: string;
   userId: Types.ObjectId;
   role: string;
 }
 
-interface IUserMethods {
+export interface IUserMethods {
   verifyPassword(pwd: string): Promise<boolean>;
   createJWT(payload: IUserTokenPayload): string;
   attachCookiesToResponse(res: Response): Response;
 }
 
-type MongooseUser =
+export type MongooseUser =
   | ((Document<
       unknown,
       {},
