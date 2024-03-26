@@ -1,7 +1,7 @@
 /* Automatic type inference
 ---------------------------- */
 
-import { InferSchemaType, Model, model, Schema } from "mongoose";
+import { InferSchemaType, Model, model, Schema, Types } from "mongoose";
 import { IReview } from "../@types/reviews";
 
 /** Create a Schema corresponding to the document interface. */
@@ -50,11 +50,28 @@ interface IReviewModel extends Model<IReview> {
 }
 /** Create a static method: calculateAverageRating, by using a function expression
  */
-schema.static("calculateAverageRating", async function (): Promise<
-  number | undefined
-> {
-  return 43;
-});
+schema.static(
+  "calculateAverageRating",
+  async function (productId: Types.ObjectId): Promise<number | undefined> {
+    const result = await this.aggregate([
+      { $match: { product: productId } },
+      {
+        $group: {
+          _id: productId,
+          aveRageRating: {
+            $avg: "$rating",
+          },
+          numberOfReviews: {
+            $sum: +1,
+          },
+        },
+      },
+    ]);
+
+    console.log("result = ", result);
+    return 43;
+  },
+);
 
 schema.post<IReview>("save", async function () {
   await (this.constructor as IReviewModel).calculateAverageRating();
