@@ -21,7 +21,7 @@ const utilities_1 = require("../utilities");
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield ProductModel_1.default.findById(req.body.product);
     if (!product) {
-        throw new errors_1.NotFoundError("Product unknown");
+        throw new errors_1.NotFoundError(`No Product found with ID ${req.body.product}`);
     }
     const alreadySubmittedReview = yield ReviewsModel_1.default.findOne({
         product: req.body.product,

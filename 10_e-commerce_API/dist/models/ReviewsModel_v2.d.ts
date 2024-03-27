@@ -25,7 +25,7 @@
 import { Model } from "mongoose";
 import { IReview } from "../@types/reviews";
 interface IReviewModel extends Model<IReview> {
-    calculateAverageRating(): Promise<number | undefined>;
+    calculateAverageRating(): Promise<void>;
 }
 declare const Model_v2: IReviewModel;
 export default Model_v2;

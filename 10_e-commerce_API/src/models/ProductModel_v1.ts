@@ -3,6 +3,7 @@
 
 import { Schema, model } from "mongoose";
 import { IProduct, EnumCategory, EnumCompany } from "../@types/product";
+import Review_v2 from "./ReviewsModel";
 
 /** Create a Schema corresponding to the document interface 'IProduct'. */
 
@@ -99,7 +100,9 @@ schema.virtual("reviews", {
 
 //--------------------------------------------------------
 schema.pre("deleteOne", { document: true, query: false }, async function () {
-  await this.model("Review").deleteMany({ product: this._id });
+  // await this.model("Review").deleteMany({ product: this._id });
+  console.log("deleteMany");
+  await Review_v2.deleteMany({ product: this._id });
 });
 
 /** Create a model */

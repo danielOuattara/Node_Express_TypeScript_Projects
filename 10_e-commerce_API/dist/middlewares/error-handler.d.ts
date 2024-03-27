@@ -14,5 +14,5 @@ interface ICustomError extends Error {
         [x: string]: string;
     };
 }
-declare const errorHandler: (err: ICustomError, _req: Request, res: Response, _next: NextFunction) => Response<any, Record<string, any>>;
-export default errorHandler;
+export declare const errorHandler: (err: ICustomError, _req: Request, res: Response, _next: NextFunction) => Response<any, Record<string, any>>;
+export {};

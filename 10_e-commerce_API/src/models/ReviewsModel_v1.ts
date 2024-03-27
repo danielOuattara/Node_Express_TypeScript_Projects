@@ -7,7 +7,7 @@ import { IReview } from "../@types/reviews";
 
 // Interface representing instance methods of the review model
 interface IReviewModel extends Model<IReview> {
-  calculateAverageRating(): Promise<number | undefined>; // Updated method signature
+  calculateAverageRating(): Promise<void>; // Updated method signature
 }
 
 // Define the schema for the review document and include instance methods
@@ -53,10 +53,8 @@ schema.index({ product: 1, user: 1 }, { unique: true });
 /**
  * Create a static method: calculateAverageRating, by using a function expression
  */
-schema.static("calculateAverageRating", async function (): Promise<
-  number | undefined
-> {
-  return 43;
+schema.static("calculateAverageRating", async function (): Promise<void> {
+  console.log("calculate Average Rating");
 });
 
 schema.post<IReview>("save", async function () {

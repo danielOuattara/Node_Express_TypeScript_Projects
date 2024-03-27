@@ -39,7 +39,7 @@ export interface IPayload {
     userId: Types.ObjectId;
     role: string;
 }
-export interface IUserReqBody {
+export interface IUserRegisterReqBody {
     name?: string;
     email?: string;
     password?: string;

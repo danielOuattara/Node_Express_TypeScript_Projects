@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.testUser = void 0;
 const errors_1 = require("../errors");
 const testUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.user.isTestUser) {
@@ -16,4 +17,4 @@ const testUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function
     }
     next();
 });
-exports.default = testUser;
+exports.testUser = testUser;

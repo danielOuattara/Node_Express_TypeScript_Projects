@@ -24,22 +24,22 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Schema, InferSchemaType, Model } from "mongoose";
 import { Response } from "express";
-import { IPayload } from "../@types/user";
+import { ROLE, IPayload } from "../@types/user";
 declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, {
     name: string;
     email: string;
     password: string;
-    role: string;
+    role?: ROLE | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
-    role: string;
+    role?: ROLE | null | undefined;
 }>> & import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
-    role: string;
+    role?: ROLE | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;
 }>;

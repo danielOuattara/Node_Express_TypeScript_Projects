@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { IUserReqBody } from "../@types/user";
-export declare const register: RequestHandler<{}, {}, IUserReqBody>;
-export declare const login: RequestHandler<{}, {}, IUserReqBody>;
+import { IUserRegisterReqBody } from "../@types/user";
+export declare const register: RequestHandler<{}, {}, IUserRegisterReqBody>;
+export declare const login: RequestHandler<{}, {}, IUserRegisterReqBody>;
 export declare const logout: RequestHandler;

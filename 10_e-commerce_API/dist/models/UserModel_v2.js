@@ -41,25 +41,24 @@ const schema = new mongoose_1.Schema({
     },
     role: {
         type: String,
-        enum: user_1.ROLE,
-        default: user_1.ROLE.user,
+        enum: {
+            values: Object.values(user_1.ROLE),
+            default: user_1.ROLE.user,
+            message: "{VALUE} is not a valid value for ROLE position",
+        },
     },
 });
 schema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
-        if (this.isModified("password")) {
-            const salt = yield (0, bcryptjs_1.genSalt)(11);
-            this.password = yield (0, bcryptjs_1.hash)(this.password, salt);
-        }
-        else {
+        if (!this.isModified("password"))
             return;
-        }
+        const salt = yield (0, bcryptjs_1.genSalt)(11);
+        this.password = yield (0, bcryptjs_1.hash)(this.password, salt);
     });
 });
 schema.methods.verifyPassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
-        const isValid = yield (0, bcryptjs_1.compare)(password, this.password);
-        return isValid;
+        return yield (0, bcryptjs_1.compare)(password, this.password);
     });
 };
 schema.methods.createJWT = function (payload) {

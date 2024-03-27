@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorHandler = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const errorHandler = (err, _req, res, _next) => {
     const customError = {
@@ -29,4 +30,4 @@ const errorHandler = (err, _req, res, _next) => {
     }
     return res.status(customError.statusCode).json({ msg: customError.message });
 };
-exports.default = errorHandler;
+exports.errorHandler = errorHandler;

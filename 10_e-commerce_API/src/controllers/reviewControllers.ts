@@ -30,7 +30,7 @@ export const createReview: RequestHandler<
 > = async (req, res) => {
   const product = await Product.findById(req.body.product);
   if (!product) {
-    throw new NotFoundError("Product unknown");
+    throw new NotFoundError(`No Product found with ID ${req.body.product}`);
   }
 
   const alreadySubmittedReview = await Review.findOne({

@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const ProductModel_1 = __importDefault(require("./ProductModel"));
 const schema = new mongoose_1.Schema({
     rating: {
         type: Number,
@@ -43,32 +47,41 @@ const schema = new mongoose_1.Schema({
 schema.index({ product: 1, user: 1 }, { unique: true });
 schema.static("calculateAverageRating", function (productId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield this.aggregate([
-            { $match: { product: productId } },
-            {
-                $group: {
-                    _id: productId,
-                    aveRageRating: {
-                        $avg: "$rating",
-                    },
-                    numberOfReviews: {
-                        $sum: +1,
+        try {
+            const results = yield Model_v2.aggregate([
+                { $match: { product: productId } },
+                {
+                    $group: {
+                        _id: "$product",
+                        averageRating: { $avg: "$rating" },
+                        numberOfReviews: { $sum: 1 },
                     },
                 },
-            },
-        ]);
-        console.log("result = ", result);
-        return 43;
+            ]);
+            console.log("results = ", results);
+            if (results.length > 0) {
+                yield ProductModel_1.default.findOneAndUpdate({ _id: productId }, {
+                    averageRating: results[0].averageRating.toFixed(1),
+                    numberOfReviews: results[0].numberOfReviews,
+                });
+            }
+            else {
+                console.log("No reviews found for product:", productId);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
     });
 });
 schema.post("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
-        yield this.constructor.calculateAverageRating();
+        yield Model_v2.calculateAverageRating();
     });
 });
-schema.post("deleteOne", function () {
+schema.post("deleteOne", { document: true, query: false }, function () {
     return __awaiter(this, void 0, void 0, function* () {
-        yield this.constructor.calculateAverageRating();
+        yield Model_v2.calculateAverageRating();
     });
 });
 const Model_v2 = (0, mongoose_1.model)("Review", schema);

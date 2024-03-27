@@ -3,6 +3,13 @@
 
 import { InferSchemaType, Model, model, Schema, Types } from "mongoose";
 import { IReview } from "../@types/reviews";
+import Product from "./ProductModel";
+
+interface IAggregateResult {
+  _id: Types.ObjectId;
+  averageRating: number;
+  numberOfReviews: number;
+}
 
 /** Create a Schema corresponding to the document interface. */
 const schema = new Schema(
@@ -46,39 +53,72 @@ schema.index({ product: 1, user: 1 }, { unique: true });
 type TReview = InferSchemaType<typeof schema>;
 
 interface IReviewModel extends Model<IReview> {
-  calculateAverageRating(): Promise<number | undefined>; // Updated method signature
+  calculateAverageRating(): Promise<void>; // Updated method signature
 }
 /** Create a static method: calculateAverageRating, by using a function expression
  */
+
+// schema.static(
+//   "calculateAverageRating",
+//   async function (productId: Types.ObjectId): Promise<void> {
+//     console.log("calculate Average Rating");
+//     const results: IAggregateResult[] = await this.aggregate([
+//       { $match: { product: productId } },
+//       {
+//         $group: {
+//           _id: "$product",
+//           averageRating: { $avg: "$rating" },
+//           numberOfReviews: { $sum: 1 },
+//         },
+//       },
+//     ]);
+
+//     console.log("results = ", results);
+//   },
+// );
+
 schema.static(
   "calculateAverageRating",
-  async function (productId: Types.ObjectId): Promise<number | undefined> {
-    const result = await this.aggregate([
-      { $match: { product: productId } },
-      {
-        $group: {
-          _id: productId,
-          aveRageRating: {
-            $avg: "$rating",
-          },
-          numberOfReviews: {
-            $sum: +1,
+  async function (productId: Types.ObjectId): Promise<void> {
+    try {
+      const results: IAggregateResult[] = await Model_v2.aggregate([
+        { $match: { product: productId } },
+        {
+          $group: {
+            _id: "$product",
+            averageRating: { $avg: "$rating" },
+            numberOfReviews: { $sum: 1 },
           },
         },
-      },
-    ]);
+      ]);
 
-    console.log("result = ", result);
-    return 43;
+      console.log("results = ", results);
+      if (results.length > 0) {
+        // Check if results array is not empty
+        await Product.findOneAndUpdate(
+          { _id: productId },
+          {
+            averageRating: results[0].averageRating.toFixed(1), // Remove optional chaining as we ensure results[0] exists
+            numberOfReviews: results[0].numberOfReviews,
+          },
+        );
+      } else {
+        console.log("No reviews found for product:", productId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
 );
 
-schema.post<IReview>("save", async function () {
-  await (this.constructor as IReviewModel).calculateAverageRating();
+schema.post("save", async function () {
+  // await (this.constructor as IReviewModel).calculateAverageRating();
+  await Model_v2.calculateAverageRating();
 });
 
-schema.post<IReview>("deleteOne", async function () {
-  await (this.constructor as IReviewModel).calculateAverageRating();
+schema.post("deleteOne", { document: true, query: false }, async function () {
+  // await (this.constructor as IReviewModel).calculateAverageRating();
+  await Model_v2.calculateAverageRating();
 });
 
 /** Create a model */

@@ -43,7 +43,7 @@ const schema = new mongoose_1.Schema({
 schema.index({ product: 1, user: 1 }, { unique: true });
 schema.static("calculateAverageRating", function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return 43;
+        console.log("calculate Average Rating");
     });
 });
 schema.post("save", function () {

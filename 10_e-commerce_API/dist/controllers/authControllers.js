@@ -16,16 +16,14 @@ exports.logout = exports.login = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
-var ROLE;
-(function (ROLE) {
-    ROLE["admin"] = "admin";
-    ROLE["user"] = "user";
-})(ROLE || (ROLE = {}));
+const user_1 = require("../@types/user");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const role = (yield UserModel_1.default.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
+    const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
     const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role }));
     user.attachCookiesToResponse(res);
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
+    res
+        .status(http_status_codes_1.StatusCodes.CREATED)
+        .json({ user: { name: user.name, userId: user._id, role: user.role } });
 });
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
