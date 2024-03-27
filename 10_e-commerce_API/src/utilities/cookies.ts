@@ -2,8 +2,12 @@ import { Response } from "express";
 import { createJWT } from "./jwt";
 import { IUserTokenPayload } from "../@types/user";
 
-//------------------------------------------------------
+/**
+ * functions here are no more used, but kept for legacy.
+ * Equivalent method in Mongoose model
+ */
 
+//
 export const attachCookiesToResponse = (
   res: Response,
   payload: IUserTokenPayload,
@@ -20,8 +24,7 @@ export const attachCookiesToResponse = (
   });
 };
 
-//------------------------------------------------------
-
+//
 export const destroyCookiesInResponse = (res: Response) => {
   // change the cookie value + make it expire now !
   return res.cookie("access_token", null, {
