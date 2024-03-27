@@ -43,7 +43,7 @@ interface ICustomError extends Error {
   };
 }
 
-const errorHandler = (
+export const errorHandler = (
   err: ICustomError,
   _req: Request,
   res: Response,
@@ -85,5 +85,3 @@ const errorHandler = (
   // return res.status(customError.statusCode).json({ err });
   return res.status(customError.statusCode).json({ msg: customError.message });
 };
-
-export default errorHandler;
