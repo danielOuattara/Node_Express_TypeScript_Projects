@@ -39,8 +39,8 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/reviews", reviewRouter);
 
 app.use("/api/v1", (req, res) => {
-  // console.log("req.cookies = ", req.cookies); // <-- accessing unsigned cookies
   console.log("Welcome to e-commerce API");
+  // console.log("req.cookies = ", req.cookies); // <-- accessing unsigned cookies
   console.log("req.signedCookies = ", req.signedCookies); // <-- accessing signed cookies
   res.send("Welcome to e-commerce API");
 });
