@@ -2,29 +2,29 @@ import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors";
-import { IUserReqBody } from "../@types/user";
+import { IUserRegisterReqBody, ROLE } from "../@types/user";
 
 //-----------------------------------------------------
 
-enum ROLE {
-  admin = "admin",
-  user = "user",
-}
-
-export const register: RequestHandler<{}, {}, IUserReqBody> = async (
+// first registered user should be an admin
+export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   req,
   res,
 ) => {
-  // first registered user should be an admin
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
   const user = await User.create({ ...req.body, role });
   user.attachCookiesToResponse(res);
-  res.status(StatusCodes.CREATED).json({ user });
+  res
+    .status(StatusCodes.CREATED)
+    .json({ user: { name: user.name, userId: user._id, role: user.role } });
 };
 
 //-----------------------------------------------------
 
-export const login: RequestHandler<{}, {}, IUserReqBody> = async (req, res) => {
+export const login: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
+  req,
+  res,
+) => {
   // check email & password presents
   if (!req.body.email || !req.body.password) {
     throw new BadRequestError("Email and Password are required !");
