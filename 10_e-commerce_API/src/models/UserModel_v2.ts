@@ -35,42 +35,34 @@ const schema = new Schema({
 
   role: {
     type: String,
-    enum: ROLE,
-    default: ROLE.user,
+    enum: {
+      values: Object.values(ROLE),
+      default: ROLE.user,
+      message: "{VALUE} is not a valid value for ROLE position",
+    },
   },
-  // role: {
-  //   type: String,
-  //   enum: {
-  //     values: Object.values(ROLE),
-  //     default: ROLE.user,
-  //   },
-  // },
 });
 
 //---
 schema.pre("save", async function () {
-  // console.log(this.modifiedPaths()); // --> an array of strings like: [ "name", email]
-  // console.log(this.isModified("name")); //  --> boolean
-  if (this.isModified("password")) {
-    const salt = await genSalt(11);
-    this.password = await hash(this.password, salt);
-  } else {
-    return;
-  }
+  if (!this.isModified("password")) return;
+  const salt = await genSalt(11);
+  this.password = await hash(this.password, salt);
 });
 
 //---
 schema.methods.verifyPassword = async function (password: string) {
-  const isValid = await compare(password, this.password);
-  return isValid;
+  return await compare(password, this.password);
 };
 
+//---
 schema.methods.createJWT = function (payload: IPayload) {
   return sign(payload, process.env.JWT_SECRET as Secret, {
     expiresIn: process.env.JWT_LIFETIME as string,
   });
 };
 
+//---
 schema.methods.attachCookiesToResponse = function (res: Response) {
   const payload: IPayload = {
     name: this.name,
@@ -88,6 +80,7 @@ schema.methods.attachCookiesToResponse = function (res: Response) {
   });
 };
 
+//---
 schema.static("destroyCookiesInResponse", function (res: Response) {
   return res.cookie("access_token", "", {
     expires: new Date(Date.now()),
