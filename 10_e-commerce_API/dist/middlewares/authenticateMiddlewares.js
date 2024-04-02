@@ -29,7 +29,7 @@ const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, 
         if (user) {
             const isTestUser = user._id.equals(process.env.TEST_USER_ID);
             const isAdmin = user.role === "admin";
-            req.user = Object.assign(Object.assign({}, user.toObject()), { isTestUser, isAdmin });
+            req.user = Object.assign(Object.assign({}, user), { isTestUser, isAdmin });
         }
         next();
     }
