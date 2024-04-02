@@ -20,11 +20,23 @@ export interface IPayload {
 }
 
 export interface IUserRegisterReqBody {
+  name: string;
+  email: string;
+  password: string;
+}
+export interface IUserLoginReqBody {
+  email: string;
+  password: string;
+}
+
+export interface IUserPatchReqBody {
   name?: string;
   email?: string;
-  password?: string;
-  oldPassword?: string;
-  newPassword?: string;
+}
+export interface IUserUpdatePasswordReqBody {
+  password: string;
+  oldPassword: string;
+  newPassword: string;
 }
 
 export interface IUserTokenPayload {
