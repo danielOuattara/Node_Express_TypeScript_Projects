@@ -1,9 +1,9 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { UnauthenticatedError } from "../errors";
-import { isTokenValid } from "../utilities/jwt";
 import User from "../models/UserModel";
-import { MongooseUser } from "../@types/user";
+import { IUserTokenPayload, MongooseUser } from "../@types/user";
 import UnauthorizedError from "../errors/unauthorized-error ";
+import { Secret, verify } from "jsonwebtoken";
 
 //----------------------------------------------------------
 
@@ -15,12 +15,16 @@ export const authenticateUser: RequestHandler = async (req, _res, next) => {
 
   try {
     const token = access_token.split(" ")[1];
-    const payload = isTokenValid(token);
+    const payload = verify(
+      token,
+      process.env.JWT_SECRET as Secret,
+    ) as IUserTokenPayload;
 
-    /*
+    /**
      * Better: register in the "req" object a complete Mongoose user object
      * with all possible associations & methods.
      */
+
     const user = await User.findById(payload.userId).select("-password");
     if (user) {
       const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
