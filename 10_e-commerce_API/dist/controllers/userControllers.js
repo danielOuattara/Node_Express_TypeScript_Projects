@@ -12,10 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPassword = exports.updateUser = exports.showCurrentUser = exports.getSingleUser = exports.getAllUsers = void 0;
+exports.updateUserPassword = exports.patchUser = exports.showCurrentUser = exports.getSingleUser = exports.getAllUsers = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
+const utilities_1 = require("../utilities");
+const mongoose_1 = require("mongoose");
 const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield UserModel_1.default.find({ role: "user" }, "-password");
     return res.status(http_status_codes_1.StatusCodes.OK).json({ nb_Hits: users.length, users });
@@ -23,12 +25,9 @@ const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.getAllUsers = getAllUsers;
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.user) {
-        throw new errors_1.UnauthenticatedError("Access denied 1");
+        throw new errors_1.UnauthenticatedError("Access denied");
     }
-    if (req.user._id.toString() !== req.params.userId ||
-        req.user.role !== "admin") {
-        throw new errors_1.UnauthenticatedError("Access denied 2");
-    }
+    (0, utilities_1.checkAuthOrAdmin)(req.user, new mongoose_1.Types.ObjectId(req.params.userId));
     const user = yield UserModel_1.default.findOne({ _id: req.params.userId }).select("-password");
     if (!user) {
         throw new errors_1.NotFoundError("User Not Found");
@@ -40,7 +39,7 @@ const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function
     return res.status(http_status_codes_1.StatusCodes.OK).json({ user: req.user });
 });
 exports.showCurrentUser = showCurrentUser;
-const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const patchUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.name || !req.body.email) {
         throw new errors_1.BadRequestError("Name and Email are required !");
     }
@@ -52,7 +51,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     user.attachCookiesToResponse(res);
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User updated successfully" });
 });
-exports.updateUser = updateUser;
+exports.patchUser = patchUser;
 const updateUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     if (!req.body.oldPassword || !req.body.newPassword) {

@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authAdmin = exports.authRoles = exports.authUser = void 0;
+exports.authenticateAdmin = exports.authenticateRoles = exports.authenticateUser = void 0;
 const errors_1 = require("../errors");
-const jwt_1 = require("./../utilities/jwt");
+const jwt_1 = require("../utilities/jwt");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const unauthorized_error_1 = __importDefault(require("../errors/unauthorized-error "));
-const authUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const access_token = req.signedCookies.access_token;
     if (!access_token || !access_token.startsWith("Bearer")) {
         throw new errors_1.UnauthenticatedError("Request Denied !");
@@ -37,8 +37,8 @@ const authUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function
         throw new errors_1.UnauthenticatedError("Request Denied !");
     }
 });
-exports.authUser = authUser;
-const authRoles = (...roles) => {
+exports.authenticateUser = authenticateUser;
+const authenticateRoles = (...roles) => {
     return function (req, _res, next) {
         if (!roles.includes(req.user.role)) {
             throw new unauthorized_error_1.default(`Request denied for ${req.user.role} role`);
@@ -46,11 +46,11 @@ const authRoles = (...roles) => {
         next();
     };
 };
-exports.authRoles = authRoles;
-const authAdmin = (req, _res, next) => {
+exports.authenticateRoles = authenticateRoles;
+const authenticateAdmin = (req, _res, next) => {
     if (!req.user.isAdmin) {
         throw new unauthorized_error_1.default("Again Request Denied! Admin Access Only");
     }
     next();
 };
-exports.authAdmin = authAdmin;
+exports.authenticateAdmin = authenticateAdmin;
