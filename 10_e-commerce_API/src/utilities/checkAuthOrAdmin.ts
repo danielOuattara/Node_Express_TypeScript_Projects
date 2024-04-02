@@ -7,7 +7,6 @@ export const checkAuthOrAdmin = (
   resourceUserId: Types.ObjectId,
 ) => {
   if (requestUser!.role === "admin") return;
-  if (requestUser!._id?.equals(resourceUserId.toString())) return;
-
+  if (requestUser!._id.equals(resourceUserId)) return;
   throw new UnauthenticatedError("Access denied");
 };
