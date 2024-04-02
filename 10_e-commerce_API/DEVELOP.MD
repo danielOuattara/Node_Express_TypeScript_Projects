@@ -81,3 +81,92 @@ schema.methods.attachCookiesToResponse = function (res: Response) {
   return res.status(StatusCodes.CREATED).json({ user: payload });
 };
 ```
+
+### More available code logic for userControllers
+
+```ts
+/**
+ * find({filter}).select(projection)
+ */
+export const getAllUsers: RequestHandler = async (_req, res) => {
+  const users = await User.find({ role: "user" }).select("-password");
+  return res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
+};
+```
+
+OR
+
+```ts
+/**
+ * find({filter}, projection)
+ */
+export const getAllUsers: RequestHandler = async (_req, res) => {
+  const users = await User.find({ role: "user" }, "-password");
+  return res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
+};
+```
+
+```ts
+/**
+ * John's method + cleaned up
+ */
+
+export const getSingleUser: RequestHandler = async (req, res) => {
+  if (!req.user) {
+    throw new UnauthenticatedError("Access denied");
+  }
+
+  checkAuthOrAdmin(req.user, req.params.userId);
+
+  const user = await User.findOne({ _id: req.params.userId }).select(
+    "-password",
+  );
+  if (!user) {
+    throw new NotFoundError("User Not Found");
+  }
+
+  res.status(StatusCodes.OK).json({ user });
+};
+```
+
+```ts
+/**
+ * my method: Working!
+ */
+
+export const getSingleUser: RequestHandler = async (req, res) => {
+  if (!req.user) {
+    throw new UnauthenticatedError("Access denied 1");
+  }
+
+  if (
+    req.user._id.toString() !== req.params.userId ||
+    req.user.role !== "admin"
+  ) {
+    throw new UnauthenticatedError("Access denied 2");
+  }
+  const user = await User.findOne({ _id: req.params.userId }).select(
+    "-password",
+  );
+  if (!user) {
+    throw new NotFoundError("User Not Found");
+  }
+
+  res.status(StatusCodes.OK).json({ user });
+};
+```
+
+```ts
+import { Types } from "mongoose";
+import { MongooseUser } from "../@types/user";
+import { UnauthenticatedError } from "../errors";
+
+export const checkAuthOrAdmin = (
+  requestUser: MongooseUser,
+  resourceUserId: Types.ObjectId,
+) => {
+  if (requestUser!.role === "admin") return;
+  if (requestUser!._id.equals(resourceUserId)) return;
+  throw new UnauthenticatedError("Access denied");
+};
+```
