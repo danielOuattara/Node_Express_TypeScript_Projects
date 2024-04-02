@@ -1,14 +1,14 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { UnauthenticatedError } from "../errors";
-import { isTokenValid } from "./../utilities/jwt";
+import { isTokenValid } from "../utilities/jwt";
 import User from "../models/UserModel";
 import { MongooseUser } from "../@types/user";
 import UnauthorizedError from "../errors/unauthorized-error ";
 
 //----------------------------------------------------------
 
-export const authUser: RequestHandler = async (req, _res, next) => {
-  const access_token: string = req.signedCookies.access_token;
+export const authenticateUser: RequestHandler = async (req, _res, next) => {
+  const access_token = req.signedCookies.access_token;
   if (!access_token || !access_token.startsWith("Bearer")) {
     throw new UnauthenticatedError("Request Denied !");
   }
@@ -35,7 +35,7 @@ export const authUser: RequestHandler = async (req, _res, next) => {
 
 //----------------------------------------------------------
 
-export const authRoles = (...roles: string[]) => {
+export const authenticateRoles = (...roles: string[]) => {
   return function (req: Request, _res: Response, next: NextFunction) {
     if (!roles.includes(req.user!.role)) {
       throw new UnauthorizedError(`Request denied for ${req.user!.role} role`);
@@ -46,7 +46,11 @@ export const authRoles = (...roles: string[]) => {
 
 //----------------------------------------------------------
 /* solution n°2 to check for 'admin' */
-export const authAdmin = (req: Request, _res: Response, next: NextFunction) => {
+export const authenticateAdmin = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
   if (!req.user!.isAdmin) {
     throw new UnauthorizedError("Again Request Denied! Admin Access Only");
   }
