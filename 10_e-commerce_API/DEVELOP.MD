@@ -170,3 +170,53 @@ export const checkAuthOrAdmin = (
   throw new UnauthenticatedError("Access denied");
 };
 ```
+
+
+```ts
+/**
+ * John's method + cleaned up
+ */
+export const getSingleUser: RequestHandler = async (req, res) => {
+  if (!req.user) {
+    throw new UnauthenticatedError("Access denied");
+  }
+
+  checkAuthOrAdmin(req.user, new Types.ObjectId(req.params.userId));
+
+  const user = await User.findOne({ _id: req.params.userId }).select(
+    "-password",
+  );
+  if (!user) {
+    throw new NotFoundError("User Not Found");
+  }
+
+  res.status(StatusCodes.OK).json({ user });
+};
+```
+
+```ts
+/**
+ * my method: Working!
+ */
+
+export const getSingleUser: RequestHandler = async (req, res) => {
+  if (!req.user) {
+    throw new UnauthenticatedError("Access denied 1");
+  }
+
+  if (
+    req.user._id.toString() !== req.params.userId ||
+    req.user.role !== "admin"
+  ) {
+    throw new UnauthenticatedError("Access denied 2");
+  }
+  const user = await User.findOne({ _id: req.params.userId }).select(
+    "-password",
+  );
+  if (!user) {
+    throw new NotFoundError("User Not Found");
+  }
+
+  res.status(StatusCodes.OK).json({ user });
+};
+```
