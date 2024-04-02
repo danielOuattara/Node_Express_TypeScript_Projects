@@ -2,11 +2,10 @@ import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors";
-import { IUserRegisterReqBody, ROLE } from "../@types/user";
+import { IUserLoginReqBody, IUserRegisterReqBody, ROLE } from "../@types/user";
 
 //-----------------------------------------------------
-
-// first registered user should be an admin
+/** first registered user should be an admin */
 export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   req,
   res,
@@ -21,7 +20,7 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
 
 //-----------------------------------------------------
 
-export const login: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
+export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
   req,
   res,
 ) => {

@@ -6,7 +6,7 @@ import {
   NotFoundError,
   UnauthenticatedError,
 } from "../errors";
-import { IUserRegisterReqBody } from "../@types/user";
+import { IUserPatchReqBody, IUserUpdatePasswordReqBody } from "../@types/user";
 // import { checkAuthOrAdmin } from "../utilities/checkAuthOrAdmin";
 
 //-----------------------------------------------------
@@ -135,7 +135,7 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * user.updateOne() method
  */
 
-export const updateUser: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
+export const updateUser: RequestHandler<{}, {}, IUserPatchReqBody> = async (
   req,
   res,
 ) => {
@@ -161,7 +161,7 @@ export const updateUser: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
 export const updateUserPassword: RequestHandler<
   {},
   {},
-  IUserRegisterReqBody
+  IUserUpdatePasswordReqBody
 > = async (req, res) => {
   if (!req.body.oldPassword || !req.body.newPassword) {
     throw new BadRequestError("newPassword and oldPassword are required !");
