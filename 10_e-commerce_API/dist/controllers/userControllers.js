@@ -53,11 +53,10 @@ const patchUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.patchUser = patchUser;
 const updateUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     if (!req.body.oldPassword || !req.body.newPassword) {
         throw new errors_1.BadRequestError("newPassword and oldPassword are required !");
     }
-    const user = yield UserModel_1.default.findById((_a = req.user) === null || _a === void 0 ? void 0 : _a._id);
+    const user = yield UserModel_1.default.findById(req.user._id);
     if (!user) {
         throw new errors_1.NotFoundError("Email and Password are required !");
     }

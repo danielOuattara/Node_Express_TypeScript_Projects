@@ -131,8 +131,8 @@ export const updateUserPassword: RequestHandler<
     throw new BadRequestError("newPassword and oldPassword are required !");
   }
 
-  const user = await User.findById(req.user?._id);
   // check user exists !
+  const user = await User.findById(req.user!._id);
   if (!user) {
     throw new NotFoundError("Email and Password are required !");
   }
@@ -145,7 +145,5 @@ export const updateUserPassword: RequestHandler<
 
   user.password = req.body.newPassword;
   user.save();
-
-  // send back response to user
   res.status(StatusCodes.OK).json({ message: "Password successfully updated" });
 };
