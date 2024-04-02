@@ -29,7 +29,7 @@ export const authenticateUser: RequestHandler = async (req, _res, next) => {
     if (user) {
       const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
       const isAdmin = user.role === "admin";
-      req.user = { ...user.toObject(), isTestUser, isAdmin } as MongooseUser;
+      req.user = { ...user, isTestUser, isAdmin } as MongooseUser;
     }
     next();
   } catch (error) {
