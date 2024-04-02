@@ -29,7 +29,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(cookieParser(process.env.JWT_SECRET as string)); // <-- Signed cookie
 
 app.use(express.json());
-app.use(express.static("./testing-with-frontends/vanilla-frontend"));
+app.use(express.static("./frontends-testing/vanilla-frontend"));
 app.use(express.static("./dist/public"));
 app.use(fileUpload());
 

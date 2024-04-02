@@ -24,7 +24,7 @@ const accessLogStream = (0, node_fs_1.createWriteStream)((0, node_path_1.join)(_
 app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.json());
-app.use(express_1.default.static("./testing-with-frontends/vanilla-frontend"));
+app.use(express_1.default.static("./frontends-testing/vanilla-frontend"));
 app.use(express_1.default.static("./dist/public"));
 app.use((0, express_fileupload_1.default)());
 app.use("/api/v1/auth", authRoutes_1.default);

@@ -3,6 +3,7 @@ const emailInput = document.querySelector(".email-input");
 const passwordInput = document.querySelector(".password-input");
 const testingBtn = document.querySelector(".testing-btn");
 const logoutBtn = document.querySelector(".logout-btn");
+const messageParagraph = document.querySelector(".message");
 
 loginFormDOM.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -22,6 +23,12 @@ loginFormDOM.addEventListener("submit", async (e) => {
     if (response.status === 200) {
       emailInput.value = "";
       passwordInput.value = "";
+      const data = await response.json();
+      messageParagraph.textContent = `${data.message}`;
+    }
+
+    if (response.status !== 200) {
+      messageParagraph.textContent = `${response.status} - ${response.statusText}`;
     }
   } catch (error) {
     console.log(error);
@@ -35,6 +42,7 @@ testingBtn.addEventListener("click", async () => {
     console.log(error);
   }
 });
+
 logoutBtn.addEventListener("click", async () => {
   try {
     const response = await fetch("/api/v1/auth/logout");

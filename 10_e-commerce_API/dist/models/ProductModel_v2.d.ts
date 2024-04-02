@@ -28,7 +28,6 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -38,9 +37,10 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
-    price: number;
-    description: string;
+    name: string;
     image: string;
+    description: string;
+    price: number;
     category: EnumCategory;
     company: EnumCompany;
     colors: string[];
@@ -53,7 +53,6 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -63,9 +62,10 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
-    price: number;
-    description: string;
+    name: string;
     image: string;
+    description: string;
+    price: number;
     category: EnumCategory;
     company: EnumCompany;
     colors: string[];
@@ -78,7 +78,6 @@ declare const Product_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -88,9 +87,10 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
-    price: number;
-    description: string;
+    name: string;
     image: string;
+    description: string;
+    price: number;
     category: EnumCategory;
     company: EnumCompany;
     colors: string[];
