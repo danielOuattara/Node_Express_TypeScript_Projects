@@ -10,22 +10,24 @@ import {
 
 import { getSingleProductReviews } from "./../controllers/reviewControllers";
 
-import { authRoles, authUser } from "../middlewares/auth";
+import { authenticateRoles, authenticateUser } from "../middlewares";
 
 const router = Router();
 
 router
   .route("/")
-  .post([authUser, authRoles("admin")], createProduct)
+  .post([authenticateUser, authenticateRoles("admin")], createProduct)
   .get(getAllProducts);
 
-router.route("/upload-image").post([authUser, authRoles("admin")], uploadImage);
+router
+  .route("/upload-image")
+  .post([authenticateUser, authenticateRoles("admin")], uploadImage);
 
 router
   .route("/:productId")
   .get(getSingleProduct)
-  .patch([authUser, authRoles("admin")], updateProduct)
-  .delete([authUser, authRoles("admin")], deleteProduct);
+  .patch([authenticateUser, authenticateRoles("admin")], updateProduct)
+  .delete([authenticateUser, authenticateRoles("admin")], deleteProduct);
 
 router.route("/:productId/reviews").get(getSingleProductReviews);
 

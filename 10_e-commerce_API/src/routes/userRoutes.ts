@@ -3,17 +3,28 @@ import {
   getAllUsers,
   getSingleUser,
   showCurrentUser,
-  updateUser,
+  patchUser,
   updateUserPassword,
 } from "../controllers/userControllers";
-import { authUser, authAdmin, authRoles } from "../middlewares/auth";
+import {
+  authenticateUser,
+  authenticateAdmin,
+  authenticateRoles,
+} from "../middlewares";
 
 const router = Router();
 
-router.route("/").get(authUser, authRoles("admin"), authAdmin, getAllUsers);
-router.route("/show-user").get(authUser, showCurrentUser);
-router.route("/update-user").patch(authUser, updateUser);
-router.route("/update-password").patch(authUser, updateUserPassword);
-router.route("/:userId").get(authUser, getSingleUser);
+router
+  .route("/")
+  .get(
+    authenticateUser,
+    authenticateRoles("admin"),
+    authenticateAdmin,
+    getAllUsers,
+  );
+router.route("/show-user").get(authenticateUser, showCurrentUser);
+router.route("/update-user").patch(authenticateUser, patchUser);
+router.route("/update-password").put(authenticateUser, updateUserPassword);
+router.route("/:userId").get(authenticateUser, getSingleUser);
 
 export default router;

@@ -6,15 +6,15 @@ import {
   updateReview,
   deleteReview,
 } from "../controllers/reviewControllers";
-import { authUser } from "../middlewares/auth";
+import { authenticateUser } from "../middlewares/authenticateMiddlewares";
 
 const router = Router();
-router.route("/").post(authUser, createReview).get(getAllReviews);
+router.route("/").post(authenticateUser, createReview).get(getAllReviews);
 
 router
   .route("/:reviewId")
   .get(getSingleReview)
-  .patch(authUser, updateReview)
-  .delete(authUser, deleteReview);
+  .patch(authenticateUser, updateReview)
+  .delete(authenticateUser, deleteReview);
 
 export default router;
