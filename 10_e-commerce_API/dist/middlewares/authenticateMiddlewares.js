@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authenticateAdmin = exports.authenticateRoles = exports.authenticateUser = void 0;
 const errors_1 = require("../errors");
-const jwt_1 = require("../utilities/jwt");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const unauthorized_error_1 = __importDefault(require("../errors/unauthorized-error "));
+const jsonwebtoken_1 = require("jsonwebtoken");
 const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const access_token = req.signedCookies.access_token;
     if (!access_token || !access_token.startsWith("Bearer")) {
@@ -24,7 +24,7 @@ const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, 
     }
     try {
         const token = access_token.split(" ")[1];
-        const payload = (0, jwt_1.isTokenValid)(token);
+        const payload = (0, jsonwebtoken_1.verify)(token, process.env.JWT_SECRET);
         const user = yield UserModel_1.default.findById(payload.userId).select("-password");
         if (user) {
             const isTestUser = user._id.equals(process.env.TEST_USER_ID);
