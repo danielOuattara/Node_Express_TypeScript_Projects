@@ -7,61 +7,30 @@ import {
   UnauthenticatedError,
 } from "../errors";
 import { IUserPatchReqBody, IUserUpdatePasswordReqBody } from "../@types/user";
-// import { checkAuthOrAdmin } from "../utilities/checkAuthOrAdmin";
+import { checkAuthOrAdmin } from "../utilities";
+import { Types } from "mongoose";
 
 //-----------------------------------------------------
 
-/*find({filter}).select(projection) */
-// export const getAllUsers: RequestHandler = async (_req, res) => {
-//   const users = await User.find({ role: "user" }).select("-password");
-//   return res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
-// };
-
-/* OR */
-
-// find({filter}, projection)
+/**
+ * find({filter}, projection)
+ */
 export const getAllUsers: RequestHandler = async (_req, res) => {
   const users = await User.find({ role: "user" }, "-password");
   return res.status(StatusCodes.OK).json({ nb_Hits: users.length, users });
 };
 
 //-----------------------------------------------------
-/*
+/**
  * John's method + cleaned up
  */
-
-// export const getSingleUser: RequestHandler = async (req, res) => {
-//   if (!req.user) {
-//     throw new UnauthenticatedError("Access denied");
-//   }
-
-//   checkAuthOrAdmin(req.user, req.params.userId);
-
-//   const user = await User.findOne({ _id: req.params.userId }).select(
-//     "-password",
-//   );
-//   if (!user) {
-//     throw new NotFoundError("User Not Found");
-//   }
-
-//   res.status(StatusCodes.OK).json({ user });
-// };
-
-/* ------------------------------------------------------
- * my method: Working!
- */
-
 export const getSingleUser: RequestHandler = async (req, res) => {
   if (!req.user) {
-    throw new UnauthenticatedError("Access denied 1");
+    throw new UnauthenticatedError("Access denied");
   }
 
-  if (
-    req.user._id.toString() !== req.params.userId ||
-    req.user.role !== "admin"
-  ) {
-    throw new UnauthenticatedError("Access denied 2");
-  }
+  checkAuthOrAdmin(req.user, new Types.ObjectId(req.params.userId));
+
   const user = await User.findOne({ _id: req.params.userId }).select(
     "-password",
   );
@@ -71,6 +40,31 @@ export const getSingleUser: RequestHandler = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ user });
 };
+
+/**
+ * my method: Working!
+ */
+
+// export const getSingleUser: RequestHandler = async (req, res) => {
+//   if (!req.user) {
+//     throw new UnauthenticatedError("Access denied 1");
+//   }
+
+//   if (
+//     req.user._id.toString() !== req.params.userId ||
+//     req.user.role !== "admin"
+//   ) {
+//     throw new UnauthenticatedError("Access denied 2");
+//   }
+//   const user = await User.findOne({ _id: req.params.userId }).select(
+//     "-password",
+//   );
+//   if (!user) {
+//     throw new NotFoundError("User Not Found");
+//   }
+
+//   res.status(StatusCodes.OK).json({ user });
+// };
 
 //-----------------------------------------------------
 
@@ -84,7 +78,7 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * findOneAndUpdate() method
  */
 
-// export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
+// export const patchUser: RequestHandler<{}, {}, IReqBody> = async (
 //   req,
 //   res,
 // ) => {
@@ -109,7 +103,7 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * user.save() method
  */
 
-// export const updateUser: RequestHandler<{}, {}, IReqBody> = async (
+// export const patchUser: RequestHandler<{}, {}, IReqBody> = async (
 //   req,
 //   res,
 // ) => {
@@ -135,7 +129,7 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * user.updateOne() method
  */
 
-export const updateUser: RequestHandler<{}, {}, IUserPatchReqBody> = async (
+export const patchUser: RequestHandler<{}, {}, IUserPatchReqBody> = async (
   req,
   res,
 ) => {
