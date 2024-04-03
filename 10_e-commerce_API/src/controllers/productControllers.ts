@@ -1,17 +1,16 @@
 import { RequestHandler } from "express";
 import Product from "./../models/ProductModel";
 import { StatusCodes } from "http-status-codes";
-import { ICreateProductReqBody } from "../@types/product";
+import { IProduct } from "../@types/product";
 import { BadRequestError, NotFoundError } from "../errors";
 import path from "node:path";
 import { IReview } from "../@types/reviews";
 //--------------------------------------------------------------
 
-export const createProduct: RequestHandler<
-  {},
-  {},
-  ICreateProductReqBody
-> = async (req, res) => {
+export const createProduct: RequestHandler<{}, {}, IProduct> = async (
+  req,
+  res,
+) => {
   req.body.user = req.user!._id; // user _id required in product model
   const product = await Product.create(req.body);
   res.status(StatusCodes.CREATED).json({ product });
@@ -46,7 +45,7 @@ export const getSingleProduct: RequestHandler = async (req, res) => {
 
 //--------------------------------------------------------------
 
-export const updateProduct: RequestHandler = async (req, res) => {
+export const patchProduct: RequestHandler = async (req, res) => {
   const product = await Product.findOneAndUpdate(
     { _id: req.params.productId },
     req.body,
