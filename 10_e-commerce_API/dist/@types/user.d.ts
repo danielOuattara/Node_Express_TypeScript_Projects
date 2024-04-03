@@ -48,9 +48,9 @@ export interface IUserLoginReqBody {
     email: string;
     password: string;
 }
-export interface IUserPatchReqBody {
-    name?: string;
-    email?: string;
+export interface IUserUpdateReqBody {
+    name: string;
+    email: string;
 }
 export interface IUserUpdatePasswordReqBody {
     password: string;

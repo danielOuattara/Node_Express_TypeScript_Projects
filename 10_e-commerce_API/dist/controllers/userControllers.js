@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPassword = exports.patchUser = exports.showCurrentUser = exports.getSingleUser = exports.getAllUsers = void 0;
+exports.updateUserPassword = exports.updateUser = exports.showCurrentUser = exports.getSingleUser = exports.getAllUsers = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
@@ -39,19 +39,19 @@ const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function
     return res.status(http_status_codes_1.StatusCodes.OK).json({ user: req.user });
 });
 exports.showCurrentUser = showCurrentUser;
-const patchUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.name || !req.body.email) {
         throw new errors_1.BadRequestError("Name and Email are required !");
     }
     const user = yield UserModel_1.default.findById(req.user._id);
     if (!user) {
-        throw new errors_1.NotFoundError("User Not Found");
+        throw new errors_1.UnauthenticatedError("User unknown");
     }
     yield user.updateOne(req.body, { new: true, runValidators: true });
     user.attachCookiesToResponse(res);
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User updated successfully" });
 });
-exports.patchUser = patchUser;
+exports.updateUser = updateUser;
 const updateUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.oldPassword || !req.body.newPassword) {
         throw new errors_1.BadRequestError("newPassword and oldPassword are required !");

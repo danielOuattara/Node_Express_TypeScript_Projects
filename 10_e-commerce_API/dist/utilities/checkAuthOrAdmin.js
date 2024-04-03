@@ -7,6 +7,6 @@ const checkAuthOrAdmin = (requestUser, resourceUserId) => {
         return;
     if (requestUser._id.equals(resourceUserId))
         return;
-    throw new errors_1.UnauthenticatedError("Access denied");
+    throw new errors_1.UnauthorizedError("Access denied");
 };
 exports.checkAuthOrAdmin = checkAuthOrAdmin;
