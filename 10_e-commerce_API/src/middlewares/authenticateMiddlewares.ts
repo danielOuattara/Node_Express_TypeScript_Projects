@@ -6,13 +6,16 @@ import UnauthorizedError from "../errors/unauthorized-error ";
 import { Secret, verify } from "jsonwebtoken";
 
 //----------------------------------------------------------
+/**
+ * Better: register in the "req" object a complete Mongoose user object
+ * with all possible associations & methods.
+ */
 
 export const authenticateUser: RequestHandler = async (req, _res, next) => {
   const access_token = req.signedCookies.access_token;
   if (!access_token || !access_token.startsWith("Bearer")) {
     throw new UnauthenticatedError("Request Denied !");
   }
-
   try {
     const token = access_token.split(" ")[1];
     const payload = verify(
@@ -20,17 +23,13 @@ export const authenticateUser: RequestHandler = async (req, _res, next) => {
       process.env.JWT_SECRET as Secret,
     ) as IUserTokenPayload;
 
-    /**
-     * Better: register in the "req" object a complete Mongoose user object
-     * with all possible associations & methods.
-     */
-
     const user = await User.findById(payload.userId).select("-password");
-    if (user) {
-      const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
-      const isAdmin = user.role === "admin";
-      req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
+    if (!user) {
+      throw new UnauthenticatedError("User unknown");
     }
+    const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
+    const isAdmin = user.role === "admin";
+    req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
     next();
   } catch (error) {
     throw new UnauthenticatedError("Request Denied !");
