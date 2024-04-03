@@ -220,3 +220,81 @@ export const getSingleUser: RequestHandler = async (req, res) => {
   res.status(StatusCodes.OK).json({ user });
 };
 ```
+
+```ts
+/**
+ * findOneAndUpdate() method 1
+ */
+
+export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
+  req,
+  res,
+) => {
+  if (!req.body.name || !req.body.email) {
+    throw new BadRequestError("Name and Email are required !");
+  }
+  const user = await User.findOneAndUpdate(
+    { _id: req.user!._id },
+    { name: req.body.name, email: req.body.email },
+    { new: true, runValidators: true },
+  );
+
+  if (!user) {
+    throw new UnauthenticatedError("User unknown");
+  }
+
+  user.attachCookiesToResponse(res);
+  res.status(StatusCodes.OK).json({ message: "User updated successfully" });
+};
+```
+
+```ts
+/*
+ * user.save() method 2
+ */
+
+export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
+  req,
+  res,
+) => {
+  if (!req.body.name || !req.body.email) {
+    throw new BadRequestError("Name and Email are required !");
+  }
+  const user = await User.findById(req.user!._id);
+  if (!user) {
+    throw new UnauthenticatedError("User unknown");
+  }
+
+  user.name = req.body.name;
+  user.email = req.body.email;
+
+  await user.save();
+  user.attachCookiesToResponse(res);
+  res.status(StatusCodes.OK).json({ message: "User updated successfully" });
+};
+```
+
+```ts
+/*
+ * user.updateOne() method 3
+ */
+
+export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
+  req,
+  res,
+) => {
+  if (!req.body.name || !req.body.email) {
+    throw new BadRequestError("Name and Email are required !");
+  }
+  const user = await User.findById(req.user!._id);
+  if (!user) {
+    throw new UnauthenticatedError("User unknown");
+  }
+
+  await user.updateOne(req.body, { new: true, runValidators: true });
+
+  // this function attaches cookies to res
+  user.attachCookiesToResponse(res);
+  res.status(StatusCodes.OK).json({ message: "User updated successfully" });
+};
+```
