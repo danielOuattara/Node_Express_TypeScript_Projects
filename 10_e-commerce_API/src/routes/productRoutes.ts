@@ -4,7 +4,7 @@ import {
   deleteProduct,
   getAllProducts,
   getSingleProduct,
-  updateProduct,
+  patchProduct,
   uploadImage,
 } from "../controllers/productControllers";
 
@@ -26,7 +26,7 @@ router
 router
   .route("/:productId")
   .get(getSingleProduct)
-  .patch([authenticateUser, authenticateRoles("admin")], updateProduct)
+  .patch([authenticateUser, authenticateRoles("admin")], patchProduct)
   .delete([authenticateUser, authenticateRoles("admin")], deleteProduct);
 
 router.route("/:productId/reviews").get(getSingleProductReviews);
