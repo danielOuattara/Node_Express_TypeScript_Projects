@@ -6,7 +6,7 @@ import {
   NotFoundError,
   UnauthenticatedError,
 } from "../errors";
-import { IUserPatchReqBody, IUserUpdatePasswordReqBody } from "../@types/user";
+import { IUserUpdateReqBody, IUserUpdatePasswordReqBody } from "../@types/user";
 import { checkAuthOrAdmin } from "../utilities";
 import { Types } from "mongoose";
 
@@ -23,9 +23,7 @@ export const getSingleUser: RequestHandler = async (req, res) => {
   if (!req.user) {
     throw new UnauthenticatedError("Access denied");
   }
-
   checkAuthOrAdmin(req.user, new Types.ObjectId(req.params.userId));
-
   const user = await User.findOne({ _id: req.params.userId }).select(
     "-password",
   );
@@ -44,11 +42,11 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
 
 //-----------------------------------------------------
 
-/*
- * findOneAndUpdate() method
+/**
+ * findOneAndUpdate() method 1
  */
 
-// export const patchUser: RequestHandler<{}, {}, IReqBody> = async (
+// export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
 //   req,
 //   res,
 // ) => {
@@ -61,9 +59,11 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
 //     { new: true, runValidators: true },
 //   );
 
-//   // this function attaches cookies to res
-//   user!.attachCookiesToResponse(res);
+//   if (!user) {
+//     throw new UnauthenticatedError("User unknown");
+//   }
 
+//   user.attachCookiesToResponse(res);
 //   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 // };
 
@@ -73,7 +73,7 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * user.save() method
  */
 
-// export const patchUser: RequestHandler<{}, {}, IReqBody> = async (
+// export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
 //   req,
 //   res,
 // ) => {
@@ -81,15 +81,15 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
 //     throw new BadRequestError("Name and Email are required !");
 //   }
 //   const user = await User.findById(req.user!._id);
-//   if (user) {
-//     user.name = req.body.name;
-//     user.email = req.body.email;
+//   if (!user) {
+//     throw new UnauthenticatedError("User unknown");
 //   }
 
-//   await user!.save();
-//   // this function attaches cookies to res
-//   user!.attachCookiesToResponse(res);
+//   user.name = req.body.name;
+//   user.email = req.body.email;
 
+//   await user.save();
+//   user.attachCookiesToResponse(res);
 //   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 // };
 
@@ -99,24 +99,22 @@ export const showCurrentUser: RequestHandler = async (req, res) => {
  * user.updateOne() method
  */
 
-export const patchUser: RequestHandler<{}, {}, IUserPatchReqBody> = async (
+export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
   req,
   res,
 ) => {
   if (!req.body.name || !req.body.email) {
     throw new BadRequestError("Name and Email are required !");
   }
-
   const user = await User.findById(req.user!._id);
   if (!user) {
-    throw new NotFoundError("User Not Found");
+    throw new UnauthenticatedError("User unknown");
   }
 
   await user.updateOne(req.body, { new: true, runValidators: true });
 
   // this function attaches cookies to res
-  user!.attachCookiesToResponse(res);
-
+  user.attachCookiesToResponse(res);
   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 };
 
