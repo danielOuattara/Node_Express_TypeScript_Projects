@@ -48,6 +48,3 @@ export interface IProduct {
     numberOfReviews: Number;
     user: Types.ObjectId;
 }
-export interface ICreateProductReqBody {
-    user: Types.ObjectId;
-}

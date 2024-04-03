@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadImage = exports.deleteProduct = exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.createProduct = void 0;
+exports.uploadImage = exports.deleteProduct = exports.patchProduct = exports.getSingleProduct = exports.getAllProducts = exports.createProduct = void 0;
 const ProductModel_1 = __importDefault(require("./../models/ProductModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
@@ -42,7 +42,7 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
     res.status(http_status_codes_1.StatusCodes.OK).json({ product });
 });
 exports.getSingleProduct = getSingleProduct;
-const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const patchProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield ProductModel_1.default.findOneAndUpdate({ _id: req.params.productId }, req.body, { new: true, runValidators: true });
     if (!product) {
         throw new errors_1.NotFoundError("Product not found");
@@ -51,7 +51,7 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         .status(http_status_codes_1.StatusCodes.OK)
         .json({ message: "Product updated successfully", product });
 });
-exports.updateProduct = updateProduct;
+exports.patchProduct = patchProduct;
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield ProductModel_1.default.findById(req.params.productId);
     if (!product) {

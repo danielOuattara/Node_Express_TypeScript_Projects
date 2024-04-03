@@ -15,7 +15,7 @@ router
 router
     .route("/:productId")
     .get(productControllers_1.getSingleProduct)
-    .patch([middlewares_1.authenticateUser, (0, middlewares_1.authenticateRoles)("admin")], productControllers_1.updateProduct)
+    .patch([middlewares_1.authenticateUser, (0, middlewares_1.authenticateRoles)("admin")], productControllers_1.patchProduct)
     .delete([middlewares_1.authenticateUser, (0, middlewares_1.authenticateRoles)("admin")], productControllers_1.deleteProduct);
 router.route("/:productId/reviews").get(reviewControllers_1.getSingleProductReviews);
 exports.default = router;

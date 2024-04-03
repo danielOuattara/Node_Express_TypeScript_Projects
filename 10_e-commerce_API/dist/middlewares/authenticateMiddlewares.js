@@ -26,11 +26,12 @@ const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, 
         const token = access_token.split(" ")[1];
         const payload = (0, jsonwebtoken_1.verify)(token, process.env.JWT_SECRET);
         const user = yield UserModel_1.default.findById(payload.userId).select("-password");
-        if (user) {
-            const isTestUser = user._id.equals(process.env.TEST_USER_ID);
-            const isAdmin = user.role === "admin";
-            req.user = Object.assign(Object.assign({}, user), { isTestUser, isAdmin });
+        if (!user) {
+            throw new errors_1.UnauthenticatedError("User unknown");
         }
+        const isTestUser = user._id.equals(process.env.TEST_USER_ID);
+        const isAdmin = user.role === "admin";
+        req.user = Object.assign(Object.assign({}, user.toObject({})), { isTestUser, isAdmin });
         next();
     }
     catch (error) {
