@@ -1,5 +1,6 @@
-/* Automatic type inference
----------------------------- */
+/**
+ *  Automatic type inference
+ * --------------------------- */
 
 import { InferSchemaType, Model, model, Schema, Types } from "mongoose";
 import { IReview } from "../@types/reviews";
@@ -11,7 +12,9 @@ interface IAggregateResult {
   numberOfReviews: number;
 }
 
-/** Create a Schema corresponding to the document interface. */
+/**
+ * Create a Schema corresponding to the document interface.
+ */
 const schema = new Schema(
   {
     rating: {
@@ -46,16 +49,24 @@ const schema = new Schema(
   { timestamps: true },
 );
 
-/** Only One review by user and by product: compound index between product and user */
+/**
+ * Only One review by user and by product:
+ * compound index between product and user
+ */
 schema.index({ product: 1, user: 1 }, { unique: true });
 
-/** Create the User by inferring the schema */
+/**
+ * Create the User by inferring the schema
+ */
 type TReview = InferSchemaType<typeof schema>;
 
 interface IReviewModel extends Model<IReview> {
   calculateAverageRating(): Promise<void>; // Updated method signature
 }
-/** Create a static method: calculateAverageRating, by using a function expression
+
+/**
+ * Create a static method: calculateAverageRating,
+ * by using a function expression
  */
 
 // schema.static(
@@ -121,7 +132,9 @@ schema.post("deleteOne", { document: true, query: false }, async function () {
   await Model_v2.calculateAverageRating();
 });
 
-/** Create a model */
+/**
+ * Create a model
+ */
 const Model_v2 = model<TReview, IReviewModel>("Review", schema);
 
 export default Model_v2;

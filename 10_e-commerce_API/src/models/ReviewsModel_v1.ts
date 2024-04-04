@@ -1,6 +1,6 @@
-// /**
-//  *  Separate document interface definition
-//  * -------------------------------------------*/
+/**
+ *  Separate document interface definition
+ * -------------------------------------------*/
 
 import { Model, Schema, model } from "mongoose";
 import { IReview } from "../@types/reviews";
@@ -45,13 +45,15 @@ const schema = new Schema<IReview, IReviewModel>(
   { timestamps: true },
 );
 
-/** Only One review by user and by product:
+/**
+ * Only One review by user and by product:
  *  compound index between product and user
  */
 schema.index({ product: 1, user: 1 }, { unique: true });
 
 /**
- * Create a static method: calculateAverageRating, by using a function expression
+ * Create a static method: calculateAverageRating,
+ * by using a function expression
  */
 schema.static("calculateAverageRating", async function (): Promise<void> {
   console.log("calculate Average Rating");
@@ -65,7 +67,9 @@ schema.post<IReview>("deleteOne", async function () {
   await (this.constructor as IReviewModel).calculateAverageRating();
 });
 
-// Create the model using the schema
+/**
+ * Create the model using the schema
+ */
 const Model_v1 = model<IReview, IReviewModel>("Review", schema);
 
 export default Model_v1;
