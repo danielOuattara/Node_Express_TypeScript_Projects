@@ -16,7 +16,7 @@ exports.uploadImage = exports.deleteProduct = exports.patchProduct = exports.get
 const ProductModel_1 = __importDefault(require("./../models/ProductModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
-const node_path_1 = __importDefault(require("node:path"));
+const node_path_1 = require("node:path");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.body.user = req.user._id;
     const product = yield ProductModel_1.default.create(req.body);
@@ -78,7 +78,7 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (productImage.size > parseInt(process.env.IMAGE_MAX_SIZE)) {
             throw new errors_1.BadRequestError("Image max size is 1Mb");
         }
-        const imagePath = node_path_1.default.join(__dirname, "./../public/uploads/" + `${productImage.name}`);
+        const imagePath = (0, node_path_1.join)(__dirname, "./../public/uploads/" + `${productImage.name}`);
         yield productImage.mv(imagePath);
         res
             .status(http_status_codes_1.StatusCodes.OK)
