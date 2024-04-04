@@ -29,6 +29,7 @@ export const createReview: RequestHandler<
   ICreateReviewReqBody
 > = async (req, res) => {
   const product = await Product.findById(req.body.product);
+
   if (!product) {
     throw new NotFoundError(`No Product found with ID ${req.body.product}`);
   }
@@ -37,7 +38,6 @@ export const createReview: RequestHandler<
     product: req.body.product,
     user: req.user!._id,
   });
-
   if (alreadySubmittedReview) {
     throw new BadRequestError(
       `Cannot create a new review on this product. But you can update your old review `,
@@ -45,7 +45,6 @@ export const createReview: RequestHandler<
   }
 
   req.body.user = req.user!._id;
-
   const review = await Review.create(req.body);
   res
     .status(StatusCodes.CREATED)
@@ -127,7 +126,7 @@ export const deleteReview: RequestHandler = async (req, res) => {
   }
   checkAuthOrAdmin(req.user!, review.user._id);
   await review.deleteOne();
-  res.json({ message: "delete review" });
+  res.json({ message: "deleted review" });
 };
 
 //----------------------------------------------------------------
