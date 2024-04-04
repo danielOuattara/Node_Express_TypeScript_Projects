@@ -81,7 +81,7 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     (0, utilities_1.checkAuthOrAdmin)(req.user, review.user._id);
     yield review.deleteOne();
-    res.json({ message: "delete review" });
+    res.json({ message: "deleted review" });
 });
 exports.deleteReview = deleteReview;
 const getSingleProductReviews = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

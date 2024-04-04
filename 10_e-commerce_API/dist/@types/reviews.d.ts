@@ -33,6 +33,9 @@ export interface IReview {
 export interface ICreateReviewReqBody {
     product: Types.ObjectId;
     user: Types.ObjectId;
+    title: string;
+    rating: string;
+    comment: string;
 }
 export interface IUpdateReviewReqBody {
     title: string;
