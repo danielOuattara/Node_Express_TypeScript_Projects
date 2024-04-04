@@ -3,7 +3,7 @@ import Product from "./../models/ProductModel";
 import { StatusCodes } from "http-status-codes";
 import { IProduct } from "../@types/product";
 import { BadRequestError, NotFoundError } from "../errors";
-import path from "node:path";
+import { join } from "node:path";
 import { IReview } from "../@types/reviews";
 //--------------------------------------------------------------
 
@@ -78,6 +78,7 @@ export const uploadImage: RequestHandler = async (req, res) => {
   if (!req.files) {
     throw new BadRequestError("No File Uploaded");
   }
+
   const productImage = req.files.image;
   if (Array.isArray(productImage)) {
     /** Handle multiple files here */
@@ -93,7 +94,7 @@ export const uploadImage: RequestHandler = async (req, res) => {
       throw new BadRequestError("Image max size is 1Mb");
     }
 
-    const imagePath = path.join(
+    const imagePath = join(
       __dirname,
       "./../public/uploads/" + `${productImage.name}`,
     );
