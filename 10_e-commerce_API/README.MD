@@ -89,7 +89,7 @@
 - [x] check if email and password exist, if one missing return 400
 - [x] find user, if no user return 401
 - [x] check password, if does not match return 401
-- []x if everything is correct, attach cookie
+- [x] if everything is correct, attach cookie
   and send back the same response as in register
 
 #### Logout Route
