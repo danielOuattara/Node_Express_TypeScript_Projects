@@ -20,6 +20,7 @@ const ParentModel = model<Parent>(
   }),
 );
 
+// Child
 interface Child {
   name: string;
 }
