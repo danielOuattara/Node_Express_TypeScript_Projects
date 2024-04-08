@@ -5,6 +5,7 @@ import { IProduct } from "../@types/product";
 import { BadRequestError, NotFoundError } from "../errors";
 import { join } from "node:path";
 import { IReview } from "../@types/reviews";
+
 //--------------------------------------------------------------
 
 export const createProduct: RequestHandler<{}, {}, IProduct> = async (
@@ -19,21 +20,22 @@ export const createProduct: RequestHandler<{}, {}, IProduct> = async (
 //--------------------------------------------------------------
 
 export const getAllProducts: RequestHandler = async (_req, res) => {
-  const products = await Product.find({}).populate<{ product: IReview }>({
-    path: "reviews",
-    select: "_id rating title comment user -product",
-  });
+  const products = await Product.find({});
   res.status(StatusCodes.OK).json({ count: products.length, products });
 };
 
 //--------------------------------------------------------------
 export const getSingleProduct: RequestHandler = async (req, res) => {
-  const product = await Product.findById(req.params.productId).populate<{
-    product: IReview;
-  }>({
-    path: "reviews",
-    select: "_id rating title comment user -product",
-  });
+  const product = await Product.findById(req.params.productId)
+    .populate<{
+      product: IReview;
+    }>({
+      path: "reviews",
+      select: "_id rating title comment user -product",
+    })
+    .populate<{
+      product: IReview;
+    }>({ path: "reviewsCount" });
 
   if (!product) {
     throw new NotFoundError(
