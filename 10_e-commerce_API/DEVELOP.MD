@@ -298,3 +298,105 @@ export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 };
 ```
+
+
+```ts
+/*
+* getAllReviews: no generic definition in the populate() method 
+* OK 
+*/
+ export const getAllReviews: RequestHandler = async (_req, res) => {
+   const reviews = await Review.find({})
+     .populate({
+       path: "product",
+       select: "name company category image price description",
+     })
+     .populate({
+       path: "user",
+       select: "_id name",
+     });
+   res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
+ };
+```
+
+```ts
+/*
+getAllReviews: generic definition present in the populate() method 
+*/
+export const getAllReviews: RequestHandler = async (_req, res) => {
+  const reviews = await Review.find({})
+    .populate<{ product: IProduct }>({
+      path: "product",
+      select: "name company category image price description",
+    })
+    .populate<{ user: IUser }>({
+      path: "user",
+      select: "_id name",
+    });
+  res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
+};
+```
+
+```ts
+/*
+result: IAggregateResult[] = await this.aggregate(...)
+explicitly states that result is of type IAggregateResult[], 
+so TypeScript will not attempt to infer the type from the 
+return value of this.aggregate(...). 
+*/
+
+schema.static(
+  "calculateAverageRating",
+  async function (productId: Types.ObjectId): Promise<void> {
+    console.log("calculate Average Rating : ", productId);
+    const result: IAggregateResult[] = await this.aggregate([
+      { $match: { product: productId } },
+      {
+        $group: {
+          _id: "$product",
+          averageRating: {
+            $avg: "$rating",
+          },
+          numberOfReviews: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+
+    console.log("result = ", result);
+  },
+);
+
+```
+
+```ts
+
+/* 
+this.aggregate<IAggregateResult>(...)
+TypeScript can infer the type of result based on that
+*/
+
+schema.static(
+  "calculateAverageRating",
+  async function (productId: Types.ObjectId): Promise<void> {
+    console.log("calculate Average Rating : ", productId);
+    const result = await this.aggregate<IAggregateResult>([
+      { $match: { product: productId } },
+      {
+        $group: {
+          _id: "$product",
+          averageRating: {
+            $avg: "$rating",
+          },
+          numberOfReviews: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+
+    console.log("result = ", result);
+  },
+);
+```
