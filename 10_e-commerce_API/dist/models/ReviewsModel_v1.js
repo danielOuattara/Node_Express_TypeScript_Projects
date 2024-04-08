@@ -41,19 +41,42 @@ const schema = new mongoose_1.Schema({
     },
 }, { timestamps: true });
 schema.index({ product: 1, user: 1 }, { unique: true });
-schema.static("calculateAverageRating", function () {
+schema.static("calculateAverageRating", function (productId) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("calculate Average Rating");
+        var _a, _b;
+        try {
+            const results = yield this.aggregate([
+                { $match: { product: productId } },
+                {
+                    $group: {
+                        _id: "$product",
+                        averageRating: {
+                            $avg: "$rating",
+                        },
+                        numberOfReviews: {
+                            $sum: 1,
+                        },
+                    },
+                },
+            ]);
+            yield (0, mongoose_1.model)("Product").findOneAndUpdate({ _id: productId }, {
+                averageRating: ((_a = results[0]) === null || _a === void 0 ? void 0 : _a.averageRating.toFixed(1)) || 0,
+                numberOfReviews: ((_b = results[0]) === null || _b === void 0 ? void 0 : _b.numberOfReviews) || 0,
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
     });
 });
 schema.post("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
-        yield this.constructor.calculateAverageRating();
+        yield this.constructor.calculateAverageRating(this.product);
     });
 });
-schema.post("deleteOne", function () {
+schema.post("deleteOne", { document: true, query: false }, function () {
     return __awaiter(this, void 0, void 0, function* () {
-        yield this.constructor.calculateAverageRating();
+        yield this.constructor.calculateAverageRating(this.product);
     });
 });
 const Model_v1 = (0, mongoose_1.model)("Review", schema);

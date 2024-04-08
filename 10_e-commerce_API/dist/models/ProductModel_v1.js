@@ -8,13 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const product_1 = require("../@types/product");
-const ReviewsModel_1 = __importDefault(require("./ReviewsModel"));
 const schema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -89,6 +85,7 @@ const schema = new mongoose_1.Schema({
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    id: false,
 });
 schema.virtual("reviews", {
     ref: "Review",
@@ -96,10 +93,15 @@ schema.virtual("reviews", {
     foreignField: "product",
     justOne: false,
 });
+schema.virtual("reviewsCount", {
+    ref: "Review",
+    localField: "_id",
+    foreignField: "product",
+    count: true,
+});
 schema.pre("deleteOne", { document: true, query: false }, function () {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("deleteMany");
-        yield ReviewsModel_1.default.deleteMany({ product: this._id });
+        yield this.model("Review").deleteMany({ product: this._id });
     });
 });
 const Product_v1 = (0, mongoose_1.model)("Product", schema);

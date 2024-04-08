@@ -82,18 +82,33 @@ const schema = new mongoose_1.Schema({
         required: true,
     },
 }, {
+    virtuals: {
+        reviews: {
+            options: {
+                ref: "Review",
+                localField: "_id",
+                foreignField: "product",
+                justOne: false,
+            },
+        },
+        reviewsCount: {
+            options: {
+                ref: "Review",
+                localField: "_id",
+                foreignField: "product",
+                count: true,
+            },
+        },
+    },
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-});
-schema.virtual("reviews", {
-    ref: "Review",
-    localField: "_id",
-    foreignField: "product",
-    justOne: false,
+    id: false,
 });
 schema.pre("deleteOne", { document: true, query: false }, function () {
-    return __awaiter(this, void 0, void 0, function* () { });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield this.model("Review").deleteMany({ product: this._id });
+    });
 });
 const Product_v2 = (0, mongoose_1.model)("Product", schema);
 exports.default = Product_v2;

@@ -21,10 +21,10 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
+import { Model } from "mongoose";
 import { IProduct } from "../@types/product";
-declare const Product_v1: import("mongoose").Model<IProduct, {}, {}, {}, import("mongoose").Document<unknown, {}, IProduct> & IProduct & {
+declare const Product_v1: Model<IProduct, {}, {}, {}, import("mongoose").Document<unknown, {}, IProduct> & IProduct & {
     _id: import("mongoose").Types.ObjectId;
 }, any>;
 export default Product_v1;

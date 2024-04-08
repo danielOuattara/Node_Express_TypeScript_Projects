@@ -25,10 +25,6 @@
 import { Types } from "mongoose";
 import { EnumCategory, EnumCompany } from "../@types/product";
 declare const Product_v2: import("mongoose").Model<{
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -38,6 +34,9 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    averageRating: number;
+    numberOfReviews: number;
+    name: string;
     price: number;
     description: string;
     image: string;
@@ -47,13 +46,7 @@ declare const Product_v2: import("mongoose").Model<{
     featured: boolean;
     freeShipping: boolean;
     inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -63,6 +56,9 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    averageRating: number;
+    numberOfReviews: number;
+    name: string;
     price: number;
     description: string;
     image: string;
@@ -72,13 +68,7 @@ declare const Product_v2: import("mongoose").Model<{
     featured: boolean;
     freeShipping: boolean;
     inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
 }> & {
-    createdAt: NativeDate;
-    updatedAt: NativeDate;
-} & {
-    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -88,6 +78,9 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
+    averageRating: number;
+    numberOfReviews: number;
+    name: string;
     price: number;
     description: string;
     image: string;
@@ -97,8 +90,6 @@ declare const Product_v2: import("mongoose").Model<{
     featured: boolean;
     freeShipping: boolean;
     inventory: number;
-    averageRating: number;
-    numberOfReviews: number;
 } & {
     _id: Types.ObjectId;
 }, any>;
