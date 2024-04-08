@@ -10,18 +10,8 @@ import {
 } from "../@types/reviews";
 import { checkAuthOrAdmin } from "../utilities";
 import { IProduct } from "../@types/product";
+import { IUser } from "../@types/user";
 //----------------------------------------------------------------
-
-declare enum ROLE {
-  admin = "admin",
-  user = "user",
-}
-interface IUser {
-  name: string;
-  email: string;
-  password: string;
-  role: ROLE;
-}
 
 export const createReview: RequestHandler<
   {},
@@ -53,21 +43,6 @@ export const createReview: RequestHandler<
 
 //----------------------------------------------------------------
 
-/* OK */
-
-// export const getAllReviews: RequestHandler = async (_req, res) => {
-//   const reviews = await Review.find({})
-//     .populate({
-//       path: "product",
-//       select: "name company category image price description",
-//     })
-//     .populate({
-//       path: "user",
-//       select: "_id name",
-//     });
-//   res.status(StatusCodes.OK).json({ count: reviews.length, reviews });
-// };
-
 export const getAllReviews: RequestHandler = async (_req, res) => {
   const reviews = await Review.find({})
     .populate<{ product: IProduct }>({
@@ -85,6 +60,7 @@ export const getAllReviews: RequestHandler = async (_req, res) => {
 
 export const getSingleReview: RequestHandler = async (req, res) => {
   const review = await Review.findById(req.params.reviewId);
+
   if (!review) {
     throw new BadRequestError(`No review with ID: ${req.params.reviewId}`);
   }
