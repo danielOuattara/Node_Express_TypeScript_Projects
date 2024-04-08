@@ -1,13 +1,18 @@
 /** Separate document interface definition 
 --------------------------------------------*/
 
-import { Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
+import { IReview } from "../@types/reviews";
 import { IProduct, EnumCategory, EnumCompany } from "../@types/product";
-import Review_v2 from "./ReviewsModel";
 
 /** Create a Schema corresponding to the document interface 'IProduct'. */
+interface IProductVirtuals {
+  reviews: IReview;
+}
 
-const schema = new Schema<IProduct>(
+type TypeProductModel = Model<IProduct, {}, {}, IProductVirtuals>;
+
+const schema = new Schema<IProduct, TypeProductModel, IProductVirtuals>(
   {
     name: {
       type: String,
@@ -81,28 +86,32 @@ const schema = new Schema<IProduct>(
   },
   {
     timestamps: true,
-    // 1 : set properties to accept virtuals,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    id: false, // remove deduplicated `id` in response
   },
 );
 
-//--------------------------------------------------------
-// 2 : define links parameters
+//-----------------
 schema.virtual("reviews", {
   ref: "Review", // ref to the Model name
   localField: "_id", // a connection btw. the two models
   foreignField: "product", // the field in the ref above
   justOne: false, // to get a list
-  // match: { rating: 2 }, // match docs where rating = 5
+  // match: { rating: 2 }, // match docs where rating = 2
   // match: { rating: 5 }, // match docs where rating = 5
 });
 
-//--------------------------------------------------------
+schema.virtual("reviewsCount", {
+  ref: "Review",
+  localField: "_id",
+  foreignField: "product",
+  count: true,
+});
+
+//------------
 schema.pre("deleteOne", { document: true, query: false }, async function () {
-  // await this.model("Review").deleteMany({ product: this._id });
-  console.log("deleteMany");
-  await Review_v2.deleteMany({ product: this._id });
+  await this.model("Review").deleteMany({ product: this._id });
 });
 
 /** Create a model */

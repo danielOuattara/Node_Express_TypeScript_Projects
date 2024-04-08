@@ -1,6 +1,5 @@
 /** Automatic type inference
 ---------------------------- */
-
 import { InferSchemaType, Schema, model, Types } from "mongoose";
 import { EnumCategory, EnumCompany } from "../@types/product";
 
@@ -77,26 +76,37 @@ const schema = new Schema(
       required: true,
     },
   },
-
   {
+    virtuals: {
+      reviews: {
+        options: {
+          ref: "Review", // ref to the Model name
+          localField: "_id", // a connection btw. the two models
+          foreignField: "product", // the field in the ref above
+          justOne: false, // to get a list
+          // match: { rating: 5 }, // match docs where rating = 5
+        },
+      },
+      reviewsCount: {
+        options: {
+          ref: "Review",
+          localField: "_id",
+          foreignField: "product",
+          count: true,
+        },
+      },
+    },
     timestamps: true,
-    // 1 : set properties to accept virtuals,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    id: false, // remove deduplicated `id` in response
   },
 );
 
-// 2 : define links parameters
-schema.virtual("reviews", {
-  ref: "Review", // ref to the Model name
-  localField: "_id", // a connection btw. the two models
-  foreignField: "product", // the field in the ref above
-  justOne: false, // to get a list
-  // match: { rating: 2 }, // match docs where rating = 5
-  // match: { rating: 5 }, // match docs where rating = 5
+//-----------------
+schema.pre("deleteOne", { document: true, query: false }, async function () {
+  await this.model("Review").deleteMany({ product: this._id });
 });
-
-schema.pre("deleteOne", { document: true, query: false }, async function () {});
 
 /** Create the User by inferring the schema */
 type TProduct = InferSchemaType<typeof schema>;
