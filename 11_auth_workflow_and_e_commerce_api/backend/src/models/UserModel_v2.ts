@@ -44,7 +44,10 @@ const schema = new Schema({
   verificationToken: {
     type: String,
   },
-  isVerified: { type: Boolean, default: false },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   verified: {
     type: Date,
   },

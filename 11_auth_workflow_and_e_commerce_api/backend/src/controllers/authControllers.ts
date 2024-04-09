@@ -37,6 +37,13 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
     throw new UnauthenticatedError("User unknown");
   }
 
+  // check email & password presents
+  if (!user.isVerified) {
+    throw new UnauthenticatedError(
+      "Please check your email to confirm your registration !",
+    );
+  }
+
   // check password !
   const isValidPassword = await user.verifyPassword(req.body.password);
   if (!isValidPassword) {

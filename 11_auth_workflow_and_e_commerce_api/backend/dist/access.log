@@ -401,3 +401,5 @@
 127.0.0.1 - - [09/Apr/2024:22:16:17 +0000] "GET /api/v1/users/showMe HTTP/1.1" 401 26 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
 127.0.0.1 - - [09/Apr/2024:22:16:17 +0000] "GET /api/v1/users/showMe HTTP/1.1" 401 26 "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
 ::1 - - [09/Apr/2024:22:51:06 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 97 "-" "PostmanRuntime/7.37.3"
+::1 - - [09/Apr/2024:23:08:56 +0000] "POST /api/v1/auth/login HTTP/1.1" 401 22 "-" "PostmanRuntime/7.37.3"
+::1 - - [09/Apr/2024:23:09:01 +0000] "POST /api/v1/auth/login HTTP/1.1" 401 64 "-" "PostmanRuntime/7.37.3"

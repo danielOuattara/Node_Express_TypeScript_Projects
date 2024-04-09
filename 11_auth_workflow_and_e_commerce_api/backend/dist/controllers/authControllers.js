@@ -35,6 +35,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!user) {
         throw new errors_1.UnauthenticatedError("User unknown");
     }
+    if (!user.isVerified) {
+        throw new errors_1.UnauthenticatedError("Please check your email to confirm your registration !");
+    }
     const isValidPassword = yield user.verifyPassword(req.body.password);
     if (!isValidPassword) {
         throw new errors_1.UnauthenticatedError("User unknown");

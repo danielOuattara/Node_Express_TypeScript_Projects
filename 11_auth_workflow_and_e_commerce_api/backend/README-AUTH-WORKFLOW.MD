@@ -1,5 +1,14 @@
 # Auth Workflow
 
+The goals here are:
+
+- validate email
+- refresh token
+- setup reset password functionality
+
+IMPORTANT: For this project, we re-use all the backend code from
+             e-commerce App, and we will refactor it to fit our needs
+
 ## Front End App
 
 [Auth Workflow](https://react-node-user-workflow-front-end.netlify.app/)

@@ -64,7 +64,10 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
   verificationToken: {
     type: String,
   },
-  isVerified: { type: Boolean, default: false },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   verified: {
     type: Date,
   },
