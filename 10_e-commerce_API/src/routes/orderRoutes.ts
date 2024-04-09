@@ -27,7 +27,7 @@ router
 router.route("/showAllMyOrders").get(authenticateUser, getCurrentUserOrders);
 
 router
-  .route("/:routeId")
+  .route("/:orderId")
   .get(authenticateUser, getSingleOrder)
   .patch(authenticateUser, updateOrder);
 
