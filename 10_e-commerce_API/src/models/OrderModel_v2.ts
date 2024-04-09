@@ -52,7 +52,7 @@ const schema = new Schema(
       type: String,
       required: true,
     },
-    paymentId: {
+    paymentIntentId: {
       type: String,
     },
   },

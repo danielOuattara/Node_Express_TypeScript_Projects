@@ -51,7 +51,7 @@ const schema = new Schema<IOrder>(
       type: String,
       required: true,
     },
-    paymentId: {
+    paymentIntentId: {
       type: String,
     },
   },
