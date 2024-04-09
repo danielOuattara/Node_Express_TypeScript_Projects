@@ -17,16 +17,26 @@ const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const helmet_1 = __importDefault(require("helmet"));
+const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
+const express_rate_limit_1 = require("express-rate-limit");
 const app = (0, express_1.default)();
+app.set("trust proxy", 1);
+app.use((0, express_rate_limit_1.rateLimit)({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+}));
+app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)());
+app.use((0, express_mongo_sanitize_1.default)());
 const accessLogStream = (0, node_fs_1.createWriteStream)((0, node_path_1.join)(__dirname, "access.log"), {
     flags: "a",
 });
 app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use(express_1.default.json());
-app.use(express_1.default.static("./frontends-testing/vanilla-frontend"));
 app.use(express_1.default.static("./dist/public"));
+app.use(express_1.default.static("./frontends-testing/vanilla-frontend"));
 app.use((0, express_fileupload_1.default)());
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/users", userRoutes_1.default);
