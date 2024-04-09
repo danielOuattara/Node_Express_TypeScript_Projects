@@ -3,6 +3,7 @@ import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors";
 import { IUserLoginReqBody, IUserRegisterReqBody, ROLE } from "../@types/user";
+import { randomBytes } from "node:crypto";
 
 //-----------------------------------------------------
 /** first registered user should be an admin */
@@ -11,7 +12,8 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   res,
 ) => {
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
-  const verificationToken = "fakeToken";
+  // generate verificationToken
+  const verificationToken = randomBytes(32).toString("hex");
   const user = await User.create({ ...req.body, role, verificationToken });
 
   res.status(StatusCodes.CREATED).json({

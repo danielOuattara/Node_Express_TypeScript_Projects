@@ -17,9 +17,10 @@ const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const user_1 = require("../@types/user");
+const node_crypto_1 = require("node:crypto");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
-    const verificationToken = "fakeToken";
+    const verificationToken = (0, node_crypto_1.randomBytes)(32).toString("hex");
     const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role, verificationToken }));
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         msg: "Successful Registered. Please check your email account ",
