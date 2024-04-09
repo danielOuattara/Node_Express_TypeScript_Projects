@@ -13,6 +13,7 @@ const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
 const reviewRoutes_1 = __importDefault(require("./routes/reviewRoutes"));
+const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
@@ -31,6 +32,7 @@ app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/users", userRoutes_1.default);
 app.use("/api/v1/products", productRoutes_1.default);
 app.use("/api/v1/reviews", reviewRoutes_1.default);
+app.use("/api/v1/orders", orderRoutes_1.default);
 app.use("/api/v1", (req, res) => {
     console.log("Welcome to e-commerce API");
     console.log("req.signedCookies = ", req.signedCookies);
