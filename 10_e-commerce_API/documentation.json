@@ -24,8 +24,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/auth/login",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/auth/login",
+              "host": ["http://loclahost/api/v1"],
               "path": ["auth", "login"]
             }
           },
@@ -46,8 +46,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/auth/login",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/auth/login",
+              "host": ["http://loclahost/api/v1"],
               "path": ["auth", "login"]
             }
           },
@@ -68,8 +68,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/auth/register",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/auth/register",
+              "host": ["http://loclahost/api/v1"],
               "path": ["auth", "register"]
             }
           },
@@ -90,8 +90,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/auth/register",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/auth/register",
+              "host": ["http://loclahost/api/v1"],
               "path": ["auth", "register"]
             }
           },
@@ -103,8 +103,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/auth/logout",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/auth/logout",
+              "host": ["http://loclahost/api/v1"],
               "path": ["auth", "logout"]
             }
           },
@@ -121,8 +121,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/users/",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/users/",
+              "host": ["http://loclahost/api/v1"],
               "path": ["users", ""]
             }
           },
@@ -134,8 +134,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/users/65ef50b1a12f5dc3300a07b4",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/users/65ef50b1a12f5dc3300a07b4",
+              "host": ["http://loclahost/api/v1"],
               "path": ["users", "65ef50b1a12f5dc3300a07b4"]
             }
           },
@@ -147,8 +147,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/users/show-user",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/users/show-user",
+              "host": ["http://loclahost/api/v1"],
               "path": ["users", "show-user"]
             }
           },
@@ -169,8 +169,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/users/update-user",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/users/update-user",
+              "host": ["http://loclahost/api/v1"],
               "path": ["users", "update-user"]
             }
           },
@@ -191,8 +191,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/users/update-password",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/users/update-password",
+              "host": ["http://loclahost/api/v1"],
               "path": ["users", "update-password"]
             }
           },
@@ -218,8 +218,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", ""]
             }
           },
@@ -240,8 +240,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/upload-image",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/upload-image",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", "upload-image"]
             }
           },
@@ -253,8 +253,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", ""]
             }
           },
@@ -266,8 +266,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/62bd52a51313f7854316cc54",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/62bd52a51313f7854316cc54",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", "62bd52a51313f7854316cc54"]
             }
           },
@@ -279,8 +279,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/62bd52a51313f7854316cc54/reviews",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/62bd52a51313f7854316cc54/reviews",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", "62bd52a51313f7854316cc54", "reviews"]
             }
           },
@@ -301,8 +301,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/62ba77a414238ec25b9fab9b",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/62ba77a414238ec25b9fab9b",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", "62ba77a414238ec25b9fab9b"]
             }
           },
@@ -323,8 +323,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/admin-populate-products",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/admin-populate-products",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", "admin-populate-products"]
             }
           },
@@ -336,8 +336,8 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/62bd529a1313f7854316cc51",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/62bd529a1313f7854316cc51",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", "62bd529a1313f7854316cc51"]
             }
           },
@@ -349,8 +349,8 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/products/",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/products/",
+              "host": ["http://loclahost/api/v1"],
               "path": ["products", ""]
             }
           },
@@ -376,8 +376,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/reviews/",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/reviews/",
+              "host": ["http://loclahost/api/v1"],
               "path": ["reviews", ""]
             }
           },
@@ -389,8 +389,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/reviews/",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/reviews/",
+              "host": ["http://loclahost/api/v1"],
               "path": ["reviews", ""]
             }
           },
@@ -402,8 +402,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/reviews/65fb5f12e335a05ad3f6323b",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/reviews/65fb5f12e335a05ad3f6323b",
+              "host": ["http://loclahost/api/v1"],
               "path": ["reviews", "65fb5f12e335a05ad3f6323b"]
             }
           },
@@ -424,8 +424,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/reviews/6601de6971ebf5c80f3c8d7b",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/reviews/6601de6971ebf5c80f3c8d7b",
+              "host": ["http://loclahost/api/v1"],
               "path": ["reviews", "6601de6971ebf5c80f3c8d7b"]
             }
           },
@@ -437,8 +437,8 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/reviews/66030d7b87cbe19412e7ae24",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/reviews/66030d7b87cbe19412e7ae24",
+              "host": ["http://loclahost/api/v1"],
               "path": ["reviews", "66030d7b87cbe19412e7ae24"]
             }
           },
@@ -455,8 +455,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/orders",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/orders",
+              "host": ["http://loclahost/api/v1"],
               "path": ["orders"]
             }
           },
@@ -468,8 +468,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/orders/62bda2bfca53a8d26cc85d8c",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/orders/62bda2bfca53a8d26cc85d8c",
+              "host": ["http://loclahost/api/v1"],
               "path": ["orders", "62bda2bfca53a8d26cc85d8c"]
             }
           },
@@ -481,8 +481,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/orders/showAllMyOrders",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/orders/showAllMyOrders",
+              "host": ["http://loclahost/api/v1"],
               "path": ["orders", "showAllMyOrders"]
             }
           },
@@ -503,8 +503,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/orders",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/orders",
+              "host": ["http://loclahost/api/v1"],
               "path": ["orders"]
             }
           },
@@ -516,8 +516,8 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/orders/123",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/orders/123",
+              "host": ["http://loclahost/api/v1"],
               "path": ["orders", "123"]
             }
           },
@@ -538,8 +538,8 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/v1/orders/62bda2bfca53a8d26cc85d8c",
-              "host": ["http://localhost:5000/api/v1"],
+              "raw": "http://loclahost/api/v1/orders/62bda2bfca53a8d26cc85d8c",
+              "host": ["http://loclahost/api/v1"],
               "path": ["orders", "62bda2bfca53a8d26cc85d8c"]
             }
           },
@@ -553,23 +553,8 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:5000/api/v1/",
-          "host": ["http://localhost:5000/api/v1"],
-          "path": [""]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "HOME",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
+          "raw": "http://loclahost/api/v1/",
+          "host": ["http://loclahost/api/v1"],
           "path": [""]
         }
       },

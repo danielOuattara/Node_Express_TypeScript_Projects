@@ -23,8 +23,8 @@ router
     getAllUsers,
   );
 router.route("/show-user").get(authenticateUser, showCurrentUser);
-router.route("/update-user").put(authenticateUser, updateUser);
-router.route("/update-password").put(authenticateUser, updateUserPassword);
+router.route("/update-user").patch(authenticateUser, updateUser);
+router.route("/update-password").patch(authenticateUser, updateUserPassword);
 router.route("/:userId").get(authenticateUser, getSingleUser);
 
 export default router;
