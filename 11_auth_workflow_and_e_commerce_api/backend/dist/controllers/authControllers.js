@@ -19,11 +19,12 @@ const errors_1 = require("../errors");
 const user_1 = require("../@types/user");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
-    const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role }));
-    user.attachCookiesToResponse(res);
-    res
-        .status(http_status_codes_1.StatusCodes.CREATED)
-        .json({ user: { name: user.name, userId: user._id, role: user.role } });
+    const verificationToken = "fakeToken";
+    const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role, verificationToken }));
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({
+        msg: "Successful Registered. Please check your email account ",
+        verificationToken: user.verificationToken,
+    });
 });
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

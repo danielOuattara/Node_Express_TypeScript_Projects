@@ -29,51 +29,46 @@ interface UserModel extends Model<IUser, {}, IUserMethods> {
 }
 
 /** Create a Schema corresponding to the document interface. */
-const schema = new Schema<IUser, UserModel, IUserMethods>(
-  {
-    name: {
-      type: String,
-      required: [true, "Name is required. Please provide a name"],
-      trim: true,
-      minLength: 2,
-      maxLength: 50,
-    },
+const schema = new Schema<IUser, UserModel, IUserMethods>({
+  name: {
+    type: String,
+    required: [true, "Name is required. Please provide a name"],
+    trim: true,
+    minLength: 2,
+    maxLength: 50,
+  },
 
-    email: {
-      type: String,
-      required: [true, "Email is required. Please provide a valid email"],
-      unique: true,
-      validate: {
-        validator: (value: string) => validator.isEmail(value),
-        message: "Email is required. Please provide a valid email",
-      },
-    },
-    password: {
-      type: String,
-      required: [true, "Please provide password. Minimum of 6 characters"],
-      minLength: 6,
-    },
-
-    role: {
-      type: String,
-      enum: {
-        values: Object.values(ROLE),
-        default: ROLE.user,
-        message: "{VALUE} is not a valid value for ROLE position",
-      },
+  email: {
+    type: String,
+    required: [true, "Email is required. Please provide a valid email"],
+    unique: true,
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: "Email is required. Please provide a valid email",
     },
   },
-  // {
-  //   statics: {
-  //     destroyCookiesInResponse(res: Response) {
-  //       return res.cookie("access_token", "logout requested", {
-  //         expires: new Date(Date.now()),
-  //         httpOnly: true,
-  //       });
-  //     },
-  //   },
-  // },
-);
+  password: {
+    type: String,
+    required: [true, "Please provide password. Minimum of 6 characters"],
+    minLength: 6,
+  },
+
+  role: {
+    type: String,
+    enum: {
+      values: Object.values(ROLE),
+      default: ROLE.user,
+      message: "{VALUE} is not a valid value for ROLE position",
+    },
+  },
+  verificationToken: {
+    type: String,
+  },
+  isVerified: { type: Boolean, default: false },
+  verified: {
+    type: Date,
+  },
+});
 
 //---
 schema.pre("save", async function () {

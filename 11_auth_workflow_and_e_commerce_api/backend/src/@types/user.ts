@@ -11,6 +11,9 @@ export interface IUser {
   email: string;
   password: string;
   role: ROLE;
+  verificationToken: string;
+  isVerified: boolean;
+  verified: Date;
 }
 
 export interface IPayload {

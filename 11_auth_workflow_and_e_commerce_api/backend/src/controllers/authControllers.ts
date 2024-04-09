@@ -11,11 +11,13 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   res,
 ) => {
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
-  const user = await User.create({ ...req.body, role });
-  user.attachCookiesToResponse(res);
-  res
-    .status(StatusCodes.CREATED)
-    .json({ user: { name: user.name, userId: user._id, role: user.role } });
+  const verificationToken = "fakeToken";
+  const user = await User.create({ ...req.body, role, verificationToken });
+
+  res.status(StatusCodes.CREATED).json({
+    msg: "Successful Registered. Please check your email account ",
+    verificationToken: user.verificationToken,
+  });
 };
 
 //-----------------------------------------------------

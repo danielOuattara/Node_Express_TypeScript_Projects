@@ -2,12 +2,12 @@
 
 [E-Commerce API Render URL](https://node-course-e-commerce.onrender.com/)
 
-#### Setup Basic Express Server
+## Setup Basic Express Server
 
 - [x] import express and assign to variable
 - [x] setup start port variable (5000) and start function
 
-#### Connect To DB
+## Connect To DB
 
 - [x] get connection string
 - [x] setup .env with MONGO_URL variable and assign the value
@@ -16,30 +16,30 @@
 - [x] restart the server
 - [x] mongoose V6 info
 
-#### Basic Routes and Middleware
+## Basic Routes and Middleware
 
 - [x] setup / GET Route
 - [x] setup express.json() middleware
 - [x] setup 404 and errorHandler middleware
 - [x] import 'express-async-errors' package
 
-#### 404 vs ErrorHandler Middleware
+## 404 vs ErrorHandler Middleware
 
-#### Morgan Pacakge
+## Morgan Pacakge
 
 - [Morgan Package](https://www.npmjs.com/package/morgan)
 
-#### User Model
+## User Model
 
 - [x] create models folder and User.js file
 - [x] create schema with name,email, password (all type:String), role enum on "admin" or "user", with default is "user"
 - [x] export mongoose model
 
-#### Validator Package
+## Validator Package
 
 - [Validator](https://www.npmjs.com/package/validator)
 
-#### Auth Routes Structure
+## Auth Routes Structure
 
 - [x] create controllers folder
 - [x] add authController file
@@ -53,9 +53,9 @@
 - [x] import authRoutes as authRouter in the app.js
 - [x] setup app.use('/api/v1/auth', authRouter)
 
-#### Test Routes in Postman
+## Test Routes in Postman
 
-#### Register Controller
+## Register Controller
 
 - [x] create user
 - [x] send response with entire user (only while testing)
@@ -63,14 +63,14 @@
 - [x] ignore 'role'
 - [x] alternative 'admin' setup
 
-#### Handle Password
+## Handle Password
 
 - [x] UserSchema.pre('save') - hook
 - this points to User
 - bcrypt.genSalt - number of rounds
 - bcrypt.hash
 
-#### JWT
+## JWT
 
 - [x] require 'jsonwebtoken' package
 - [x] create jwt - jwt.sign(payload,secret,options)
@@ -84,7 +84,7 @@
 - [x] create token, setup cookie
 - [x] optionally send back the response
 
-#### Login Route
+## Login Route
 
 - [x] check if email and password exist, if one missing return 400
 - [x] find user, if no user return 401
@@ -92,12 +92,12 @@
 - [x] if everything is correct, attach cookie
   and send back the same response as in register
 
-#### Logout Route
+## Logout Route
 
 - [x] set token cookie equal to some string value
 - [x] set expires:new Date(Date.now())
 
-#### User Routes Structure
+## User Routes Structure
 
 - [x] add userController file
 - [x] export (getAllUsers,getSingleUser,showCurrentUser,updateUser,updateUserPassword) functions
@@ -108,30 +108,30 @@
 - [x] import userRoutes as userRouter in the app.js
 - [x] setup app.use('/api/v1/users', userRouter)
 
-#### GetAllUsers and GetSingleUser
+## GetAllUsers and GetSingleUser
 
 - [x] Get all users where role is 'user' and remove password
 - [x] Get Single User where id matches id param and remove password
 - [x] If no user 404
 
-#### Authenticate User Setup
+## Authenticate User Setup
 
-#### Auth User Complete
+## Auth User Complete
 
-#### Authorize Permissions Setup
+## Authorize Permissions Setup
 
 - [x] hardcode
 
-#### Authorize Permissions Complete
+## Authorize Permissions Complete
 
 - [x] introduce params
 
-#### ShowCurrentUser
+## ShowCurrentUser
 
 - [x] get user from req
 - [x] send response with user
 
-#### UpdateUserPassword
+## UpdateUserPassword
 
 - [x] almost identical to login user
 - [x] add authenticateUser middleware in the route
@@ -143,14 +143,14 @@
 - [x] if everything good set user.password equal to newPassword
 - [x] await user.save()
 
-#### createTokenUser in Utils
+## createTokenUser in Utils
 
 - [x] create a file in utils (createTokenUser)
 - [x] setup a function that accepts user object and returns userToken object
 - [x] export as default
 - [x] setup all the correct imports/exports and refactor existing code
 
-#### updateUser with User.findOneAndUpdate()
+## updateUser with User.findOneAndUpdate()
 
 - [x] add authenticateUser middleware in the route
 - [x] check for name and email in the body
@@ -158,15 +158,15 @@
 - [x] use findOneAndUpdate()
 - [x] create token user, attachCookiesToResponse and send back the tokenUser
 
-#### updateUser with user.save()
+## updateUser with user.save()
 
 - [x] done
 
-#### Setup and Apply checkPermissions()
+## Setup and Apply checkPermissions()
 
 - [x] done
 
-#### Product Model
+## Product Model
 
 - [x] create Product.js in models folder
 - [x] create Schema
@@ -185,7 +185,7 @@
 - [x] set timestamps
 - [x] export Product model
 
-#### Product Structure
+## Product Structure
 
 - [x] add productController file in controllers
 - [x] export (createProduct, getAllProducts,
@@ -200,15 +200,15 @@
 - [x] import productRoutes as productRouter in the app.js
 - [x] setup app.use('/api/v1/products', productRouter)
 
-#### Product Routes in Postman
+## Product Routes in Postman
 
-#### Create Product
+## Create Product
 
 - [x] create user property on req.body and set it equal to userId (req.user)
 - [x] pass req.body into Product.create
 - [x] send back the product
 
-#### Remaining Controllers (apart from uploadImage)
+## Remaining Controllers (apart from uploadImage)
 
 - [x] getAllProducts
 - [x] getSingleProduct
@@ -217,12 +217,12 @@
 - [x] typical CRUD, utilize (task or job) project
 - [x] remember we check already for role 'admin'
 
-#### Upload Image
+## Upload Image
 
 - [x] if some question, re-watch 07-file-upload
 - [x] images folder with two images
 
-#### Review Model
+## Review Model
 
 - [x] create Review.js in models folder
 - [x] create Schema
@@ -234,7 +234,7 @@
 - [x] set timestamps
 - [x] export Review model
 
-#### Review Structure
+## Review Structure
 
 - [x] add reviewController file in controllers
 - [x] export (createReview, getAllReviews, getSingleReview, updateReview, deleteReview) functions
@@ -247,18 +247,18 @@
 - [x] import reviewRoutes as reviewRouter in the app.js
 - [x] setup app.use('/api/v1/reviews', reviewRouter)
 
-#### Create Review
+## Create Review
 
 - [x] check for product in the req.body
 - [] attach user property (set it equal to req.user.userId) on to req.body
 - [x] create review
 - [x] don't test yet
 
-#### Get All Reviews and Get Single Review
+## Get All Reviews and Get Single Review
 
 - [x] both public routes, typical setup
 
-#### Delete Review
+## Delete Review
 
 - [x] get id from req.params
 - [x] check if review exists
@@ -267,7 +267,7 @@
 - [x] use await review.remove()
 - [x] send back 200
 
-#### Update Review
+## Update Review
 
 - [x] get id from req.params
 - [x] get {rating, title comment} from req.body
@@ -278,27 +278,27 @@
 - [x] use await review.save()
 - [x] send back 200
 
-#### Populate
+## Populate
 
 - [x] done
 
-#### Virtuals
+## Virtuals
 
 - [x] done
 
-#### Get Single Product Reviews
+## Get Single Product Reviews
 
 - [x] done
 
-#### Remove All Reviews
+## Remove All Reviews
 
 - [x] done
 
-#### Aggregation Pipeline - Atlas and Code
+## Aggregation Pipeline - Atlas and Code
 
 - [x] done
 
-#### Order Schema
+## Order Schema
 
 - [x] create Order.js in models folder
 - [x] create Schema
@@ -314,7 +314,7 @@
 - [x] set timestamps
 - [x] export Order model
 
-#### Order Structure
+## Order Structure
 
 - [x] add orderController file in controllers
 - [] export (getAllOrders, getSingleOrder, getCurrentUserOrders,
@@ -329,25 +329,25 @@
 - [x] import orderRoutes as orderRouter in the app.js
 - [x] setup app.use('/api/v1/orders', orderRouter)
 
-#### Order in Postman
+## Order in Postman
 
 - [x] done
 
-#### Create Order
+## Create Order
 
 - [x] most complex
 - [x] done
 
-#### Get All Orders and Get Single Order
+## Get All Orders and Get Single Order
 
 - [x] getAllOrders - admin only
 - [x] getSingleOrder - checkPermissions
 
-#### Get Current User Orders
+## Get Current User Orders
 
 - [x] find orders where user is equal to req.user.userId
 
-#### Update Order
+## Update Order
 
 - [x] get order id
 - [x] get paymentIntentId (req.body)
@@ -357,14 +357,14 @@
 - [x] set paymentIntentId and status as 'paid'
 - [x] order.save()
 
-#### Create Docs
+## Create Docs
 
 - [x] [Docgen Library] (https://github.com/thedevsaddam/docgen)
 - [x] Export Postman Collection
 - [x] docgen build -i fileName.json -o index.html
 - [x] create index.html in public
 
-#### Security Packages
+## Security Packages
 
 - [x] express-rate-limiter
 - [x] helmet
@@ -372,7 +372,7 @@
 - [x] express-mongo-sanitize
 - [x] cors (cookies!!!!)
 
-#### Deploy on Heroku
+## Deploy on Heroku
 
 - [] heroku account and heroku cli
 - [] remove/copy from the main repo

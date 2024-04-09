@@ -47,6 +47,13 @@ const schema = new mongoose_1.Schema({
             message: "{VALUE} is not a valid value for ROLE position",
         },
     },
+    verificationToken: {
+        type: String,
+    },
+    isVerified: { type: Boolean, default: false },
+    verified: {
+        type: Date,
+    },
 });
 schema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
