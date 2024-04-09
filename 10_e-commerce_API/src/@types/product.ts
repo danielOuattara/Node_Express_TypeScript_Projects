@@ -13,17 +13,17 @@ export enum EnumCompany {
 }
 
 export interface IProduct {
-  name: String;
-  price: Number;
-  description: String;
-  image: String;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
   category: EnumCategory;
   company: EnumCompany;
   colors: string[];
-  featured: Boolean;
-  freeShipping: Boolean;
-  inventory: Number;
-  averageRating: Number;
-  numberOfReviews: Number;
+  featured: boolean;
+  freeShipping: boolean;
+  inventory: number;
+  averageRating: number;
+  numberOfReviews: number;
   user: Types.ObjectId;
 }
