@@ -12,10 +12,26 @@ import orderRouter from "./routes/orderRoutes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+//
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
+// import xss from "xss-clean";
+import { rateLimit } from "express-rate-limit";
 
+//------ security
 const app = express();
-
+app.set("trust proxy", 1);
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+  }),
+);
+app.use(helmet());
 app.use(cors());
+// app.use(xss());
+app.use(mongoSanitize());
+
 // --------------------------------------------- logger
 // create a write stream (in append mode)
 const accessLogStream = createWriteStream(join(__dirname, "access.log"), {
@@ -30,8 +46,8 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(cookieParser(process.env.JWT_SECRET as string)); // <-- Signed cookie
 
 app.use(express.json());
-app.use(express.static("./frontends-testing/vanilla-frontend"));
 app.use(express.static("./dist/public"));
+app.use(express.static("./frontends-testing/vanilla-frontend"));
 app.use(fileUpload());
 
 app.use("/api/v1/auth", authRouter);
