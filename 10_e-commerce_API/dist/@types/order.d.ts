@@ -39,7 +39,7 @@ export interface IOrder {
     status: string;
     user: Types.ObjectId;
     clientSecret: string;
-    paymentId: string;
+    paymentIntentId: string;
 }
 export declare enum EnumStatus {
     PENDING = "pending",
@@ -47,4 +47,15 @@ export declare enum EnumStatus {
     PAID = "paid",
     DELIVERED = "delivered",
     CANCELED = "canceled"
+}
+export interface IReqCreateOrder {
+    tax: number;
+    shippingFee: number;
+    cartItems: ISingleOrderItem[];
+}
+export interface IUpdateOrderReqBody {
+    paymentIntent: string;
+}
+export interface IParamsDictionary {
+    orderId: string;
 }

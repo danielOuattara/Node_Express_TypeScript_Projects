@@ -10,7 +10,7 @@ router
     .get(middlewares_1.authenticateUser, (0, middlewares_1.authenticateRoles)("admin"), middlewares_1.authenticateAdmin, orderControllers_1.getAllOrders);
 router.route("/showAllMyOrders").get(middlewares_1.authenticateUser, orderControllers_1.getCurrentUserOrders);
 router
-    .route("/:routeId")
+    .route("/:orderId")
     .get(middlewares_1.authenticateUser, orderControllers_1.getSingleOrder)
     .patch(middlewares_1.authenticateUser, orderControllers_1.updateOrder);
 exports.default = router;

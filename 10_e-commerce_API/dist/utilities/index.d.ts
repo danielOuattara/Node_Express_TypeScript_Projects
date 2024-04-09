@@ -1,3 +1,4 @@
 import { attachCookiesToResponse } from "./cookies";
 import { checkAuthOrAdmin } from "./checkAuthOrAdmin";
-export { checkAuthOrAdmin, attachCookiesToResponse };
+import { fakeStripAPI } from "./fakeStripeAPI";
+export { attachCookiesToResponse, checkAuthOrAdmin, fakeStripAPI };
