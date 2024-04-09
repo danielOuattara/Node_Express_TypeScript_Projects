@@ -41,6 +41,13 @@ const schema = new Schema({
       message: "{VALUE} is not a valid value for ROLE position",
     },
   },
+  verificationToken: {
+    type: String,
+  },
+  isVerified: { type: Boolean, default: false },
+  verified: {
+    type: Date,
+  },
 });
 
 //---

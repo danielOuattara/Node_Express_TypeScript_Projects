@@ -29,17 +29,26 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     name: string;
     email: string;
     password: string;
+    isVerified: boolean;
     role?: ROLE | null | undefined;
+    verificationToken?: string | null | undefined;
+    verified?: Date | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
+    isVerified: boolean;
     role?: ROLE | null | undefined;
+    verificationToken?: string | null | undefined;
+    verified?: Date | null | undefined;
 }>> & import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
+    isVerified: boolean;
     role?: ROLE | null | undefined;
+    verificationToken?: string | null | undefined;
+    verified?: Date | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;
 }>;
