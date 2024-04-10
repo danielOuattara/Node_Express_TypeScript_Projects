@@ -53,6 +53,10 @@ export interface IUserMethods {
   createJWT(payload: IUserTokenPayload): string;
   attachCookiesToResponse(res: Response): Response;
 }
+export interface IUserVerificationEmailReqBody {
+  verificationToken: string;
+  email: string;
+}
 
 export type MongooseUser =
   | ((Document<
@@ -63,6 +67,9 @@ export type MongooseUser =
         email: string;
         password: string;
         role: string;
+        verificationToken: string;
+        isVerified: boolean;
+        verified: Date;
       }
     > &
       Omit<
@@ -71,6 +78,9 @@ export type MongooseUser =
           email: string;
           password: string;
           role: string;
+          verificationToken: string;
+          isVerified: boolean;
+          verified: Date;
         } & {
           _id: Types.ObjectId;
         },
