@@ -9,7 +9,7 @@ import {
   ROLE,
 } from "../@types/user";
 import { randomBytes } from "node:crypto";
-import { sendEmail } from "../utilities";
+import { sendVerificationEmail } from "../utilities";
 
 //-----------------------------------------------------
 /** first registered user should be an admin */
@@ -20,7 +20,14 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
   const verificationToken = randomBytes(32).toString("hex");
   await User.create({ ...req.body, role, verificationToken });
-  await sendEmail();
+  // const origin= `${req.protocol}://${req.get("host")}`,
+  const origin = `http://localhost:3000`;
+  await sendVerificationEmail({
+    name: req.body.name,
+    email: req.body.email,
+    origin,
+    verificationToken,
+  });
   res.status(StatusCodes.CREATED).json({
     msg: "Successful Registered. Please check your email account ",
     // verificationToken: user.verificationToken,
@@ -83,7 +90,7 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
   }
 
   user.attachCookiesToResponse(res);
-  res.status(StatusCodes.OK).json({ message: "Login successful" });
+  res.status(StatusCodes.OK).json({ message: "Login successful", user });
 };
 
 //-----------------------------------------------------

@@ -14,22 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const sendEmail = () => __awaiter(void 0, void 0, void 0, function* () {
-    const transporter = nodemailer_1.default.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        auth: {
-            user: process.env.USER_ACCOUNT_ETHEREAL,
-            pass: process.env.PASS_ACCOUNT_ETHEREAL,
-        },
-    });
-    let info = yield transporter.sendMail({
-        from: '"Ricatti" <ricatti@gmx.fr>',
-        to: "bar@example.com, baz@example.com, idell.aufderhar@ethereal.email",
-        subject: "Hello ✔",
-        html: "<b>Hello world?</b>",
-    });
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer_1.default.getTestMessageUrl(info));
+const nodemailerConfig_1 = require("./nodemailerConfig");
+const sendEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ from, to, subject, html }) {
+    const transporter = nodemailer_1.default.createTransport(nodemailerConfig_1.nodemailerConfig);
+    return transporter.sendMail({ from, to, subject, html });
 });
 exports.sendEmail = sendEmail;

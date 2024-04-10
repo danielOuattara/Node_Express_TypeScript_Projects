@@ -23,7 +23,13 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
     const verificationToken = (0, node_crypto_1.randomBytes)(32).toString("hex");
     yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role, verificationToken }));
-    yield (0, utilities_1.sendEmail)();
+    const origin = `http://localhost:3000`;
+    yield (0, utilities_1.sendVerificationEmail)({
+        name: req.body.name,
+        email: req.body.email,
+        origin,
+        verificationToken,
+    });
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         msg: "Successful Registered. Please check your email account ",
     });
@@ -62,7 +68,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         throw new errors_1.UnauthenticatedError("User unknown");
     }
     user.attachCookiesToResponse(res);
-    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Login successful" });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Login successful", user });
 });
 exports.login = login;
 const logout = (_req, res) => {

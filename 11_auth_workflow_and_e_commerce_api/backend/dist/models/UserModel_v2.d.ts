@@ -30,24 +30,24 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     email: string;
     password: string;
     emailIsVerified: boolean;
-    role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
+    role?: ROLE | null | undefined;
     emailVerificationDate?: Date | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
     emailIsVerified: boolean;
-    role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
+    role?: ROLE | null | undefined;
     emailVerificationDate?: Date | null | undefined;
 }>> & import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
     emailIsVerified: boolean;
-    role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
+    role?: ROLE | null | undefined;
     emailVerificationDate?: Date | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;
