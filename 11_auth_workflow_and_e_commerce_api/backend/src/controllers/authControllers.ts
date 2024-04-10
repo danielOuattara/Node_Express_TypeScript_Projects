@@ -9,6 +9,7 @@ import {
   ROLE,
 } from "../@types/user";
 import { randomBytes } from "node:crypto";
+import { sendEmail } from "../utilities";
 
 //-----------------------------------------------------
 /** first registered user should be an admin */
@@ -17,13 +18,12 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   res,
 ) => {
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
-  // generate verificationToken
   const verificationToken = randomBytes(32).toString("hex");
-  const user = await User.create({ ...req.body, role, verificationToken });
-
+  await User.create({ ...req.body, role, verificationToken });
+  await sendEmail();
   res.status(StatusCodes.CREATED).json({
     msg: "Successful Registered. Please check your email account ",
-    verificationToken: user.verificationToken,
+    // verificationToken: user.verificationToken,
   });
 };
 
@@ -42,7 +42,7 @@ export const verifyEmail: RequestHandler<
     throw new UnauthenticatedError("User unknown, Verification Failed! ");
   }
 
-  user.isVerified = true;
+  user.emailIsVerified = true;
   user.emailVerificationDate = new Date();
   user.verificationToken = "";
 
@@ -69,8 +69,8 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
     throw new UnauthenticatedError("User unknown");
   }
 
-  // check email & password presents
-  if (!user.isVerified) {
+  // check emailIsVerified
+  if (!user.emailIsVerified) {
     throw new UnauthenticatedError(
       "Please check your email to confirm your registration !",
     );
