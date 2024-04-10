@@ -13,7 +13,7 @@ export interface IUser {
   role: ROLE;
   verificationToken: string;
   isVerified: boolean;
-  verified: Date;
+  emailVerificationDate: Date;
 }
 
 export interface IPayload {
@@ -68,7 +68,7 @@ export type MongooseUser =
         password: string;
         role: string;
         verificationToken: string;
-        isVerified: boolean;
+        emailVerificationDate: boolean;
         verified: Date;
       }
     > &
@@ -80,7 +80,7 @@ export type MongooseUser =
           role: string;
           verificationToken: string;
           isVerified: boolean;
-          verified: Date;
+          emailVerificationDate: Date;
         } & {
           _id: Types.ObjectId;
         },

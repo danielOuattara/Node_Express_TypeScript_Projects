@@ -25,6 +25,7 @@
 import { Types } from "mongoose";
 import { EnumCategory, EnumCompany } from "../@types/product";
 declare const Product_v2: import("mongoose").Model<{
+    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -34,7 +35,6 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
-    name: string;
     price: number;
     description: string;
     image: string;
@@ -47,6 +47,7 @@ declare const Product_v2: import("mongoose").Model<{
     averageRating: number;
     numberOfReviews: number;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
+    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -56,7 +57,6 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
-    name: string;
     price: number;
     description: string;
     image: string;
@@ -69,6 +69,7 @@ declare const Product_v2: import("mongoose").Model<{
     averageRating: number;
     numberOfReviews: number;
 }> & {
+    name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
         cacheHexString?: unknown;
@@ -78,7 +79,6 @@ declare const Product_v2: import("mongoose").Model<{
         createFromBase64?: {} | null | undefined;
         isValid?: {} | null | undefined;
     };
-    name: string;
     price: number;
     description: string;
     image: string;

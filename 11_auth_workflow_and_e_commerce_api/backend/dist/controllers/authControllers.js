@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = exports.register = void 0;
+exports.logout = exports.login = exports.verifyEmail = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
@@ -28,6 +28,23 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.register = register;
+const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield UserModel_1.default.findOne({
+        email: req.body.email,
+        verificationToken: req.body.verificationToken,
+    });
+    if (!user) {
+        throw new errors_1.UnauthenticatedError("User unknown, Verification Failed! ");
+    }
+    user.isVerified = true;
+    user.emailVerificationDate = new Date();
+    user.verificationToken = "";
+    yield user.save();
+    res.status(http_status_codes_1.StatusCodes.OK).json({
+        message: "Email is verified, you can login now",
+    });
+});
+exports.verifyEmail = verifyEmail;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.email || !req.body.password) {
         throw new errors_1.BadRequestError("Email and Password are required !");

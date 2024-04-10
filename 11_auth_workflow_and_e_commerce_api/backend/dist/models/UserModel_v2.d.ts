@@ -32,7 +32,7 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     isVerified: boolean;
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
-    verified?: Date | null | undefined;
+    emailVerificationDate?: Date | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
     email: string;
@@ -40,7 +40,7 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     isVerified: boolean;
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
-    verified?: Date | null | undefined;
+    emailVerificationDate?: Date | null | undefined;
 }>> & import("mongoose").FlatRecord<{
     name: string;
     email: string;
@@ -48,7 +48,7 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     isVerified: boolean;
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
-    verified?: Date | null | undefined;
+    emailVerificationDate?: Date | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;
 }>;

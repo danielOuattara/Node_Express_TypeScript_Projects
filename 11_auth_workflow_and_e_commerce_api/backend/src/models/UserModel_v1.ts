@@ -68,7 +68,7 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
     type: Boolean,
     default: false,
   },
-  verified: {
+  emailVerificationDate: {
     type: Date,
   },
 });

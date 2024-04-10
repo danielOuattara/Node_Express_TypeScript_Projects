@@ -54,7 +54,7 @@ const schema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
-    verified: {
+    emailVerificationDate: {
         type: Date,
     },
 });

@@ -29,12 +29,12 @@ declare const Order_v1: import("mongoose").Model<{
     updatedAt: NativeDate;
 } & {
     user: import("mongoose").Types.ObjectId;
-    total: number;
-    status: string;
     tax: number;
     shippingFee: number;
     subtotal: number;
+    total: number;
     orderItems: import("mongoose").Types.DocumentArray<ISingleOrderItem>;
+    status: string;
     clientSecret: string;
     paymentIntentId?: string | null | undefined;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
@@ -42,12 +42,12 @@ declare const Order_v1: import("mongoose").Model<{
     updatedAt: NativeDate;
 } & {
     user: import("mongoose").Types.ObjectId;
-    total: number;
-    status: string;
     tax: number;
     shippingFee: number;
     subtotal: number;
+    total: number;
     orderItems: import("mongoose").Types.DocumentArray<ISingleOrderItem>;
+    status: string;
     clientSecret: string;
     paymentIntentId?: string | null | undefined;
 }> & {
@@ -55,12 +55,12 @@ declare const Order_v1: import("mongoose").Model<{
     updatedAt: NativeDate;
 } & {
     user: import("mongoose").Types.ObjectId;
-    total: number;
-    status: string;
     tax: number;
     shippingFee: number;
     subtotal: number;
+    total: number;
     orderItems: import("mongoose").Types.DocumentArray<ISingleOrderItem>;
+    status: string;
     clientSecret: string;
     paymentIntentId?: string | null | undefined;
 } & {

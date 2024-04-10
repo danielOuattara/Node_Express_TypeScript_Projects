@@ -48,7 +48,7 @@ const schema = new Schema({
     type: Boolean,
     default: false,
   },
-  verified: {
+  emailVerificationDate: {
     type: Date,
   },
 });

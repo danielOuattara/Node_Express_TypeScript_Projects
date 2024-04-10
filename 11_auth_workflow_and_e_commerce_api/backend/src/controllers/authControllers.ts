@@ -2,7 +2,12 @@ import { RequestHandler } from "express";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors";
-import { IUserLoginReqBody, IUserRegisterReqBody, ROLE } from "../@types/user";
+import {
+  IUserLoginReqBody,
+  IUserRegisterReqBody,
+  IUserVerificationEmailReqBody,
+  ROLE,
+} from "../@types/user";
 import { randomBytes } from "node:crypto";
 
 //-----------------------------------------------------
@@ -19,6 +24,31 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
   res.status(StatusCodes.CREATED).json({
     msg: "Successful Registered. Please check your email account ",
     verificationToken: user.verificationToken,
+  });
+};
+
+//-----------------------------------------------------
+
+export const verifyEmail: RequestHandler<
+  {},
+  {},
+  IUserVerificationEmailReqBody
+> = async (req, res) => {
+  const user = await User.findOne({
+    email: req.body.email,
+    verificationToken: req.body.verificationToken,
+  });
+  if (!user) {
+    throw new UnauthenticatedError("User unknown, Verification Failed! ");
+  }
+
+  user.isVerified = true;
+  user.emailVerificationDate = new Date();
+  user.verificationToken = "";
+
+  await user.save();
+  res.status(StatusCodes.OK).json({
+    message: "Email is verified, you can login now",
   });
 };
 

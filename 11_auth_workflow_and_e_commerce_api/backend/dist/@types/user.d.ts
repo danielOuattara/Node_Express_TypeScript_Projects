@@ -35,7 +35,7 @@ export interface IUser {
     role: ROLE;
     verificationToken: string;
     isVerified: boolean;
-    verified: Date;
+    emailVerificationDate: Date;
 }
 export interface IPayload {
     name: string;
@@ -70,16 +70,26 @@ export interface IUserMethods {
     createJWT(payload: IUserTokenPayload): string;
     attachCookiesToResponse(res: Response): Response;
 }
+export interface IUserVerificationEmailReqBody {
+    verificationToken: string;
+    email: string;
+}
 export type MongooseUser = ((Document<unknown, {}, {
     name: string;
     email: string;
     password: string;
     role: string;
+    verificationToken: string;
+    emailVerificationDate: boolean;
+    verified: Date;
 }> & Omit<{
     name: string;
     email: string;
     password: string;
     role: string;
+    verificationToken: string;
+    isVerified: boolean;
+    emailVerificationDate: Date;
 } & {
     _id: Types.ObjectId;
 }, keyof IUserMethods> & IUserMethods) & {
