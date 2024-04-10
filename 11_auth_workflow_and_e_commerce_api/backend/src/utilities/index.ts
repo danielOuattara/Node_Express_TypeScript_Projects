@@ -1,5 +1,6 @@
-import { attachCookiesToResponse } from "./cookies";
-import { checkAuthOrAdmin } from "./checkAuthOrAdmin";
-import { fakeStripAPI } from "./fakeStripeAPI";
+import { attachCookiesToResponse } from "./auth/cookies";
+import { checkAuthOrAdmin } from "./auth/checkAuthOrAdmin";
+import { fakeStripAPI } from "./stripe/fakeStripeAPI";
+import { sendEmail } from "./email/sendEmail";
 
-export { attachCookiesToResponse, checkAuthOrAdmin, fakeStripAPI };
+export { attachCookiesToResponse, checkAuthOrAdmin, fakeStripAPI, sendEmail };

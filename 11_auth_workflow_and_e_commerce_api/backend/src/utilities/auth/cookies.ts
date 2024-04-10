@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { createJWT } from "./jwt";
-import { IUserTokenPayload } from "../@types/user";
+import { IUserTokenPayload } from "../../@types/user";
 
 /**
  * functions here are no more used, but kept for legacy.

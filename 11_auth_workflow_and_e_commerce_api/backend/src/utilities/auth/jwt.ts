@@ -1,5 +1,5 @@
 import { sign, verify, type Secret } from "jsonwebtoken";
-import { IUserTokenPayload } from "../@types/user";
+import { IUserTokenPayload } from "../../@types/user";
 
 /**
  * These functions are no more used, but kept for legacy.
