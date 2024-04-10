@@ -64,7 +64,7 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
   verificationToken: {
     type: String,
   },
-  isVerified: {
+  emailIsVerified: {
     type: Boolean,
     default: false,
   },
@@ -72,6 +72,11 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
     type: Date,
   },
 });
+
+/* 
+        emailIsVerified: boolean;
+
+*/
 
 //---
 schema.pre("save", async function () {

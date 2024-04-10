@@ -12,7 +12,7 @@ export interface IUser {
   password: string;
   role: ROLE;
   verificationToken: string;
-  isVerified: boolean;
+  emailIsVerified: boolean;
   emailVerificationDate: Date;
 }
 
@@ -59,29 +59,9 @@ export interface IUserVerificationEmailReqBody {
 }
 
 export type MongooseUser =
-  | ((Document<
-      unknown,
-      {},
-      {
-        name: string;
-        email: string;
-        password: string;
-        role: string;
-        verificationToken: string;
-        emailVerificationDate: boolean;
-        verified: Date;
-      }
-    > &
+  | ((Document<unknown, {}, IUser> &
       Omit<
-        {
-          name: string;
-          email: string;
-          password: string;
-          role: string;
-          verificationToken: string;
-          isVerified: boolean;
-          emailVerificationDate: Date;
-        } & {
+        IUser & {
           _id: Types.ObjectId;
         },
         keyof IUserMethods

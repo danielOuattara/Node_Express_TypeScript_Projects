@@ -44,7 +44,7 @@ const schema = new Schema({
   verificationToken: {
     type: String,
   },
-  isVerified: {
+  emailIsVerified: {
     type: Boolean,
     default: false,
   },
