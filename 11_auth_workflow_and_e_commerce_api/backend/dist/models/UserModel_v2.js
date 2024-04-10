@@ -50,7 +50,7 @@ const schema = new mongoose_1.Schema({
     verificationToken: {
         type: String,
     },
-    isVerified: {
+    emailIsVerified: {
         type: Boolean,
         default: false,
     },

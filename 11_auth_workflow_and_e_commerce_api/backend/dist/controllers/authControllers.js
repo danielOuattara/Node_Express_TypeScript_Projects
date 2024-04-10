@@ -18,13 +18,14 @@ const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const user_1 = require("../@types/user");
 const node_crypto_1 = require("node:crypto");
+const utilities_1 = require("../utilities");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
     const verificationToken = (0, node_crypto_1.randomBytes)(32).toString("hex");
-    const user = yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role, verificationToken }));
+    yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role, verificationToken }));
+    yield (0, utilities_1.sendEmail)();
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         msg: "Successful Registered. Please check your email account ",
-        verificationToken: user.verificationToken,
     });
 });
 exports.register = register;
@@ -36,7 +37,7 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     if (!user) {
         throw new errors_1.UnauthenticatedError("User unknown, Verification Failed! ");
     }
-    user.isVerified = true;
+    user.emailIsVerified = true;
     user.emailVerificationDate = new Date();
     user.verificationToken = "";
     yield user.save();
@@ -53,7 +54,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!user) {
         throw new errors_1.UnauthenticatedError("User unknown");
     }
-    if (!user.isVerified) {
+    if (!user.emailIsVerified) {
         throw new errors_1.UnauthenticatedError("Please check your email to confirm your registration !");
     }
     const isValidPassword = yield user.verifyPassword(req.body.password);

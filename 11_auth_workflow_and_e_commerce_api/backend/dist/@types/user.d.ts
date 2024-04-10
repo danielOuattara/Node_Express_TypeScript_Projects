@@ -34,7 +34,7 @@ export interface IUser {
     password: string;
     role: ROLE;
     verificationToken: string;
-    isVerified: boolean;
+    emailIsVerified: boolean;
     emailVerificationDate: Date;
 }
 export interface IPayload {
@@ -74,23 +74,7 @@ export interface IUserVerificationEmailReqBody {
     verificationToken: string;
     email: string;
 }
-export type MongooseUser = ((Document<unknown, {}, {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    verificationToken: string;
-    emailVerificationDate: boolean;
-    verified: Date;
-}> & Omit<{
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    verificationToken: string;
-    isVerified: boolean;
-    emailVerificationDate: Date;
-} & {
+export type MongooseUser = ((Document<unknown, {}, IUser> & Omit<IUser & {
     _id: Types.ObjectId;
 }, keyof IUserMethods> & IUserMethods) & {
     isTestUser: boolean;

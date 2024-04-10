@@ -29,7 +29,7 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     name: string;
     email: string;
     password: string;
-    isVerified: boolean;
+    emailIsVerified: boolean;
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
@@ -37,7 +37,7 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     name: string;
     email: string;
     password: string;
-    isVerified: boolean;
+    emailIsVerified: boolean;
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
@@ -45,7 +45,7 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     name: string;
     email: string;
     password: string;
-    isVerified: boolean;
+    emailIsVerified: boolean;
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
