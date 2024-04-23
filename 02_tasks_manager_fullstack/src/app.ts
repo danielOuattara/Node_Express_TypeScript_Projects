@@ -14,6 +14,6 @@ app.use(express.json());
 app.use("/api/v1/tasks", taskRouter);
 
 app.use(notFound);
-
 app.use(customErrorHandler);
+
 export default app;
