@@ -73,11 +73,6 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
   },
 });
 
-/* 
-        emailIsVerified: boolean;
-
-*/
-
 //---
 schema.pre("save", async function () {
   if (!this.isModified("password")) return;
