@@ -171,7 +171,6 @@ export const checkAuthOrAdmin = (
 };
 ```
 
-
 ```ts
 /**
  * John's method + cleaned up
@@ -298,7 +297,6 @@ export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 };
 ```
-
 
 ```ts
 /*

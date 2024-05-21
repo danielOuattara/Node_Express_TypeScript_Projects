@@ -57,9 +57,9 @@ IMPORTANT: For this project, we re-use all the backend code from
 
 ## Send Verification Link
 
-- [] refactor sendEmail
-- [] setup sendVerificationEmail.js
-- [] pass arguments
+- [x] refactor sendEmail
+- [x] setup sendVerificationEmail.js
+- [x] pass arguments
 
 ## Token Model
 
