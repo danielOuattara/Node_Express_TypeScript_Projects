@@ -23,7 +23,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
     const verificationToken = (0, node_crypto_1.randomBytes)(32).toString("hex");
     yield UserModel_1.default.create(Object.assign(Object.assign({}, req.body), { role, verificationToken }));
-    const origin = `http://localhost:3000`;
+    const origin = `${req.protocol}://${req.get("host")}`;
     yield (0, utilities_1.sendVerificationEmail)({
         name: req.body.name,
         email: req.body.email,

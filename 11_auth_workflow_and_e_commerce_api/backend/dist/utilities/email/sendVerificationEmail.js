@@ -8,15 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEmail = void 0;
-const nodemailer_1 = __importDefault(require("nodemailer"));
-const nodemailerConfig_1 = require("./nodemailerConfig");
-const sendEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ from, to, subject, html }) {
-    const transporter = nodemailer_1.default.createTransport(nodemailerConfig_1.nodemailerConfig);
-    return yield transporter.sendMail({ from, to, subject, html });
+exports.sendVerificationEmail = void 0;
+const sendEmail_1 = require("./sendEmail");
+const sendVerificationEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, email, verificationToken, origin, }) {
+    const verifyEmailLink = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
+    const message = `<p>Please confirm your email: <a href="${verifyEmailLink}">click here</a> </p>`;
+    return yield (0, sendEmail_1.sendEmail)({
+        from: `"Admin" <ricatti@gmx.fr>`,
+        to: email,
+        subject: "Email confirmation",
+        html: `<h4> Hello ${name}</h4> 
+    ${message}`,
+    });
 });
-exports.sendEmail = sendEmail;
+exports.sendVerificationEmail = sendVerificationEmail;

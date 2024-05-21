@@ -22,9 +22,11 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+/// <reference types="mongoose/types/inferrawdoctype" />
 import { Types } from "mongoose";
 import { EnumCategory, EnumCompany } from "../@types/product";
 declare const Product_v2: import("mongoose").Model<{
+    image: string;
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
@@ -37,7 +39,6 @@ declare const Product_v2: import("mongoose").Model<{
     };
     price: number;
     description: string;
-    image: string;
     category: EnumCategory;
     company: EnumCompany;
     colors: string[];
@@ -47,6 +48,7 @@ declare const Product_v2: import("mongoose").Model<{
     averageRating: number;
     numberOfReviews: number;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
+    image: string;
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
@@ -59,7 +61,6 @@ declare const Product_v2: import("mongoose").Model<{
     };
     price: number;
     description: string;
-    image: string;
     category: EnumCategory;
     company: EnumCompany;
     colors: string[];
@@ -69,6 +70,7 @@ declare const Product_v2: import("mongoose").Model<{
     averageRating: number;
     numberOfReviews: number;
 }> & {
+    image: string;
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
@@ -81,7 +83,6 @@ declare const Product_v2: import("mongoose").Model<{
     };
     price: number;
     description: string;
-    image: string;
     category: EnumCategory;
     company: EnumCompany;
     colors: string[];

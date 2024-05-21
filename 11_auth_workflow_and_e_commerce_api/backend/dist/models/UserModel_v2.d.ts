@@ -22,6 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+/// <reference types="mongoose/types/inferrawdoctype" />
 import { Schema, InferSchemaType, Model } from "mongoose";
 import { Response } from "express";
 import { ROLE, IPayload } from "../@types/user";
@@ -30,24 +31,24 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     email: string;
     password: string;
     emailIsVerified: boolean;
-    verificationToken?: string | null | undefined;
     role?: ROLE | null | undefined;
+    verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
     emailIsVerified: boolean;
-    verificationToken?: string | null | undefined;
     role?: ROLE | null | undefined;
+    verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
 }>> & import("mongoose").FlatRecord<{
     name: string;
     email: string;
     password: string;
     emailIsVerified: boolean;
-    verificationToken?: string | null | undefined;
     role?: ROLE | null | undefined;
+    verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;

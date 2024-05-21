@@ -22,6 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+/// <reference types="mongoose/types/inferrawdoctype" />
 import { Model } from "mongoose";
 import { IProduct } from "../@types/product";
 declare const Product_v1: Model<IProduct, {}, {}, {}, import("mongoose").Document<unknown, {}, IProduct> & IProduct & {

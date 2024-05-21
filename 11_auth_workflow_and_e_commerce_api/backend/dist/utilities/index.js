@@ -9,5 +9,5 @@ const fakeStripeAPI_1 = require("./stripe/fakeStripeAPI");
 Object.defineProperty(exports, "fakeStripAPI", { enumerable: true, get: function () { return fakeStripeAPI_1.fakeStripAPI; } });
 const sendEmail_1 = require("./email/sendEmail");
 Object.defineProperty(exports, "sendEmail", { enumerable: true, get: function () { return sendEmail_1.sendEmail; } });
-const sendVerficationEmail_1 = require("./email/sendVerficationEmail");
-Object.defineProperty(exports, "sendVerificationEmail", { enumerable: true, get: function () { return sendVerficationEmail_1.sendVerificationEmail; } });
+const sendVerificationEmail_1 = require("./email/sendVerificationEmail");
+Object.defineProperty(exports, "sendVerificationEmail", { enumerable: true, get: function () { return sendVerificationEmail_1.sendVerificationEmail; } });

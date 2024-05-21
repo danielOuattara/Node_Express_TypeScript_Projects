@@ -22,6 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+/// <reference types="mongoose/types/inferrawdoctype" />
 import { Model, Types } from "mongoose";
 import { IReview } from "../@types/reviews";
 interface IReviewModel extends Model<IReview> {
