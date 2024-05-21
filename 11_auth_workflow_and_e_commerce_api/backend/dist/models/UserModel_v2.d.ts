@@ -57,7 +57,10 @@ type TUser = InferSchemaType<typeof schema>;
 interface IUserMethods {
     verifyPassword(pwd: string): Promise<boolean>;
     createJWT(payload: IPayload): string;
-    attachCookiesToResponse(res: Response): Response;
+    attachCookiesToResponse({ res, refreshToken, }: {
+        res: Response;
+        refreshToken?: string;
+    }): Response;
 }
 interface UserModel extends Model<TUser, {}, IUserMethods> {
     destroyCookiesInResponse(res: Response): Response;

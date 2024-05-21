@@ -42,6 +42,7 @@ export interface IPayload {
     name: string;
     userId: Types.ObjectId;
     role: string;
+    refreshToken?: string;
 }
 export interface IUserRegisterReqBody {
     name: string;

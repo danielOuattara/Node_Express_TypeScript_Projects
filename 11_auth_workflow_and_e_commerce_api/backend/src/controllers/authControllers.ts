@@ -96,26 +96,31 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
   // create refresh token
   let refreshToken = "";
 
-  // check for existing refreshToken and take correct action
+  /* check for existing refreshToken and take correct action
+  -----------------------------------------------------------*/
 
+  /* first login: ==> create refreshToken 
+  ----------------------------------------- */
   refreshToken = randomBytes(64).toString("hex");
-  const userAgent = req.headers["user-agent"];
-  const ip = req.ip;
 
   const userToken = {
     refreshToken,
-    ip,
-    userAgent,
+    userAgent: req.headers["user-agent"],
+    ip: req.ip,
     user: user._id,
   };
 
-  const token = await Token.create(userToken);
+  await Token.create(userToken);
 
-  // user.attachCookiesToResponse(res);
+  user.attachCookiesToResponse({
+    res,
+    refreshToken,
+  });
 
-  return res
-    .status(StatusCodes.OK)
-    .json({ message: "Login successful", user, token });
+  return res.status(StatusCodes.OK).json({
+    message: "Login successful",
+    user: { name: user.name, userId: user._id, role: user.role },
+  });
 };
 
 //-----------------------------------------------------

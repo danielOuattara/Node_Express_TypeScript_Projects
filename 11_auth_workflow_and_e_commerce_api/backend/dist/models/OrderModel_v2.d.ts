@@ -29,8 +29,8 @@ declare const Order_v1: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    total: number;
     user: import("mongoose").Types.ObjectId;
+    total: number;
     status: string;
     tax: number;
     shippingFee: number;
@@ -42,8 +42,8 @@ declare const Order_v1: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    total: number;
     user: import("mongoose").Types.ObjectId;
+    total: number;
     status: string;
     tax: number;
     shippingFee: number;
@@ -55,8 +55,8 @@ declare const Order_v1: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
-    total: number;
     user: import("mongoose").Types.ObjectId;
+    total: number;
     status: string;
     tax: number;
     shippingFee: number;

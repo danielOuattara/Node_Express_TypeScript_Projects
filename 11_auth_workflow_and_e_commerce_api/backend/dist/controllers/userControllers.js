@@ -48,7 +48,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         throw new errors_1.UnauthenticatedError("User unknown");
     }
     yield user.updateOne(req.body, { new: true, runValidators: true });
-    user.attachCookiesToResponse(res);
+    user.attachCookiesToResponse({ res });
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User updated successfully" });
 });
 exports.updateUser = updateUser;

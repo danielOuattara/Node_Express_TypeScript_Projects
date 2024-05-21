@@ -28,29 +28,29 @@ declare const Token_v2: import("mongoose").Model<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    user: import("mongoose").Types.ObjectId;
     refreshToken: string;
     ip: string;
     userAgent: string;
     isValid: boolean;
-    user: import("mongoose").Types.ObjectId;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    user: import("mongoose").Types.ObjectId;
     refreshToken: string;
     ip: string;
     userAgent: string;
     isValid: boolean;
-    user: import("mongoose").Types.ObjectId;
 }> & {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    user: import("mongoose").Types.ObjectId;
     refreshToken: string;
     ip: string;
     userAgent: string;
     isValid: boolean;
-    user: import("mongoose").Types.ObjectId;
 } & {
     _id: import("mongoose").Types.ObjectId;
 }, any>;

@@ -29,7 +29,10 @@ import { IPayload, IUser } from "../@types/user";
 interface IUserMethods {
     verifyPassword(pwd: string): Promise<boolean>;
     createJWT(payload: IPayload): string;
-    attachCookiesToResponse(res: Response): Response;
+    attachCookiesToResponse({ res, refreshToken, }: {
+        res: Response;
+        refreshToken?: string;
+    }): void;
 }
 interface UserModel extends Model<IUser, {}, IUserMethods> {
     destroyCookiesInResponse(res: Response): Response;

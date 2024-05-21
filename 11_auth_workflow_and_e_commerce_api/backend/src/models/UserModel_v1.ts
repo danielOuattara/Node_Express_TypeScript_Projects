@@ -11,10 +11,17 @@ import { IPayload, IUser, ROLE } from "../@types/user";
 /** Create an interface 'IUser' representing a document in MongoDB */
 
 /** Put all user instance methods in this 'IUserMethods':*/
+
 interface IUserMethods {
   verifyPassword(pwd: string): Promise<boolean>;
   createJWT(payload: IPayload): string;
-  attachCookiesToResponse(res: Response): Response;
+  attachCookiesToResponse({
+    res,
+    refreshToken,
+  }: {
+    res: Response;
+    refreshToken?: string;
+  }): void;
 }
 
 /** Create a new Model type that knows about IUserMethods... */
@@ -87,24 +94,33 @@ schema.methods.verifyPassword = async function (password: string) {
 
 //---
 schema.methods.createJWT = function (payload: IPayload) {
-  return sign(payload, process.env.JWT_SECRET as Secret, {
-    expiresIn: process.env.JWT_LIFETIME as string,
-  });
+  return sign(payload, process.env.JWT_SECRET as Secret);
 };
 
 //---
-schema.methods.attachCookiesToResponse = function (res: Response) {
+schema.methods.attachCookiesToResponse = function ({ res, refreshToken }) {
   const payload: IPayload = {
     name: this.name,
     userId: this._id,
     role: this.role,
   };
 
-  const token = this.createJWT(payload);
+  const accessTokenJWT = this.createJWT({ ...payload });
+  const refreshTokenJWT = this.createJWT({ ...payload, refreshToken });
 
-  return res.cookie("access_token", "Bearer " + token, {
-    expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+  const refreshTokenLifeTime = 1000 * 60 * 60 * 12; // 12 hours
+  const accessTokenLifeTime = 1000 * 60 * 60 * 1; // 1 hours
+
+  res.cookie("accessToken", accessTokenJWT, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    signed: true,
+    maxAge: accessTokenLifeTime,
+  });
+
+  res.cookie("refreshToken", refreshTokenJWT, {
+    httpOnly: true,
+    expires: new Date(Date.now() + refreshTokenLifeTime),
     secure: process.env.NODE_ENV === "production",
     signed: true,
   });

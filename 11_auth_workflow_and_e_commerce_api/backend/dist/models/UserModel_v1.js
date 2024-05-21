@@ -72,20 +72,27 @@ schema.methods.verifyPassword = function (password) {
     });
 };
 schema.methods.createJWT = function (payload) {
-    return (0, jsonwebtoken_1.sign)(payload, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_LIFETIME,
-    });
+    return (0, jsonwebtoken_1.sign)(payload, process.env.JWT_SECRET);
 };
-schema.methods.attachCookiesToResponse = function (res) {
+schema.methods.attachCookiesToResponse = function ({ res, refreshToken }) {
     const payload = {
         name: this.name,
         userId: this._id,
         role: this.role,
     };
-    const token = this.createJWT(payload);
-    return res.cookie("access_token", "Bearer " + token, {
-        expires: new Date(Date.now() + 8 * 3600000),
+    const accessTokenJWT = this.createJWT(Object.assign({}, payload));
+    const refreshTokenJWT = this.createJWT(Object.assign(Object.assign({}, payload), { refreshToken }));
+    const refreshTokenLifeTime = 1000 * 60 * 60 * 12;
+    const accessTokenLifeTime = 1000 * 60 * 60 * 1;
+    res.cookie("accessToken", accessTokenJWT, {
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        signed: true,
+        maxAge: accessTokenLifeTime,
+    });
+    res.cookie("refreshToken", refreshTokenJWT, {
+        httpOnly: true,
+        expires: new Date(Date.now() + refreshTokenLifeTime),
         secure: process.env.NODE_ENV === "production",
         signed: true,
     });

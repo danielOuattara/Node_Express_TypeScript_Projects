@@ -86,7 +86,7 @@ export const updateUser: RequestHandler<{}, {}, IUserUpdateReqBody> = async (
   await user.updateOne(req.body, { new: true, runValidators: true });
 
   // this function attaches cookies to res
-  user.attachCookiesToResponse(res);
+  user.attachCookiesToResponse({ res });
   res.status(StatusCodes.OK).json({ message: "User updated successfully" });
 };
 

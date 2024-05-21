@@ -70,18 +70,21 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     let refreshToken = "";
     refreshToken = (0, node_crypto_1.randomBytes)(64).toString("hex");
-    const userAgent = req.headers["user-agent"];
-    const ip = req.ip;
     const userToken = {
         refreshToken,
-        ip,
-        userAgent,
+        userAgent: req.headers["user-agent"],
+        ip: req.ip,
         user: user._id,
     };
-    const token = yield TokenModel_1.default.create(userToken);
-    return res
-        .status(http_status_codes_1.StatusCodes.OK)
-        .json({ message: "Login successful", user, token });
+    yield TokenModel_1.default.create(userToken);
+    user.attachCookiesToResponse({
+        res,
+        refreshToken,
+    });
+    return res.status(http_status_codes_1.StatusCodes.OK).json({
+        message: "Login successful",
+        user: { name: user.name, userId: user._id, role: user.role },
+    });
 });
 exports.login = login;
 const logout = (_req, res) => {

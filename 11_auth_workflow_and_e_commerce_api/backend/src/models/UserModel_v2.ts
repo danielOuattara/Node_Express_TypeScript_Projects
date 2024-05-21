@@ -73,18 +73,35 @@ schema.methods.createJWT = function (payload: IPayload) {
 };
 
 //---
-schema.methods.attachCookiesToResponse = function (res: Response) {
+schema.methods.attachCookiesToResponse = function ({
+  res,
+  refreshToken,
+}: {
+  res: Response;
+  refreshToken?: string;
+}) {
   const payload: IPayload = {
     name: this.name,
     userId: this._id,
     role: this.role,
   };
 
-  const token = this.createJWT(payload);
+  const accessTokenJWT = this.createJWT({ ...payload });
+  const refreshTokenJWT = this.createJWT({ ...payload, refreshToken });
 
-  return res.cookie("access_token", "Bearer " + token, {
-    expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+  const refreshTokenLifeTime = 1000 * 60 * 60 * 12; // 12 hours
+  const accessTokenLifeTime = 1000 * 60 * 60 * 1; // 1 hours
+
+  res.cookie("accessToken", accessTokenJWT, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    signed: true,
+    maxAge: accessTokenLifeTime,
+  });
+
+  res.cookie("refreshToken", refreshTokenJWT, {
+    httpOnly: true,
+    expires: new Date(Date.now() + refreshTokenLifeTime),
     secure: process.env.NODE_ENV === "production",
     signed: true,
   });
@@ -107,7 +124,13 @@ type TUser = InferSchemaType<typeof schema>;
 interface IUserMethods {
   verifyPassword(pwd: string): Promise<boolean>;
   createJWT(payload: IPayload): string;
-  attachCookiesToResponse(res: Response): Response;
+  attachCookiesToResponse({
+    res,
+    refreshToken,
+  }: {
+    res: Response;
+    refreshToken?: string;
+  }): Response;
 }
 
 /** Create a new Model type that knows about IUserMethods...
