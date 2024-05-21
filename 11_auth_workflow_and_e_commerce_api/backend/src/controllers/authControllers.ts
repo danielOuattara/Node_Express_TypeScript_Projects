@@ -19,15 +19,19 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
 ) => {
   const role = (await User.countDocuments({})) === 0 ? ROLE.admin : ROLE.user;
   const verificationToken = randomBytes(32).toString("hex");
+
   await User.create({ ...req.body, role, verificationToken });
-  // const origin= `${req.protocol}://${req.get("host")}`,
-  const origin = `http://localhost:3000`;
+  // const origin = `http://localhost:3000`;
+  // const origin = req.get("x-forwarded-host") as string;
+  const origin = `${req.protocol}://${req.get("host")}`;
+
   await sendVerificationEmail({
     name: req.body.name,
     email: req.body.email,
     origin,
     verificationToken,
   });
+
   res.status(StatusCodes.CREATED).json({
     msg: "Successful Registered. Please check your email account ",
     // verificationToken: user.verificationToken,
