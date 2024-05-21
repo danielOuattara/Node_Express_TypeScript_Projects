@@ -29,5 +29,5 @@ export interface IToken {
     ip: string;
     userAgent: string;
     isValid: boolean;
-    userId: Types.ObjectId;
+    user: Types.ObjectId;
 }

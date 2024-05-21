@@ -19,9 +19,9 @@ const schema = new Schema(
     },
     isValid: {
       type: Boolean,
-      required: true,
+      default: true,
     },
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

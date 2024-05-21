@@ -19,6 +19,7 @@ const errors_1 = require("../errors");
 const user_1 = require("../@types/user");
 const node_crypto_1 = require("node:crypto");
 const utilities_1 = require("../utilities");
+const TokenModel_1 = __importDefault(require("./../models/TokenModel"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
     const verificationToken = (0, node_crypto_1.randomBytes)(32).toString("hex");
@@ -67,8 +68,20 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!isValidPassword) {
         throw new errors_1.UnauthenticatedError("User unknown");
     }
-    user.attachCookiesToResponse(res);
-    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Login successful", user });
+    let refreshToken = "";
+    refreshToken = (0, node_crypto_1.randomBytes)(64).toString("hex");
+    const userAgent = req.headers["user-agent"];
+    const ip = req.ip;
+    const userToken = {
+        refreshToken,
+        ip,
+        userAgent,
+        user: user._id,
+    };
+    const token = yield TokenModel_1.default.create(userToken);
+    return res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ message: "Login successful", user, token });
 });
 exports.login = login;
 const logout = (_req, res) => {

@@ -20,9 +20,9 @@ const schema = new Schema<IToken>(
     },
     isValid: {
       type: Boolean,
-      required: true,
+      default: true,
     },
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

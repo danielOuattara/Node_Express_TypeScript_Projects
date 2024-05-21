@@ -63,7 +63,7 @@ IMPORTANT: For this project, we re-use all the backend code from
 
 ## Token Model
 
-- [] create Token.js in models
+- [x] create Token.js in models
 - [] refreshToken,ip,userAgent - all String and required
 - [] isValid - Boolean, default:true
 - [] ref user

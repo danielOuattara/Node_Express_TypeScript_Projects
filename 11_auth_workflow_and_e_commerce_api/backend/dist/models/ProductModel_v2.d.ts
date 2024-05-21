@@ -30,12 +30,12 @@ declare const Product_v2: import("mongoose").Model<{
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
+        isValid?: {} | null | undefined;
         cacheHexString?: unknown;
         generate?: {} | null | undefined;
         createFromTime?: {} | null | undefined;
         createFromHexString?: {} | null | undefined;
         createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
     };
     price: number;
     description: string;
@@ -52,12 +52,12 @@ declare const Product_v2: import("mongoose").Model<{
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
+        isValid?: {} | null | undefined;
         cacheHexString?: unknown;
         generate?: {} | null | undefined;
         createFromTime?: {} | null | undefined;
         createFromHexString?: {} | null | undefined;
         createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
     };
     price: number;
     description: string;
@@ -74,12 +74,12 @@ declare const Product_v2: import("mongoose").Model<{
     name: string;
     user: {
         prototype?: Types.ObjectId | null | undefined;
+        isValid?: {} | null | undefined;
         cacheHexString?: unknown;
         generate?: {} | null | undefined;
         createFromTime?: {} | null | undefined;
         createFromHexString?: {} | null | undefined;
         createFromBase64?: {} | null | undefined;
-        isValid?: {} | null | undefined;
     };
     price: number;
     description: string;

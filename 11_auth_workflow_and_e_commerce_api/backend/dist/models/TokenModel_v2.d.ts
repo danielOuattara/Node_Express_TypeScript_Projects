@@ -32,7 +32,7 @@ declare const Token_v2: import("mongoose").Model<{
     ip: string;
     userAgent: string;
     isValid: boolean;
-    userId: import("mongoose").Types.ObjectId;
+    user: import("mongoose").Types.ObjectId;
 }, {}, {}, {}, import("mongoose").Document<unknown, {}, {
     createdAt: NativeDate;
     updatedAt: NativeDate;
@@ -41,7 +41,7 @@ declare const Token_v2: import("mongoose").Model<{
     ip: string;
     userAgent: string;
     isValid: boolean;
-    userId: import("mongoose").Types.ObjectId;
+    user: import("mongoose").Types.ObjectId;
 }> & {
     createdAt: NativeDate;
     updatedAt: NativeDate;
@@ -50,7 +50,7 @@ declare const Token_v2: import("mongoose").Model<{
     ip: string;
     userAgent: string;
     isValid: boolean;
-    userId: import("mongoose").Types.ObjectId;
+    user: import("mongoose").Types.ObjectId;
 } & {
     _id: import("mongoose").Types.ObjectId;
 }, any>;

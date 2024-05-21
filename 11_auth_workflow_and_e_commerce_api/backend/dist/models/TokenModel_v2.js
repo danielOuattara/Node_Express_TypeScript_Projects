@@ -16,9 +16,9 @@ const schema = new mongoose_1.Schema({
     },
     isValid: {
         type: Boolean,
-        required: true,
+        default: true,
     },
-    userId: {
+    user: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",
         required: true,

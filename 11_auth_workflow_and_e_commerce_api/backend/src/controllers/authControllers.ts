@@ -10,7 +10,7 @@ import {
 } from "../@types/user";
 import { randomBytes } from "node:crypto";
 import { sendVerificationEmail } from "../utilities";
-
+import Token from "./../models/TokenModel";
 //-----------------------------------------------------
 /** first registered user should be an admin */
 export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
@@ -93,8 +93,29 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
     throw new UnauthenticatedError("User unknown");
   }
 
-  user.attachCookiesToResponse(res);
-  res.status(StatusCodes.OK).json({ message: "Login successful", user });
+  // create refresh token
+  let refreshToken = "";
+
+  // check for existing refreshToken and take correct action
+
+  refreshToken = randomBytes(64).toString("hex");
+  const userAgent = req.headers["user-agent"];
+  const ip = req.ip;
+
+  const userToken = {
+    refreshToken,
+    ip,
+    userAgent,
+    user: user._id,
+  };
+
+  const token = await Token.create(userToken);
+
+  // user.attachCookiesToResponse(res);
+
+  return res
+    .status(StatusCodes.OK)
+    .json({ message: "Login successful", user, token });
 };
 
 //-----------------------------------------------------
