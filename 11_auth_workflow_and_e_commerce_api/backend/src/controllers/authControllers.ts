@@ -96,10 +96,25 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
   // create refresh token
   let refreshToken = "";
 
-  /* check for existing refreshToken and take correct action
-  -----------------------------------------------------------*/
+  /* --> check for existing refreshToken and take correct actions
+  -----------------------------------------------------------------*/
 
-  /* first login: ==> create refreshToken 
+  const existingUserToken = await Token.findOne({ user: user._id });
+
+  if (existingUserToken && !existingUserToken["isValid"]) {
+    throw new UnauthenticatedError("Invalid Credentials");
+  }
+
+  if (existingUserToken && existingUserToken["isValid"]) {
+    user.attachCookiesToResponse({
+      res,
+      refreshToken: existingUserToken.refreshToken,
+    });
+    return res
+      .status(StatusCodes.OK)
+      .json({ user: { name: user.name, userId: user._id, role: user.role } });
+  }
+  /* --> first login: create refreshToken 
   ----------------------------------------- */
   refreshToken = randomBytes(64).toString("hex");
 

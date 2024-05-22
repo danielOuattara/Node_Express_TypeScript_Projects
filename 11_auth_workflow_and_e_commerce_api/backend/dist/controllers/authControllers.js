@@ -69,6 +69,19 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         throw new errors_1.UnauthenticatedError("User unknown");
     }
     let refreshToken = "";
+    const existingUserToken = yield TokenModel_1.default.findOne({ user: user._id });
+    if (existingUserToken && !existingUserToken["isValid"]) {
+        throw new errors_1.UnauthenticatedError("Invalid Credentials");
+    }
+    if (existingUserToken && existingUserToken["isValid"]) {
+        user.attachCookiesToResponse({
+            res,
+            refreshToken: existingUserToken.refreshToken,
+        });
+        return res
+            .status(http_status_codes_1.StatusCodes.OK)
+            .json({ user: { name: user.name, userId: user._id, role: user.role } });
+    }
     refreshToken = (0, node_crypto_1.randomBytes)(64).toString("hex");
     const userToken = {
         refreshToken,
