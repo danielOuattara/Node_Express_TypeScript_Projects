@@ -51,6 +51,12 @@ const schema = new Schema({
   emailVerificationDate: {
     type: Date,
   },
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpiration: {
+    type: Date,
+  },
 });
 
 //---
@@ -90,8 +96,7 @@ schema.methods.attachCookiesToResponse = function ({
   const refreshTokenJWT = this.createJWT({ ...payload, refreshToken });
 
   const refreshTokenLifeTime = 1000 * 60 * 60 * 12; // 12 hours
-  // const accessTokenLifeTime = 1000 * 60 * 60 * 1; // 1 hours
-  const accessTokenLifeTime = 1000 * 15; // 15 seconds
+  const accessTokenLifeTime = 1000 * 60 * 60 * 1; // 1 hours
 
   res.cookie("accessToken", accessTokenJWT, {
     httpOnly: true,

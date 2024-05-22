@@ -57,6 +57,12 @@ const schema = new mongoose_1.Schema({
     emailVerificationDate: {
         type: Date,
     },
+    passwordToken: {
+        type: String,
+    },
+    passwordTokenExpiration: {
+        type: Date,
+    },
 });
 schema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {

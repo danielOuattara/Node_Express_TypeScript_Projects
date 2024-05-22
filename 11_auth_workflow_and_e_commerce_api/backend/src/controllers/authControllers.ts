@@ -140,7 +140,25 @@ export const login: RequestHandler<{}, {}, IUserLoginReqBody> = async (
 
 //-----------------------------------------------------
 
-export const logout: RequestHandler = (_req, res) => {
-  User.destroyCookiesInResponse(res);
-  res.status(StatusCodes.OK).json({ message: "User is logged out" });
+export const logout: RequestHandler = async (req, res) => {
+  await Token.findOneAndDelete({ user: req.user!._id });
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.cookie("refreshToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  return res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+};
+
+//-----------------------------------------------------
+export const forgotPassword: RequestHandler = async (_req, res) => {
+  res.send("forgotPassword route");
+};
+
+//-----------------------------------------------------
+export const resetPassword: RequestHandler = async (_req, res) => {
+  res.send("forgotPassword route");
 };

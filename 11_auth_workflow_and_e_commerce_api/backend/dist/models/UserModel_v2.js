@@ -57,6 +57,12 @@ const schema = new mongoose_1.Schema({
     emailVerificationDate: {
         type: Date,
     },
+    passwordToken: {
+        type: String,
+    },
+    passwordTokenExpiration: {
+        type: Date,
+    },
 });
 schema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -85,7 +91,7 @@ schema.methods.attachCookiesToResponse = function ({ res, refreshToken, }) {
     const accessTokenJWT = this.createJWT(Object.assign({}, payload));
     const refreshTokenJWT = this.createJWT(Object.assign(Object.assign({}, payload), { refreshToken }));
     const refreshTokenLifeTime = 1000 * 60 * 60 * 12;
-    const accessTokenLifeTime = 1000 * 15;
+    const accessTokenLifeTime = 1000 * 60 * 60 * 1;
     res.cookie("accessToken", accessTokenJWT, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",

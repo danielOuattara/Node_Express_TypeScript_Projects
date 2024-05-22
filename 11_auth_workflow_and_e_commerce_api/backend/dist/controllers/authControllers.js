@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = exports.verifyEmail = exports.register = void 0;
+exports.resetPassword = exports.forgotPassword = exports.logout = exports.login = exports.verifyEmail = exports.register = void 0;
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
@@ -100,8 +100,24 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.login = login;
-const logout = (_req, res) => {
-    UserModel_1.default.destroyCookiesInResponse(res);
-    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User is logged out" });
-};
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield TokenModel_1.default.findOneAndDelete({ user: req.user._id });
+    res.cookie("accessToken", "logout", {
+        httpOnly: true,
+        expires: new Date(Date.now()),
+    });
+    res.cookie("refreshToken", "logout", {
+        httpOnly: true,
+        expires: new Date(Date.now()),
+    });
+    return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "user logged out!" });
+});
 exports.logout = logout;
+const forgotPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("forgotPassword route");
+});
+exports.forgotPassword = forgotPassword;
+const resetPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("forgotPassword route");
+});
+exports.resetPassword = resetPassword;

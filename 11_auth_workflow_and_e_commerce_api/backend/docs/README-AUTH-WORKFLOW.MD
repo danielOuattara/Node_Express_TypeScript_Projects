@@ -64,30 +64,30 @@ IMPORTANT: For this project, we re-use all the backend code from
 ## Token Model
 
 - [x] create Token.js in models
-- [] refreshToken,ip,userAgent - all String and required
-- [] isValid - Boolean, default:true
-- [] ref user
-- [] timestamps true
+- [x] refreshToken,ip,userAgent - all String and required
+- [x] isValid - Boolean, default:true
+- [x] ref user
+- [x] timestamps true
 
-## Setup Token in Login Controller
+## Setup Token in Login Controller [x]
 
-## Send Multiple Cookies
+## Send Multiple Cookies [x]
 
-## Check for Existing Token
+## Check for Existing Token [x]
 
-## Refactor Auth Middleware - Access , Refresh Token
+## Refactor Auth Middleware - Access , Refresh Token [x]
 
-## Logout
+## Logout [x]
 
 ## Forgot/Reset Password Functionality
 
-- User Model
-- passwordToken {type:String}
-- passwordTokenExpirationDate {type:Date}
-- authController
-- forgotPassword and resetPassword
-- authRoutes
-- post '/forgot-password' '/reset-password'
+- [x] User Model
+- [x] passwordToken {type:String}
+- [x] passwordTokenExpirationDate {type:Date}
+- [x] authController
+- [x] forgotPassword and resetPassword
+- [x] authRoutes
+- [x] post '/forgot-password' '/reset-password'
 
 ## Forgot Password Controller
 

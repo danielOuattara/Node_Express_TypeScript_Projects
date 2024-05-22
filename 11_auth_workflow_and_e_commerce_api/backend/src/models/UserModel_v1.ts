@@ -78,6 +78,12 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
   emailVerificationDate: {
     type: Date,
   },
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpiration: {
+    type: Date,
+  },
 });
 
 //---

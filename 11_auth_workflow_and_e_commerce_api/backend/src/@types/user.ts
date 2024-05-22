@@ -14,6 +14,8 @@ export interface IUser {
   verificationToken: string;
   emailIsVerified: boolean;
   emailVerificationDate: Date;
+  passwordToken: String;
+  passwordTokenExpiration: Date;
 }
 
 export interface IPayload {

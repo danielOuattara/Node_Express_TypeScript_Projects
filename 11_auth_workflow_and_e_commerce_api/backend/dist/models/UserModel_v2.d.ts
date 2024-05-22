@@ -34,6 +34,8 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
+    passwordToken?: string | null | undefined;
+    passwordTokenExpiration?: Date | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{
     name: string;
     email: string;
@@ -42,6 +44,8 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
+    passwordToken?: string | null | undefined;
+    passwordTokenExpiration?: Date | null | undefined;
 }>> & import("mongoose").FlatRecord<{
     name: string;
     email: string;
@@ -50,6 +54,8 @@ declare const schema: Schema<any, Model<any, any, any, any, any, any>, {}, {}, {
     role?: ROLE | null | undefined;
     verificationToken?: string | null | undefined;
     emailVerificationDate?: Date | null | undefined;
+    passwordToken?: string | null | undefined;
+    passwordTokenExpiration?: Date | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;
 }>;
