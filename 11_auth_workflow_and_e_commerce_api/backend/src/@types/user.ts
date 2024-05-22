@@ -29,6 +29,7 @@ export interface IUserRegisterReqBody {
   name: string;
   email: string;
   password: string;
+  role?: string;
 }
 export interface IUserLoginReqBody {
   email: string;
