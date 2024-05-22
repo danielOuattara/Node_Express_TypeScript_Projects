@@ -47,6 +47,7 @@ export interface IUserTokenPayload {
   name: string;
   userId: Types.ObjectId;
   role: string;
+  refreshToken?: string;
 }
 
 export interface IUserMethods {

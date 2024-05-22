@@ -90,7 +90,8 @@ schema.methods.attachCookiesToResponse = function ({
   const refreshTokenJWT = this.createJWT({ ...payload, refreshToken });
 
   const refreshTokenLifeTime = 1000 * 60 * 60 * 12; // 12 hours
-  const accessTokenLifeTime = 1000 * 60 * 60 * 1; // 1 hours
+  // const accessTokenLifeTime = 1000 * 60 * 60 * 1; // 1 hours
+  const accessTokenLifeTime = 1000 * 15; // 15 seconds
 
   res.cookie("accessToken", accessTokenJWT, {
     httpOnly: true,

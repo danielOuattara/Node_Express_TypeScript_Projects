@@ -85,7 +85,7 @@ schema.methods.attachCookiesToResponse = function ({ res, refreshToken, }) {
     const accessTokenJWT = this.createJWT(Object.assign({}, payload));
     const refreshTokenJWT = this.createJWT(Object.assign(Object.assign({}, payload), { refreshToken }));
     const refreshTokenLifeTime = 1000 * 60 * 60 * 12;
-    const accessTokenLifeTime = 1000 * 60 * 60 * 1;
+    const accessTokenLifeTime = 1000 * 15;
     res.cookie("accessToken", accessTokenJWT, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",

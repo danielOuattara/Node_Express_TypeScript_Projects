@@ -4,6 +4,7 @@ import User from "../models/UserModel";
 import { MongooseUser } from "../@types/user";
 import UnauthorizedError from "../errors/unauthorized-error ";
 import { isTokenValid } from "../utilities/auth/jwt";
+import Token from "./../models/TokenModel";
 
 //----------------------------------------------------------
 /**
@@ -11,26 +12,58 @@ import { isTokenValid } from "../utilities/auth/jwt";
  * with all possible associations & methods.
  */
 
-export const authenticateUser: RequestHandler = async (req, _res, next) => {
+export const authenticateUser: RequestHandler = async (req, res, next) => {
   const { accessToken, refreshToken } = req.signedCookies;
 
-  try {
-    // 1 : check "accessToken" cookie
-    if (accessToken) {
-      const accessTokenPayload = isTokenValid(accessToken);
-      const user = await User.findById(accessTokenPayload.userId).select(
-        "-password",
-      );
-      if (!user) {
-        throw new UnauthenticatedError("User unknown");
-      }
-      const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
-      const isAdmin = user.role === "admin";
-      req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
-      return next();
+  // 1 : check "accessToken" cookie
+  if (accessToken) {
+    const accessTokenPayload = isTokenValid(accessToken);
+    const user = await User.findById(accessTokenPayload.userId).select(
+      "-password",
+    );
+    if (!user) {
+      throw new UnauthenticatedError("User unknown 1");
     }
-  } catch (error) {
-    throw new UnauthenticatedError("Request Denied !");
+    const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
+    const isAdmin = user.role === "admin";
+    req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
+    return next();
+  }
+
+  // 2 : check "refreshToken" in order to renew all accessToken
+  else if (refreshToken) {
+    const refreshTokenPayload = isTokenValid(refreshToken);
+
+    // get Token information, to check for 'isValid'
+    const userToken = await Token.findOne({
+      user: refreshTokenPayload.userId,
+      refreshToken: refreshTokenPayload.refreshToken,
+    });
+
+    // Block the user, depending on "isValid" is true/false
+    if (!userToken || !userToken["isValid"]) {
+      throw new UnauthenticatedError("Authentication Invalid");
+    }
+
+    // if all OK, renew all accessToken
+
+    const user = await User.findById(refreshTokenPayload.userId).select(
+      "-password",
+    );
+
+    if (!user) {
+      throw new UnauthenticatedError("User unknown 2");
+    }
+    user.attachCookiesToResponse({
+      res,
+      refreshToken: refreshTokenPayload.refreshToken,
+    });
+    const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
+    const isAdmin = user.role === "admin";
+    req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
+    return next();
+  } else {
+    throw new UnauthenticatedError("All tokens expired, please login again");
   }
 };
 

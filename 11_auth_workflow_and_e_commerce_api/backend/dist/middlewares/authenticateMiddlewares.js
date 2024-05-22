@@ -17,23 +17,44 @@ const errors_1 = require("../errors");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const unauthorized_error_1 = __importDefault(require("../errors/unauthorized-error "));
 const jwt_1 = require("../utilities/auth/jwt");
-const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const TokenModel_1 = __importDefault(require("./../models/TokenModel"));
+const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { accessToken, refreshToken } = req.signedCookies;
-    try {
-        if (accessToken) {
-            const accessTokenPayload = (0, jwt_1.isTokenValid)(accessToken);
-            const user = yield UserModel_1.default.findById(accessTokenPayload.userId).select("-password");
-            if (!user) {
-                throw new errors_1.UnauthenticatedError("User unknown");
-            }
-            const isTestUser = user._id.equals(process.env.TEST_USER_ID);
-            const isAdmin = user.role === "admin";
-            req.user = Object.assign(Object.assign({}, user.toObject({})), { isTestUser, isAdmin });
-            return next();
+    if (accessToken) {
+        const accessTokenPayload = (0, jwt_1.isTokenValid)(accessToken);
+        const user = yield UserModel_1.default.findById(accessTokenPayload.userId).select("-password");
+        if (!user) {
+            throw new errors_1.UnauthenticatedError("User unknown 1");
         }
+        const isTestUser = user._id.equals(process.env.TEST_USER_ID);
+        const isAdmin = user.role === "admin";
+        req.user = Object.assign(Object.assign({}, user.toObject({})), { isTestUser, isAdmin });
+        return next();
     }
-    catch (error) {
-        throw new errors_1.UnauthenticatedError("Request Denied !");
+    else if (refreshToken) {
+        const refreshTokenPayload = (0, jwt_1.isTokenValid)(refreshToken);
+        const userToken = yield TokenModel_1.default.findOne({
+            user: refreshTokenPayload.userId,
+            refreshToken: refreshTokenPayload.refreshToken,
+        });
+        if (!userToken || !userToken["isValid"]) {
+            throw new errors_1.UnauthenticatedError("Authentication Invalid");
+        }
+        const user = yield UserModel_1.default.findById(refreshTokenPayload.userId).select("-password");
+        if (!user) {
+            throw new errors_1.UnauthenticatedError("User unknown 2");
+        }
+        user.attachCookiesToResponse({
+            res,
+            refreshToken: refreshTokenPayload.refreshToken,
+        });
+        const isTestUser = user._id.equals(process.env.TEST_USER_ID);
+        const isAdmin = user.role === "admin";
+        req.user = Object.assign(Object.assign({}, user.toObject({})), { isTestUser, isAdmin });
+        return next();
+    }
+    else {
+        throw new errors_1.UnauthenticatedError("All tokens expired, please login again");
     }
 });
 exports.authenticateUser = authenticateUser;
