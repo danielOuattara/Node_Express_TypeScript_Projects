@@ -158,9 +158,36 @@ export const logout: RequestHandler = async (req, res) => {
 };
 
 //-----------------------------------------------------
+/* 
+- check for email, reject if not provided
+- search for user using the email
+- if no user do nothing, response OK and silence
+- if user found then put the logic for this controller
 
-export const forgotPassword: RequestHandler = async (_req, res) => {
-  res.send("forgotPassword route");
+*/
+export const forgotPassword: RequestHandler = async (req, res) => {
+  if (!req.body.email) {
+    throw new BadRequestError("Please provide email");
+  }
+
+  const user = await User.findOne({ email: req.body.email });
+
+  if (user && user.emailIsVerified && user.verificationToken === "") {
+    // generate passwordToken
+    const passwordToken = randomBytes(128).toString("hex");
+    const lengthTime = 1000 * 60 * 5; // 5 mins
+    const passwordTokenExpiration = new Date(Date.now() + lengthTime);
+
+    // update user infos on database
+    user.passwordToken = passwordToken;
+    user.passwordTokenExpiration = passwordTokenExpiration;
+
+    await user.save();
+  }
+
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Please check your email for more instructions" });
 };
 
 //-----------------------------------------------------

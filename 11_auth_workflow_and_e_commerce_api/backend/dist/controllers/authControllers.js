@@ -113,8 +113,22 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "user logged out!" });
 });
 exports.logout = logout;
-const forgotPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("forgotPassword route");
+const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.email) {
+        throw new errors_1.BadRequestError("Please provide email");
+    }
+    const user = yield UserModel_1.default.findOne({ email: req.body.email });
+    if (user && user.emailIsVerified && user.verificationToken === "") {
+        const passwordToken = (0, node_crypto_1.randomBytes)(128).toString("hex");
+        const lengthTime = 1000 * 60 * 5;
+        const passwordTokenExpiration = new Date(Date.now() + lengthTime);
+        user.passwordToken = passwordToken;
+        user.passwordTokenExpiration = passwordTokenExpiration;
+        yield user.save();
+    }
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ msg: "Please check your email for more instructions" });
 });
 exports.forgotPassword = forgotPassword;
 const resetPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
