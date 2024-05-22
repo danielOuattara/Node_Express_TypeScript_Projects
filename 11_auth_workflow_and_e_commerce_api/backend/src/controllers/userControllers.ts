@@ -31,7 +31,9 @@ export const getSingleUser: RequestHandler = async (req, res) => {
 //-----------------------------------------------------
 
 export const showCurrentUser: RequestHandler = async (req, res) => {
-  return res.status(StatusCodes.OK).json({ user: req.user });
+  return res.status(StatusCodes.OK).json({
+    user: { name: req.user!.name, userId: req.user!._id, role: req.user!.role },
+  });
 };
 
 //-----------------------------------------------------

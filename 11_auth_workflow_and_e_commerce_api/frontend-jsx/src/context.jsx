@@ -16,7 +16,7 @@ const AppProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`/api/v1/users/show-me`);
+      const { data } = await axios.get(`/api/v1/users/show-user`);
       saveUser(data.user);
     } catch (error) {
       removeUser();
