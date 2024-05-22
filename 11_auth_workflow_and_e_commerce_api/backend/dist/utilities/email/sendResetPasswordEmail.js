@@ -13,8 +13,9 @@ exports.sendResetPasswordEmail = void 0;
 const sendEmail_1 = require("./sendEmail");
 const sendResetPasswordEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, email, origin, passwordToken, }) {
     const resetPasswordLink = `${origin}/user/reset-password?token=${passwordToken}&email=${email}`;
-    const message = `<p>To reset your password <a href="${resetPasswordLink}">click here</a> </p>`;
+    const message = `<p>To reset your password <a href="${resetPasswordLink}" target="_blank">click here</a> </p>`;
     return (0, sendEmail_1.sendEmail)({
+        from: `"Admin" <ricatti@gmx.fr>`,
         to: email,
         subject: "Reset Password",
         html: `<h4> Hello ${name}</h4> ${message} `,

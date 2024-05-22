@@ -15,7 +15,7 @@ export const sendVerificationEmail = async ({
 }: ISendVerificationEmail) => {
   const verifyEmailLink = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
 
-  const message = `<p>Please confirm your email: <a href="${verifyEmailLink}">click here</a> </p>`;
+  const message = `<p>Please confirm your email: <a href="${verifyEmailLink}" target="_blank">click here</a> </p>`;
 
   return await sendEmail({
     from: `"Admin" <ricatti@gmx.fr>`,

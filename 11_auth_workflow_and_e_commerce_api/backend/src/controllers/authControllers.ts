@@ -27,8 +27,8 @@ export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
     verificationToken,
   });
   // const origin = `http://localhost:3000`;
-  // const origin = req.get("x-forwarded-host") as string;
-  const origin = `${req.protocol}://${req.get("host")}`;
+  // const origin = `${req.protocol}://${req.get("host")}`;
+  const origin = req.get("x-forwarded-host") as string;
 
   await sendVerificationEmail({
     name: req.body.name,
@@ -182,6 +182,7 @@ export const forgotPassword: RequestHandler = async (req, res) => {
     // update user infos on database
     user.passwordToken = passwordToken;
     user.passwordTokenExpiration = passwordTokenExpiration;
+    // const origin = `${req.protocol}://${req.get("host")}`;
     const origin = req.get("x-forwarded-host") as string;
 
     await sendResetPasswordEmail({
@@ -202,5 +203,5 @@ export const forgotPassword: RequestHandler = async (req, res) => {
 //-----------------------------------------------------
 
 export const resetPassword: RequestHandler = async (_req, res) => {
-  res.send("forgotPassword route");
+  res.send("reset Password route");
 };
