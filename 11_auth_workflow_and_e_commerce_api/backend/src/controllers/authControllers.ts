@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import Token from "./../models/TokenModel";
 import User from "./../models/UserModel";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors";
@@ -9,8 +10,8 @@ import {
   ROLE,
 } from "../@types/user";
 import { randomBytes } from "node:crypto";
-import { sendVerificationEmail } from "../utilities";
-import Token from "./../models/TokenModel";
+import { sendResetPasswordEmail, sendVerificationEmail } from "../utilities";
+
 //-----------------------------------------------------
 /** first registered user should be an admin */
 export const register: RequestHandler<{}, {}, IUserRegisterReqBody> = async (
@@ -181,6 +182,14 @@ export const forgotPassword: RequestHandler = async (req, res) => {
     // update user infos on database
     user.passwordToken = passwordToken;
     user.passwordTokenExpiration = passwordTokenExpiration;
+    const origin = req.get("x-forwarded-host") as string;
+
+    await sendResetPasswordEmail({
+      name: user.name,
+      email: user.email,
+      passwordToken,
+      origin,
+    });
 
     await user.save();
   }

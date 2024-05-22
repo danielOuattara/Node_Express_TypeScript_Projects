@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resetPassword = exports.forgotPassword = exports.logout = exports.login = exports.verifyEmail = exports.register = void 0;
+const TokenModel_1 = __importDefault(require("./../models/TokenModel"));
 const UserModel_1 = __importDefault(require("./../models/UserModel"));
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
 const user_1 = require("../@types/user");
 const node_crypto_1 = require("node:crypto");
 const utilities_1 = require("../utilities");
-const TokenModel_1 = __importDefault(require("./../models/TokenModel"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = (yield UserModel_1.default.countDocuments({})) === 0 ? user_1.ROLE.admin : user_1.ROLE.user;
     const verificationToken = (0, node_crypto_1.randomBytes)(32).toString("hex");
@@ -124,6 +124,13 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const passwordTokenExpiration = new Date(Date.now() + lengthTime);
         user.passwordToken = passwordToken;
         user.passwordTokenExpiration = passwordTokenExpiration;
+        const origin = req.get("x-forwarded-host");
+        yield (0, utilities_1.sendResetPasswordEmail)({
+            name: user.name,
+            email: user.email,
+            passwordToken,
+            origin,
+        });
         yield user.save();
     }
     res
