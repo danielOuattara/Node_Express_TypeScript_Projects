@@ -202,6 +202,47 @@ export const forgotPassword: RequestHandler = async (req, res) => {
 
 //-----------------------------------------------------
 
-export const resetPassword: RequestHandler = async (_req, res) => {
-  res.send("reset Password route");
+export const resetPassword: RequestHandler = async (req, res) => {
+  const { password, passwordConfirm, token, email } = req.body;
+
+  if (!password || !passwordConfirm) {
+    throw new BadRequestError(
+      "Please provide both password and confirmation password",
+    );
+  }
+
+  if (!email || !token) {
+    throw new BadRequestError("Something went wrong, please try again");
+  }
+
+  if (password !== passwordConfirm) {
+    throw new BadRequestError(
+      "Password and confirmation password must be identical,Please try again",
+    );
+  }
+
+  // grasp user
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new UnauthenticatedError("Invalid Credentials");
+  }
+
+  // check expiration token
+  if (
+    !user.passwordTokenExpiration ||
+    user.passwordTokenExpiration < new Date()
+  ) {
+    throw new BadRequestError("Token expired, please try again");
+  }
+
+  // update user
+  user.password = password;
+  user.passwordToken = null;
+  user.passwordTokenExpiration = null;
+  await user.save();
+
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Password update success, you can login now" });
 };

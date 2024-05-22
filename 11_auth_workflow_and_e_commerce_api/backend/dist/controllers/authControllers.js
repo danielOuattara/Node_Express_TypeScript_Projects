@@ -138,7 +138,31 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         .json({ msg: "Please check your email for more instructions" });
 });
 exports.forgotPassword = forgotPassword;
-const resetPassword = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("reset Password route");
+const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { password, passwordConfirm, token, email } = req.body;
+    if (!password || !passwordConfirm) {
+        throw new errors_1.BadRequestError("Please provide both password and confirmation password");
+    }
+    if (!email || !token) {
+        throw new errors_1.BadRequestError("Something went wrong, please try again");
+    }
+    if (password !== passwordConfirm) {
+        throw new errors_1.BadRequestError("Password and confirmation password must be identical,Please try again");
+    }
+    const user = yield UserModel_1.default.findOne({ email });
+    if (!user) {
+        throw new errors_1.UnauthenticatedError("Invalid Credentials");
+    }
+    if (!user.passwordTokenExpiration ||
+        user.passwordTokenExpiration < new Date()) {
+        throw new errors_1.BadRequestError("Token expired, please try again");
+    }
+    user.password = password;
+    user.passwordToken = null;
+    user.passwordTokenExpiration = null;
+    yield user.save();
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ msg: "Password update success, you can login now" });
 });
 exports.resetPassword = resetPassword;
