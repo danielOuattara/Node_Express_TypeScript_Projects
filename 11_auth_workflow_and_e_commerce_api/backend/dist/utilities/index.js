@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendVerificationEmail = exports.sendResetPasswordEmail = exports.sendEmail = exports.fakeStripAPI = exports.checkAuthOrAdmin = exports.attachCookiesToResponse = void 0;
+exports.sendVerificationEmail = exports.sendResetPasswordEmail = exports.sendEmail = exports.fakeStripAPI = exports.createHash = exports.checkAuthOrAdmin = exports.attachCookiesToResponse = void 0;
 const cookies_1 = require("./auth/cookies");
 Object.defineProperty(exports, "attachCookiesToResponse", { enumerable: true, get: function () { return cookies_1.attachCookiesToResponse; } });
 const checkAuthOrAdmin_1 = require("./auth/checkAuthOrAdmin");
@@ -13,3 +13,5 @@ const sendResetPasswordEmail_1 = require("./email/sendResetPasswordEmail");
 Object.defineProperty(exports, "sendResetPasswordEmail", { enumerable: true, get: function () { return sendResetPasswordEmail_1.sendResetPasswordEmail; } });
 const sendVerificationEmail_1 = require("./email/sendVerificationEmail");
 Object.defineProperty(exports, "sendVerificationEmail", { enumerable: true, get: function () { return sendVerificationEmail_1.sendVerificationEmail; } });
+const createHash_1 = require("./security/createHash");
+Object.defineProperty(exports, "createHash", { enumerable: true, get: function () { return createHash_1.createHash; } });

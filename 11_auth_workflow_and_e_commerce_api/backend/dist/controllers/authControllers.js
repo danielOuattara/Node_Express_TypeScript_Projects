@@ -122,7 +122,7 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const passwordToken = (0, node_crypto_1.randomBytes)(128).toString("hex");
         const lengthTime = 1000 * 60 * 5;
         const passwordTokenExpiration = new Date(Date.now() + lengthTime);
-        user.passwordToken = passwordToken;
+        user.passwordToken = (0, utilities_1.createHash)(passwordToken);
         user.passwordTokenExpiration = passwordTokenExpiration;
         const origin = req.get("x-forwarded-host");
         yield (0, utilities_1.sendResetPasswordEmail)({
@@ -156,6 +156,9 @@ const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     if (!user.passwordTokenExpiration ||
         user.passwordTokenExpiration < new Date()) {
         throw new errors_1.BadRequestError("Token expired, please try again");
+    }
+    if (user.passwordToken !== (0, utilities_1.createHash)(token)) {
+        throw new errors_1.UnauthenticatedError("Invalid Credentials, please try again");
     }
     user.password = password;
     user.passwordToken = null;

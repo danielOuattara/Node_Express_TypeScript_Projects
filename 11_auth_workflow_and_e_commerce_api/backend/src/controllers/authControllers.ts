@@ -10,7 +10,11 @@ import {
   ROLE,
 } from "../@types/user";
 import { randomBytes } from "node:crypto";
-import { sendResetPasswordEmail, sendVerificationEmail } from "../utilities";
+import {
+  createHash,
+  sendResetPasswordEmail,
+  sendVerificationEmail,
+} from "../utilities";
 
 //-----------------------------------------------------
 /** first registered user should be an admin */
@@ -180,7 +184,7 @@ export const forgotPassword: RequestHandler = async (req, res) => {
     const passwordTokenExpiration = new Date(Date.now() + lengthTime);
 
     // update user infos on database
-    user.passwordToken = passwordToken;
+    user.passwordToken = createHash(passwordToken);
     user.passwordTokenExpiration = passwordTokenExpiration;
     // const origin = `${req.protocol}://${req.get("host")}`;
     const origin = req.get("x-forwarded-host") as string;
@@ -234,6 +238,10 @@ export const resetPassword: RequestHandler = async (req, res) => {
     user.passwordTokenExpiration < new Date()
   ) {
     throw new BadRequestError("Token expired, please try again");
+  }
+
+  if (user.passwordToken !== createHash(token)) {
+    throw new UnauthenticatedError("Invalid Credentials, please try again");
   }
 
   // update user
