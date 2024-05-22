@@ -1,9 +1,9 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { UnauthenticatedError } from "../errors";
 import User from "../models/UserModel";
-import { IUserTokenPayload, MongooseUser } from "../@types/user";
+import { MongooseUser } from "../@types/user";
 import UnauthorizedError from "../errors/unauthorized-error ";
-import { Secret, verify } from "jsonwebtoken";
+import { isTokenValid } from "../utilities/auth/jwt";
 
 //----------------------------------------------------------
 /**
@@ -12,25 +12,23 @@ import { Secret, verify } from "jsonwebtoken";
  */
 
 export const authenticateUser: RequestHandler = async (req, _res, next) => {
-  const access_token = req.signedCookies.access_token;
-  if (!access_token || !access_token.startsWith("Bearer")) {
-    throw new UnauthenticatedError("Request Denied !");
-  }
-  try {
-    const token = access_token.split(" ")[1];
-    const payload = verify(
-      token,
-      process.env.JWT_SECRET as Secret,
-    ) as IUserTokenPayload;
+  const { accessToken, refreshToken } = req.signedCookies;
 
-    const user = await User.findById(payload.userId).select("-password");
-    if (!user) {
-      throw new UnauthenticatedError("User unknown");
+  try {
+    // 1 : check "accessToken" cookie
+    if (accessToken) {
+      const accessTokenPayload = isTokenValid(accessToken);
+      const user = await User.findById(accessTokenPayload.userId).select(
+        "-password",
+      );
+      if (!user) {
+        throw new UnauthenticatedError("User unknown");
+      }
+      const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
+      const isAdmin = user.role === "admin";
+      req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
+      return next();
     }
-    const isTestUser = user._id.equals(process.env.TEST_USER_ID as string);
-    const isAdmin = user.role === "admin";
-    req.user = { ...user.toObject({}), isTestUser, isAdmin } as MongooseUser;
-    next();
   } catch (error) {
     throw new UnauthenticatedError("Request Denied !");
   }

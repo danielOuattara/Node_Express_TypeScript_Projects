@@ -28,11 +28,7 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         throw new errors_1.UnauthenticatedError("Access denied");
     }
     (0, utilities_1.checkAuthOrAdmin)(req.user, new mongoose_1.Types.ObjectId(req.params.userId));
-    const user = yield UserModel_1.default.findOne({ _id: req.params.userId }).select("-password");
-    if (!user) {
-        throw new errors_1.NotFoundError("User Not Found");
-    }
-    res.status(http_status_codes_1.StatusCodes.OK).json({ user });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user: req.user });
 });
 exports.getSingleUser = getSingleUser;
 const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

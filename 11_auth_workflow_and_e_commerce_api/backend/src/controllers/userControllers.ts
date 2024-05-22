@@ -24,14 +24,8 @@ export const getSingleUser: RequestHandler = async (req, res) => {
     throw new UnauthenticatedError("Access denied");
   }
   checkAuthOrAdmin(req.user, new Types.ObjectId(req.params.userId));
-  const user = await User.findOne({ _id: req.params.userId }).select(
-    "-password",
-  );
-  if (!user) {
-    throw new NotFoundError("User Not Found");
-  }
 
-  res.status(StatusCodes.OK).json({ user });
+  res.status(StatusCodes.OK).json({ user: req.user! });
 };
 
 //-----------------------------------------------------

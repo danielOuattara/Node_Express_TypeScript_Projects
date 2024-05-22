@@ -16,23 +16,21 @@ exports.authenticateAdmin = exports.authenticateRoles = exports.authenticateUser
 const errors_1 = require("../errors");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const unauthorized_error_1 = __importDefault(require("../errors/unauthorized-error "));
-const jsonwebtoken_1 = require("jsonwebtoken");
+const jwt_1 = require("../utilities/auth/jwt");
 const authenticateUser = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const access_token = req.signedCookies.access_token;
-    if (!access_token || !access_token.startsWith("Bearer")) {
-        throw new errors_1.UnauthenticatedError("Request Denied !");
-    }
+    const { accessToken, refreshToken } = req.signedCookies;
     try {
-        const token = access_token.split(" ")[1];
-        const payload = (0, jsonwebtoken_1.verify)(token, process.env.JWT_SECRET);
-        const user = yield UserModel_1.default.findById(payload.userId).select("-password");
-        if (!user) {
-            throw new errors_1.UnauthenticatedError("User unknown");
+        if (accessToken) {
+            const accessTokenPayload = (0, jwt_1.isTokenValid)(accessToken);
+            const user = yield UserModel_1.default.findById(accessTokenPayload.userId).select("-password");
+            if (!user) {
+                throw new errors_1.UnauthenticatedError("User unknown");
+            }
+            const isTestUser = user._id.equals(process.env.TEST_USER_ID);
+            const isAdmin = user.role === "admin";
+            req.user = Object.assign(Object.assign({}, user.toObject({})), { isTestUser, isAdmin });
+            return next();
         }
-        const isTestUser = user._id.equals(process.env.TEST_USER_ID);
-        const isAdmin = user.role === "admin";
-        req.user = Object.assign(Object.assign({}, user.toObject({})), { isTestUser, isAdmin });
-        next();
     }
     catch (error) {
         throw new errors_1.UnauthenticatedError("Request Denied !");
