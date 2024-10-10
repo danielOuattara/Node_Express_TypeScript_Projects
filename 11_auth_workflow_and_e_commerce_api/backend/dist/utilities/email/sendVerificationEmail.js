@@ -13,9 +13,12 @@ exports.sendVerificationEmail = void 0;
 const sendEmail_1 = require("./sendEmail");
 const sendVerificationEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, email, verificationToken, origin, }) {
     const verifyEmailLink = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
-    const message = `<p>Please confirm your email: <a href="${verifyEmailLink}" target="_blank">click here</a> </p>`;
+    const message = `<div>
+  <p>Please confirm your email: <a href="${verifyEmailLink}" target="_blank">click here</a></p>
+  <p>or follow this link <a href="${verifyEmailLink}">${verifyEmailLink}</a></p>
+  </div>`;
     return yield (0, sendEmail_1.sendEmail)({
-        from: `"Admin" <ricatti@gmx.fr>`,
+        from: `"Admin" <${process.env.ADMIN_EMAIL}>`,
         to: email,
         subject: "Email confirmation",
         html: `<h4> Hello ${name}</h4> 

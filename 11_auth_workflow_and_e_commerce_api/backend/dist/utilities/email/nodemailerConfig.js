@@ -2,10 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nodemailerConfig = void 0;
 exports.nodemailerConfig = {
-    host: "smtp.ethereal.email",
-    port: 587,
+    host: process.env.HOST,
+    port: 465,
+    secure: true,
     auth: {
-        user: process.env.USER_ACCOUNT_ETHEREAL,
-        pass: process.env.PASS_ACCOUNT_ETHEREAL,
+        user: process.env.ADMIN_EMAIL,
+        pass: process.env.ADMIN_PSWD,
     },
 };
