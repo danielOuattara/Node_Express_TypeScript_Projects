@@ -5,10 +5,10 @@ import { notFound, customErrorHandler } from "./middlewares";
 import { rateLimit } from "express-rate-limit";
 
 const jobsLimiter = rateLimit({
-  windowMs: 5 * 60 * 1000,
+  windowMs: 1 * 60 * 1000,
   max: 10,
   limit: 5,
-  message: { code: 429, msg: "Too many connection; Try later in 7 mins !" },
+  message: { code: 429, msg: "Too many requests. Try later in 5 mins !" },
 });
 
 const app = express();
